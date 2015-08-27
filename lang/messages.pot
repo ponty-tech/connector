@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR 2014 Ponty
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Ponty Connector 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-28 08:49+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: settings-page.php:18
+msgid "API key"
+msgstr ""
+
+#: settings-page.php:51
+msgid "An URL to a web reachable css file."
+msgstr ""
+
+#: settings-page.php:72
+msgid "Apply button position"
+msgstr ""
+
+#: ponty-connector.php:315
+msgid "Apply here"
+msgstr ""
+
+#: settings-page.php:92 settings-page.php:119
+msgid "Attribute"
+msgstr ""
+
+#: settings-page.php:56
+msgid "Automatically create Open Graph meta tags within head"
+msgstr ""
+
+#: settings-page.php:87
+msgid "Available shortcodes"
+msgstr ""
+
+#: settings-page.php:78
+msgid "Both"
+msgstr ""
+
+#: settings-page.php:76
+msgid "Bottom only"
+msgstr ""
+
+#: pnty-list.php:14
+msgid "Client logo"
+msgstr ""
+
+#: settings-page.php:40
+msgid "English"
+msgstr ""
+
+#: settings-page.php:47
+msgid "External css file"
+msgstr ""
+
+#: settings-page.php:142
+msgid "Extra meta data associated with every post"
+msgstr ""
+
+#: settings-page.php:36
+msgid "Language"
+msgstr ""
+
+#: pnty-table.php:16
+msgid "Location"
+msgstr ""
+
+#: pnty-list.php:29 pnty-table.php:58
+msgid "No published jobs."
+msgstr ""
+
+#: pnty-table.php:13
+msgid "Organization"
+msgstr ""
+
+#: pnty-list.php:12 pnty-table.php:26
+msgid "Permalink for"
+msgstr ""
+
+#: ponty-connector.php:98
+msgid "Ponty job"
+msgstr ""
+
+#: ponty-connector.php:88
+msgid "Ponty job tags"
+msgstr ""
+
+#: ponty-connector.php:97 ponty-connector.php:102
+msgid "Ponty jobs"
+msgstr ""
+
+#: pnty-table.php:10
+msgid "Publish date"
+msgstr ""
+
+#: pnty-table.php:19
+msgid "Region"
+msgstr ""
+
+#: ponty-connector.php:323
+msgid "Shortcode not setup correctly."
+msgstr ""
+
+#: settings-page.php:64
+msgid "Show excerpt above the ad in single view"
+msgstr ""
+
+#: settings-page.php:41
+msgid "Swedish"
+msgstr ""
+
+#: pnty-table.php:8
+msgid "Title"
+msgstr ""
+
+#: settings-page.php:77
+msgid "Top only"
+msgstr ""
+
+#: settings-page.php:31
+msgid ""
+"What url slug should prefix the jobs. Default is <strong>pnty_job</strong>."
+msgstr ""
+
+#: settings-page.php:80
+msgid "Where to show the apply button relative to the ad text."
+msgstr ""
+
+#: settings-page.php:22
+msgid "You find the key while logged in to our system."
+msgstr ""
+
+#: settings-page.php:103 settings-page.php:107 settings-page.php:111
+#: settings-page.php:126 settings-page.php:130 settings-page.php:134
+#: settings-page.php:138
+msgid "no"
+msgstr ""
+
+#: settings-page.php:99
+msgid "yes"
+msgstr ""

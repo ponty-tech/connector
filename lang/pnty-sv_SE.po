@@ -1,0 +1,162 @@
+# Swedish translations for Ponty Connector package.
+# Copyright (C) 2014 2014 Ponty
+# This file is distributed under the same license as the Ponty Connector package.
+# Automatically generated, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Ponty Connector 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-28 08:49+0100\n"
+"PO-Revision-Date: 2014-04-15 17:25+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: settings-page.php:18
+msgid "API key"
+msgstr "API-nyckel"
+
+#: settings-page.php:51
+msgid "An URL to a web reachable css file."
+msgstr "En url till en cssfil som kan nås över webben."
+
+#: settings-page.php:72
+msgid "Apply button position"
+msgstr "Plats för ansökningsknapp"
+
+#: ponty-connector.php:315
+msgid "Apply here"
+msgstr "Ansök här"
+
+#: settings-page.php:92 settings-page.php:119
+msgid "Attribute"
+msgstr "Attribut"
+
+#: settings-page.php:56
+msgid "Automatically create Open Graph meta tags within head"
+msgstr "Lägg till Open Graph-metataggar automatiskt innanför head-taggen"
+
+#: settings-page.php:87
+msgid "Available shortcodes"
+msgstr "Tillgängliga shortcodes"
+
+#: settings-page.php:78
+msgid "Both"
+msgstr "Både och"
+
+#: settings-page.php:76
+msgid "Bottom only"
+msgstr "Bara längst ner"
+
+#: pnty-list.php:14
+msgid "Client logo"
+msgstr "Kundlogotyp"
+
+#: settings-page.php:40
+msgid "English"
+msgstr "Engelska"
+
+#: settings-page.php:47
+msgid "External css file"
+msgstr "Extern cssfil"
+
+#: settings-page.php:142
+msgid "Extra meta data associated with every post"
+msgstr "Extra meta-data associerad till varje post"
+
+#: settings-page.php:36
+msgid "Language"
+msgstr "Språk"
+
+# @ pnty
+#: pnty-table.php:16
+msgid "Location"
+msgstr "Plats"
+
+# @ pnty
+#: pnty-list.php:29 pnty-table.php:58
+msgid "No published jobs."
+msgstr "Inga publicerade jobb."
+
+# @ pnty
+#: pnty-table.php:13
+msgid "Organization"
+msgstr "Organisation"
+
+# @ pnty
+#: pnty-list.php:12 pnty-table.php:26
+msgid "Permalink for"
+msgstr "Permalänk för"
+
+#: ponty-connector.php:98
+msgid "Ponty job"
+msgstr "Pontyjobb"
+
+#: ponty-connector.php:88
+msgid "Ponty job tags"
+msgstr "Pontyjobb-taggar"
+
+#: ponty-connector.php:97 ponty-connector.php:102
+msgid "Ponty jobs"
+msgstr "Pontyjobb"
+
+# @ pnty
+#: pnty-table.php:10
+msgid "Publish date"
+msgstr "Publiceringsdatum"
+
+# @ pnty
+#: pnty-table.php:19
+msgid "Region"
+msgstr "Region"
+
+#: ponty-connector.php:323
+msgid "Shortcode not setup correctly."
+msgstr "Shortcoden är inte inställd korrekt."
+
+#: settings-page.php:64
+msgid "Show excerpt above the ad in single view"
+msgstr "Visa utdrag ovanför annons vid singel-visning"
+
+#: settings-page.php:41
+msgid "Swedish"
+msgstr "Svenska"
+
+# @ pnty
+#: pnty-table.php:8
+msgid "Title"
+msgstr "Titel"
+
+#: settings-page.php:77
+msgid "Top only"
+msgstr "Bara längst upp"
+
+#: settings-page.php:31
+msgid ""
+"What url slug should prefix the jobs. Default is <strong>pnty_job</strong>."
+msgstr ""
+"Vilken url-slug skall användas innan jobben. Standard är <strong>pnty_job</"
+"strong>."
+
+#: settings-page.php:80
+msgid "Where to show the apply button relative to the ad text."
+msgstr "Var ansökningsknappen skall visas i relation till annonstexten."
+
+#: settings-page.php:22
+msgid "You find the key while logged in to our system."
+msgstr "Du hittar nyckeln när du är inloggad i vårt system."
+
+#: settings-page.php:103 settings-page.php:107 settings-page.php:111
+#: settings-page.php:126 settings-page.php:130 settings-page.php:134
+#: settings-page.php:138
+msgid "no"
+msgstr "nej"
+
+#: settings-page.php:99
+msgid "yes"
+msgstr "ja"
