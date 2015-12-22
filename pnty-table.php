@@ -30,8 +30,13 @@
         </thead>
         <?php global $post;?>
         <?php foreach($jobs as $post): setup_postdata($post); ?>
-            <tr>
-                <td><a title="<?php _e('Permalink for', 'pnty');?> <?php the_title();?>" href="<?php the_permalink();?>"><?php the_title();?></a></td>
+            <?php if($excerpt_title):?>
+                <tr title="<?php echo $post->post_excerpt;?>">
+                    <td><a href="<?php the_permalink();?>"><?php the_title();?></a></td>
+            <?php else:?>
+                <tr>
+                    <td><a title="<?php _e('Permalink for', 'pnty');?> <?php the_title();?>" href="<?php the_permalink();?>"><?php the_title();?></a></td>
+            <?php endif;?>
                 <?php if($link_all) :?>
                     <?php if ($publish_date): ?>
                         <td><a href="<?php the_permalink();?>"><?php echo get_the_date('Y-m-d', $post->ID);?></a></td>
