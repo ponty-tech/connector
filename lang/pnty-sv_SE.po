@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-28 08:49+0100\n"
+"POT-Creation-Date: 2016-01-18 15:20+0100\n"
 "PO-Revision-Date: 2014-04-15 17:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -29,7 +29,7 @@ msgstr "En url till en cssfil som kan nås över webben."
 msgid "Apply button position"
 msgstr "Plats för ansökningsknapp"
 
-#: ponty-connector.php:315
+#: ponty-connector.php:361
 msgid "Apply here"
 msgstr "Ansök här"
 
@@ -53,7 +53,7 @@ msgstr "Både och"
 msgid "Bottom only"
 msgstr "Bara längst ner"
 
-#: pnty-list.php:14
+#: pnty-list.php:22
 msgid "Client logo"
 msgstr "Kundlogotyp"
 
@@ -69,72 +69,103 @@ msgstr "Extern cssfil"
 msgid "Extra meta data associated with every post"
 msgstr "Extra meta-data associerad till varje post"
 
+#: widgets/pnty-latest-jobs.php:104
+msgid "Has tag"
+msgstr "Har tagg"
+
 #: settings-page.php:36
 msgid "Language"
 msgstr "Språk"
 
+#: widgets/pnty-latest-jobs.php:8
+msgid "Latest Ponty jobs"
+msgstr "Senaste Ponty-jobben"
+
 # @ pnty
-#: pnty-table.php:16
+#: pnty-table.php:24
 msgid "Location"
 msgstr "Plats"
 
 # @ pnty
-#: pnty-list.php:29 pnty-table.php:58
+#: pnty-table.php:71 pnty-list.php:37
 msgid "No published jobs."
 msgstr "Inga publicerade jobb."
 
+#: widgets/pnty-latest-jobs.php:101
+msgid "Number to show"
+msgstr "Antal att visa"
+
 # @ pnty
-#: pnty-table.php:13
+#: pnty-table.php:21
 msgid "Organization"
 msgstr "Organisation"
 
 # @ pnty
-#: pnty-list.php:12 pnty-table.php:26
+#: pnty-table.php:38 pnty-list.php:20
 msgid "Permalink for"
 msgstr "Permalänk för"
 
-#: ponty-connector.php:98
+#: ponty-connector.php:108
 msgid "Ponty job"
 msgstr "Pontyjobb"
 
-#: ponty-connector.php:88
+#: ponty-connector.php:98
 msgid "Ponty job tags"
 msgstr "Pontyjobb-taggar"
 
-#: ponty-connector.php:97 ponty-connector.php:102
+#: ponty-connector.php:107 ponty-connector.php:112
+#: widgets/pnty-latest-jobs.php:10
 msgid "Ponty jobs"
 msgstr "Pontyjobb"
 
 # @ pnty
-#: pnty-table.php:10
+#: pnty-table.php:18
 msgid "Publish date"
 msgstr "Publiceringsdatum"
 
 # @ pnty
-#: pnty-table.php:19
+#: pnty-table.php:27
 msgid "Region"
 msgstr "Region"
 
-#: ponty-connector.php:323
+#: ponty-connector.php:371
 msgid "Shortcode not setup correctly."
 msgstr "Shortcoden är inte inställd korrekt."
+
+#: widgets/pnty-latest-jobs.php:66
+#, php-format
+msgid "Show all (%d)"
+msgstr "Visa alla (%d)"
 
 #: settings-page.php:64
 msgid "Show excerpt above the ad in single view"
 msgstr "Visa utdrag ovanför annons vid singel-visning"
+
+# @ pnty
+#: widgets/pnty-latest-jobs.php:126
+msgid "Show organization name"
+msgstr "Visa organisationsnamn"
+
+#: widgets/pnty-latest-jobs.php:119
+msgid "Show total jobs count"
+msgstr "Visa totalt antal"
 
 #: settings-page.php:41
 msgid "Swedish"
 msgstr "Svenska"
 
 # @ pnty
-#: pnty-table.php:8
+#: pnty-table.php:16 widgets/pnty-latest-jobs.php:95
 msgid "Title"
 msgstr "Titel"
 
 #: settings-page.php:77
 msgid "Top only"
 msgstr "Bara längst upp"
+
+#: widgets/pnty-latest-jobs.php:98
+msgid "Url to all jobs"
+msgstr "Url till alla jobb"
 
 #: settings-page.php:31
 msgid ""

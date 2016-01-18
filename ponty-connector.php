@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.3.24
+    Version: 0.3.25
     Author URI: http://ponty.se
 */
 
@@ -104,7 +104,7 @@ class Pnty_Connector {
 		);
 
 		$labels = array(
-			'name' => __('Ponty jobs'),
+			'name' => __('Ponty jobs', 'pnty'),
 			'singular_name' => __('Ponty job', 'pnty')
 		);
 
@@ -383,3 +383,7 @@ register_deactivation_hook(__FILE__, array($pnty_connector, 'deactivate'));
 add_action('init', array($pnty_connector, 'init'));
 add_action('init', array($pnty_connector, 'localize'));
 add_action('init', array($pnty_connector, 'create_post_type'));
+
+// widget registration
+require_once(plugin_dir_path(__FILE__).'widgets/pnty-latest-jobs.php');
+add_action('widgets_init', create_function('', 'return register_widget("pnty_latest_jobs_widget");'));

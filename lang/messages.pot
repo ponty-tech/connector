@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-28 08:49+0100\n"
+"POT-Creation-Date: 2016-01-18 15:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Apply button position"
 msgstr ""
 
-#: ponty-connector.php:315
+#: ponty-connector.php:361
 msgid "Apply here"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Bottom only"
 msgstr ""
 
-#: pnty-list.php:14
+#: pnty-list.php:22
 msgid "Client logo"
 msgstr ""
 
@@ -69,64 +69,94 @@ msgstr ""
 msgid "Extra meta data associated with every post"
 msgstr ""
 
+#: widgets/pnty-latest-jobs.php:104
+msgid "Has tag"
+msgstr ""
+
 #: settings-page.php:36
 msgid "Language"
 msgstr ""
 
-#: pnty-table.php:16
+#: widgets/pnty-latest-jobs.php:8
+msgid "Latest Ponty jobs"
+msgstr ""
+
+#: pnty-table.php:24
 msgid "Location"
 msgstr ""
 
-#: pnty-list.php:29 pnty-table.php:58
+#: pnty-table.php:71 pnty-list.php:37
 msgid "No published jobs."
 msgstr ""
 
-#: pnty-table.php:13
+#: widgets/pnty-latest-jobs.php:101
+msgid "Number to show"
+msgstr ""
+
+#: pnty-table.php:21
 msgid "Organization"
 msgstr ""
 
-#: pnty-list.php:12 pnty-table.php:26
+#: pnty-table.php:38 pnty-list.php:20
 msgid "Permalink for"
 msgstr ""
 
-#: ponty-connector.php:98
+#: ponty-connector.php:108
 msgid "Ponty job"
 msgstr ""
 
-#: ponty-connector.php:88
+#: ponty-connector.php:98
 msgid "Ponty job tags"
 msgstr ""
 
-#: ponty-connector.php:97 ponty-connector.php:102
+#: ponty-connector.php:107 ponty-connector.php:112
+#: widgets/pnty-latest-jobs.php:10
 msgid "Ponty jobs"
 msgstr ""
 
-#: pnty-table.php:10
+#: pnty-table.php:18
 msgid "Publish date"
 msgstr ""
 
-#: pnty-table.php:19
+#: pnty-table.php:27
 msgid "Region"
 msgstr ""
 
-#: ponty-connector.php:323
+#: ponty-connector.php:371
 msgid "Shortcode not setup correctly."
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:66
+#, php-format
+msgid "Show all (%d)"
 msgstr ""
 
 #: settings-page.php:64
 msgid "Show excerpt above the ad in single view"
 msgstr ""
 
+#: widgets/pnty-latest-jobs.php:126
+msgid "Show organization name"
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:119
+msgid "Show total jobs count"
+msgstr ""
+
 #: settings-page.php:41
 msgid "Swedish"
 msgstr ""
 
-#: pnty-table.php:8
+#: pnty-table.php:16 widgets/pnty-latest-jobs.php:95
 msgid "Title"
 msgstr ""
 
 #: settings-page.php:77
 msgid "Top only"
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:98
+msgid "Url to all jobs"
 msgstr ""
 
 #: settings-page.php:31

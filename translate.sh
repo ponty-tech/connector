@@ -7,7 +7,7 @@ SOURCES="*.php"
 # Create template
 echo "Creating POT"
 rm -f $POT
-xgettext \
+find . -iname '*.php'| xargs xgettext \
     --copyright-holder="2014 Ponty" \
     --package-name="Ponty Connector" \
     --package-version="1.0" \
@@ -18,7 +18,8 @@ xgettext \
     --from-code=UTF-8 \
     --output=$POT \
     --default-domain=pnty \
-    $SOURCES
+    -D .
+    #$SOURCES
 
 # Create languages
 for LANG in $LANGS
