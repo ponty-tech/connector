@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.3.25
+    Version: 0.3.26
     Author URI: http://ponty.se
 */
 
@@ -28,6 +28,7 @@ class Pnty_Connector {
         delete_option('pnty_extcss');
         delete_option('pnty_ogtag');
         delete_option('pnty_show_excerpt');
+        delete_option('pnty_share');
         flush_rewrite_rules();
     }
 
@@ -57,7 +58,7 @@ class Pnty_Connector {
         $pnty_ogtag = get_option('pnty_ogtag');
         if (is_singular(PNTY_PTNAME) and $pnty_ogtag) {
             global $post;
-            include(plugin_dir_path(__FILE__).'/og-tags.php');
+            include(plugin_dir_path(__FILE__).'/snippets/pnty-og-tags.php');
         }
     }
 
@@ -67,6 +68,7 @@ class Pnty_Connector {
             $pnty_applybtn_position = get_option('pnty_applybtn_position');
             $pnty_extcss = get_option('pnty_extcss');
             $pnty_show_excerpt = get_option('pnty_show_excerpt');
+            $pnty_share = get_option('pnty_share');
             if ( ! is_null($pnty_extcss) && ! empty($pnty_extcss)){
                 $content = $content.'<link rel="stylesheet" href="'.$pnty_extcss.'" />';
             }
@@ -87,6 +89,21 @@ class Pnty_Connector {
                 } elseif ($pnty_applybtn_position == '11') {
                     $content = $apply_btn.$content.$apply_btn;
                 }
+            }
+            if ($pnty_share){
+
+                ob_start();
+                include_once('style.css.php');
+                $pnty_share_css = ob_get_clean();
+                //$pnty_share_css = str_replace(' ', '', $pnty_share_css);
+                //$pnty_share_css = str_replace('\r', '', $pnty_share_css);
+                $pnty_share_css = trim(preg_replace('/\s+/', '', $pnty_share_css)); 
+                $content = "<style>".$pnty_share_css."</style>".$content;
+
+                ob_start();
+                include_once('snippets/pnty-share.php');
+                $pnty_share_markup = ob_get_clean();
+                $content = $content.PHP_EOL.$pnty_share_markup;
             }
             $content = '<div class="pnty-single-job">'.$content.'</div>';
         }
@@ -304,6 +321,8 @@ function pnty_admin_init(){
     register_setting('pnty_options', 'pnty_ogtag');
     add_option('pnty_show_excerpt', false);
     register_setting('pnty_options', 'pnty_show_excerpt');
+    add_option('pnty_share', false);
+    register_setting('pnty_options', 'pnty_share');
     add_option('pnty_applybtn_position', '01');
     register_setting('pnty_options', 'pnty_applybtn_position');
 }
@@ -334,7 +353,7 @@ add_shortcode('pnty_jobs_table', function($atts) {
     ), $atts));
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
-    include(plugin_dir_path(__FILE__).'/pnty-table.php');
+    include(plugin_dir_path(__FILE__).'/snippets/pnty-table.php');
     return ob_get_clean();
 });
 
@@ -351,7 +370,7 @@ add_shortcode('pnty_jobs_list', function($atts) {
     ), $atts));
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
-    include(plugin_dir_path(__FILE__).'/pnty-list.php');
+    include(plugin_dir_path(__FILE__).'/snippets/pnty-list.php');
     return ob_get_clean();
 });
 
@@ -372,7 +391,7 @@ add_shortcode('pnty_apply_btn', function($atts){
     }
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
-    include(plugin_dir_path(__FILE__).'/pnty-apply-btn.php');
+    include(plugin_dir_path(__FILE__).'/snippets/pnty-apply-btn.php');
     return ob_get_clean();
 });
 

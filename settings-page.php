@@ -5,6 +5,7 @@
     $pnty_extcss = get_option('pnty_extcss');
     $pnty_ogtag = get_option('pnty_ogtag');
     $pnty_show_excerpt = get_option('pnty_show_excerpt');
+    $pnty_share = get_option('pnty_share');
     $pnty_applybtn_position = get_option('pnty_applybtn_position');
 ?>
 <div class="wrap">
@@ -65,6 +66,14 @@
                     </th>
                     <td>
                         <input type="checkbox" id="pnty_show_excerpt" name="pnty_show_excerpt" value="true" <?php echo ($pnty_show_excerpt) ? 'checked="checked"': '';?> />
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">
+                        <label for="pnty_share"><?php _e('Show social media share buttons', 'pnty');?></label>
+                    </th>
+                    <td>
+                        <input type="checkbox" id="pnty_share" name="pnty_share" value="true" <?php echo ($pnty_share) ? 'checked="checked"': '';?> />
                     </td>
                 </tr>
                 <tr valign="top">

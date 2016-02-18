@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-18 15:20+0100\n"
+"POT-Creation-Date: 2016-02-18 14:51+0100\n"
 "PO-Revision-Date: 2014-04-15 17:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,55 +17,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: settings-page.php:18
+#: settings-page.php:19
 msgid "API key"
 msgstr "API-nyckel"
 
-#: settings-page.php:51
+#: settings-page.php:52
 msgid "An URL to a web reachable css file."
 msgstr "En url till en cssfil som kan nås över webben."
 
-#: settings-page.php:72
+#: settings-page.php:81
 msgid "Apply button position"
 msgstr "Plats för ansökningsknapp"
 
-#: ponty-connector.php:361
+#: ponty-connector.php:380
 msgid "Apply here"
 msgstr "Ansök här"
 
-#: settings-page.php:92 settings-page.php:119
+#: settings-page.php:101 settings-page.php:128
 msgid "Attribute"
 msgstr "Attribut"
 
-#: settings-page.php:56
+#: settings-page.php:57
 msgid "Automatically create Open Graph meta tags within head"
 msgstr "Lägg till Open Graph-metataggar automatiskt innanför head-taggen"
 
-#: settings-page.php:87
+#: settings-page.php:96
 msgid "Available shortcodes"
 msgstr "Tillgängliga shortcodes"
 
-#: settings-page.php:78
+#: settings-page.php:87
 msgid "Both"
 msgstr "Både och"
 
-#: settings-page.php:76
+#: settings-page.php:85
 msgid "Bottom only"
 msgstr "Bara längst ner"
 
-#: pnty-list.php:22
+#: snippets/pnty-list.php:22
 msgid "Client logo"
 msgstr "Kundlogotyp"
 
-#: settings-page.php:40
+#: settings-page.php:41
 msgid "English"
 msgstr "Engelska"
 
-#: settings-page.php:47
+#: settings-page.php:48
 msgid "External css file"
 msgstr "Extern cssfil"
 
-#: settings-page.php:142
+#: settings-page.php:151
 msgid "Extra meta data associated with every post"
 msgstr "Extra meta-data associerad till varje post"
 
@@ -73,7 +73,7 @@ msgstr "Extra meta-data associerad till varje post"
 msgid "Has tag"
 msgstr "Har tagg"
 
-#: settings-page.php:36
+#: settings-page.php:37
 msgid "Language"
 msgstr "Språk"
 
@@ -82,12 +82,12 @@ msgid "Latest Ponty jobs"
 msgstr "Senaste Ponty-jobben"
 
 # @ pnty
-#: pnty-table.php:24
+#: snippets/pnty-table.php:24
 msgid "Location"
 msgstr "Plats"
 
 # @ pnty
-#: pnty-table.php:71 pnty-list.php:37
+#: snippets/pnty-table.php:71 snippets/pnty-list.php:37
 msgid "No published jobs."
 msgstr "Inga publicerade jobb."
 
@@ -96,39 +96,39 @@ msgid "Number to show"
 msgstr "Antal att visa"
 
 # @ pnty
-#: pnty-table.php:21
+#: snippets/pnty-table.php:21
 msgid "Organization"
 msgstr "Organisation"
 
 # @ pnty
-#: pnty-table.php:38 pnty-list.php:20
+#: snippets/pnty-table.php:38 snippets/pnty-list.php:20
 msgid "Permalink for"
 msgstr "Permalänk för"
 
-#: ponty-connector.php:108
+#: ponty-connector.php:125
 msgid "Ponty job"
 msgstr "Pontyjobb"
 
-#: ponty-connector.php:98
+#: ponty-connector.php:115
 msgid "Ponty job tags"
 msgstr "Pontyjobb-taggar"
 
-#: ponty-connector.php:107 ponty-connector.php:112
+#: ponty-connector.php:124 ponty-connector.php:129
 #: widgets/pnty-latest-jobs.php:10
 msgid "Ponty jobs"
 msgstr "Pontyjobb"
 
 # @ pnty
-#: pnty-table.php:18
+#: snippets/pnty-table.php:18
 msgid "Publish date"
 msgstr "Publiceringsdatum"
 
 # @ pnty
-#: pnty-table.php:27
+#: snippets/pnty-table.php:27
 msgid "Region"
 msgstr "Region"
 
-#: ponty-connector.php:371
+#: ponty-connector.php:390
 msgid "Shortcode not setup correctly."
 msgstr "Shortcoden är inte inställd korrekt."
 
@@ -137,7 +137,7 @@ msgstr "Shortcoden är inte inställd korrekt."
 msgid "Show all (%d)"
 msgstr "Visa alla (%d)"
 
-#: settings-page.php:64
+#: settings-page.php:65
 msgid "Show excerpt above the ad in single view"
 msgstr "Visa utdrag ovanför annons vid singel-visning"
 
@@ -146,20 +146,24 @@ msgstr "Visa utdrag ovanför annons vid singel-visning"
 msgid "Show organization name"
 msgstr "Visa organisationsnamn"
 
+#: settings-page.php:73
+msgid "Show social media share buttons"
+msgstr "Visa delningsknappar för sociala medier"
+
 #: widgets/pnty-latest-jobs.php:119
 msgid "Show total jobs count"
 msgstr "Visa totalt antal"
 
-#: settings-page.php:41
+#: settings-page.php:42
 msgid "Swedish"
 msgstr "Svenska"
 
 # @ pnty
-#: pnty-table.php:16 widgets/pnty-latest-jobs.php:95
+#: snippets/pnty-table.php:16 widgets/pnty-latest-jobs.php:95
 msgid "Title"
 msgstr "Titel"
 
-#: settings-page.php:77
+#: settings-page.php:86
 msgid "Top only"
 msgstr "Bara längst upp"
 
@@ -167,27 +171,27 @@ msgstr "Bara längst upp"
 msgid "Url to all jobs"
 msgstr "Url till alla jobb"
 
-#: settings-page.php:31
+#: settings-page.php:32
 msgid ""
 "What url slug should prefix the jobs. Default is <strong>pnty_job</strong>."
 msgstr ""
 "Vilken url-slug skall användas innan jobben. Standard är <strong>pnty_job</"
 "strong>."
 
-#: settings-page.php:80
+#: settings-page.php:89
 msgid "Where to show the apply button relative to the ad text."
 msgstr "Var ansökningsknappen skall visas i relation till annonstexten."
 
-#: settings-page.php:22
+#: settings-page.php:23
 msgid "You find the key while logged in to our system."
 msgstr "Du hittar nyckeln när du är inloggad i vårt system."
 
-#: settings-page.php:103 settings-page.php:107 settings-page.php:111
-#: settings-page.php:126 settings-page.php:130 settings-page.php:134
-#: settings-page.php:138
+#: settings-page.php:112 settings-page.php:116 settings-page.php:120
+#: settings-page.php:135 settings-page.php:139 settings-page.php:143
+#: settings-page.php:147
 msgid "no"
 msgstr "nej"
 
-#: settings-page.php:99
+#: settings-page.php:108
 msgid "yes"
 msgstr "ja"
