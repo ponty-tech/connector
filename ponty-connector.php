@@ -58,7 +58,7 @@ class Pnty_Connector {
         $pnty_ogtag = get_option('pnty_ogtag');
         if (is_singular(PNTY_PTNAME) and $pnty_ogtag) {
             global $post;
-            include(plugin_dir_path(__FILE__).'/snippets/pnty-og-tags.php');
+            include(plugin_dir_path(__FILE__).'snippets/pnty-og-tags.php');
         }
     }
 
@@ -91,17 +91,14 @@ class Pnty_Connector {
                 }
             }
             if ($pnty_share){
-
                 ob_start();
-                include_once('style.css.php');
+                include(plugin_dir_path(__FILE__).'style.css.php');
                 $pnty_share_css = ob_get_clean();
-                //$pnty_share_css = str_replace(' ', '', $pnty_share_css);
-                //$pnty_share_css = str_replace('\r', '', $pnty_share_css);
                 $pnty_share_css = trim(preg_replace('/\s+/', '', $pnty_share_css));
                 $content = "<style>".$pnty_share_css."</style>".$content;
 
                 ob_start();
-                include_once(plugin_dir_path(__FILE__).'/snippets/pnty-share.php');
+                include(plugin_dir_path(__FILE__).'snippets/pnty-share.php');
                 $pnty_share_markup = ob_get_clean();
                 $content = $content.PHP_EOL.$pnty_share_markup;
             }
@@ -353,7 +350,7 @@ add_shortcode('pnty_jobs_table', function($atts) {
     ), $atts));
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
-    include(plugin_dir_path(__FILE__).'/snippets/pnty-table.php');
+    include(plugin_dir_path(__FILE__).'snippets/pnty-table.php');
     return ob_get_clean();
 });
 
@@ -370,7 +367,7 @@ add_shortcode('pnty_jobs_list', function($atts) {
     ), $atts));
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
-    include(plugin_dir_path(__FILE__).'/snippets/pnty-list.php');
+    include(plugin_dir_path(__FILE__).'snippets/pnty-list.php');
     return ob_get_clean();
 });
 
@@ -391,7 +388,7 @@ add_shortcode('pnty_apply_btn', function($atts){
     }
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
-    include(plugin_dir_path(__FILE__).'/snippets/pnty-apply-btn.php');
+    include(plugin_dir_path(__FILE__).'snippets/pnty-apply-btn.php');
     return ob_get_clean();
 });
 
