@@ -97,11 +97,11 @@ class Pnty_Connector {
                 $pnty_share_css = ob_get_clean();
                 //$pnty_share_css = str_replace(' ', '', $pnty_share_css);
                 //$pnty_share_css = str_replace('\r', '', $pnty_share_css);
-                $pnty_share_css = trim(preg_replace('/\s+/', '', $pnty_share_css)); 
+                $pnty_share_css = trim(preg_replace('/\s+/', '', $pnty_share_css));
                 $content = "<style>".$pnty_share_css."</style>".$content;
 
                 ob_start();
-                include_once('snippets/pnty-share.php');
+                include_once(plugin_dir_path(__FILE__).'/snippets/pnty-share.php');
                 $pnty_share_markup = ob_get_clean();
                 $content = $content.PHP_EOL.$pnty_share_markup;
             }
