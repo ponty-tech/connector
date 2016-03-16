@@ -155,6 +155,7 @@
     <p><code>_pnty_user_title</code> the title of the person responsible.</p>
     <p><code>_pnty_phone</code> phone number to the person responsible.</p>
     <p><code>_pnty_email</code> email address to the person responsible.</p>
+    <p><code>_pnty_client_contact</code> json representation of the person the recruitment is for. Contains name, title, phone and email.</p>
     <p><code>_pnty_location</code></p>
     <p><code>_pnty_region</code></p>
     <p><code>_pnty_logo</code> a logo if attached.</p>
