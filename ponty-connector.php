@@ -108,34 +108,34 @@ class Pnty_Connector {
     }
 
     function create_post_type() {
-		$tag_labels = array(
-			'name' => __('Ponty job tags', 'pnty')
-		);
-		register_taxonomy(
-			PNTY_PTNAME.'_tag',
-			array(PNTY_PTNAME),
-			array('labels' => $tag_labels, 'hierarchical' => false)
-		);
+        $tag_labels = array(
+            'name' => __('Ponty job tags', 'pnty')
+        );
+        register_taxonomy(
+            PNTY_PTNAME.'_tag',
+            array(PNTY_PTNAME),
+            array('labels' => $tag_labels, 'hierarchical' => false)
+        );
 
-		$labels = array(
-			'name' => __('Ponty jobs', 'pnty'),
-			'singular_name' => __('Ponty job', 'pnty')
-		);
+        $labels = array(
+            'name' => __('Ponty jobs', 'pnty'),
+            'singular_name' => __('Ponty job', 'pnty')
+        );
 
-		$job_args = array(
-			'description' => __('Ponty jobs', 'pnty'),
-			'public' => false,
-			'publicly_queryable' => true,
-			'exclude_from_search' => false,
-			'show_ui' => false,
-			'rewrite' => array(
-				'slug' => '',
-				'with_front' => false
+        $job_args = array(
+            'description' => __('Ponty jobs', 'pnty'),
+            'public' => false,
+            'publicly_queryable' => true,
+            'exclude_from_search' => false,
+            'show_ui' => false,
+            'rewrite' => array(
+                'slug' => '',
+                'with_front' => false
 
-			),
-			'taxonomies' => array(PNTY_PTNAME.'_tag'),
-			'labels' => $labels
-		);
+            ),
+            'taxonomies' => array(PNTY_PTNAME.'_tag'),
+            'labels' => $labels
+        );
 
         // is the slug set? in that case, overwrite default
         $pnty_slug = get_option('pnty_slug');
@@ -179,14 +179,14 @@ class Pnty_Connector {
 
             // set up post
             $post = array(
-                'post_title'	=> $data->title,
-                'post_name' 	=> $data->assignment_id.'-'.$data->slug,
-                'post_excerpt' 	=> $data->excerpt,
-                'post_content' 	=> $data->body,
-                'post_date' 	=> $data->publish_date,
-                'post_date_gmt'	=> $data->publish_date,
-                'post_status' 	=> 'publish',
-                'post_type' 	=> PNTY_PTNAME
+                'post_title'    => $data->title,
+                'post_name'     => $data->assignment_id.'-'.$data->slug,
+                'post_excerpt'  => $data->excerpt,
+                'post_content'  => $data->body,
+                'post_date'     => $data->publish_date,
+                'post_date_gmt' => $data->publish_date,
+                'post_status'   => 'publish',
+                'post_type'     => PNTY_PTNAME
             );
 
             // does the job exist?
