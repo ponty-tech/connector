@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+
+  fpm:
+    build:
+      context: docker-wp
+      dockerfile: Dockerfile.php-fpm
+    links:
+      - mariadb
+    volumes:
+      - ./docker-wp/wordpress:/var/www/html
+
+  nginx:
+    image: nginx:1.10-alpine
+    volumes:
+      - ./docker-wp/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker-wp/wordpress:/usr/share/nginx/html
+    links:
+      - mariadb
+    ports:
+      - "127.0.0.1:8080:80"
+
+  mariadb:
+    image: mariadb:10.1
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=wordpress
+    volumes:
+      - ./docker-wp/mariadb:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    links:
+      - mariadb:db
+    ports:
+      - "8088:80"
