@@ -1,3 +1,5 @@
 *.swp
 docker-wp/wordpress
 docker-wp/mariadb
+node_modules
+*.zip
