@@ -3,12 +3,13 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.3.27
+    Version: 0.4.1
     Author URI: http://ponty.se
 */
 
 // The name of the custom post type
 define('PNTY_PTNAME', 'pnty_job');
+define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
 class Pnty_Connector {
 
@@ -24,6 +25,7 @@ class Pnty_Connector {
         }
         delete_option('pnty_api_key');
         delete_option('pnty_slug');
+        delete_option('pnty_slug_showcase');
         delete_option('pnty_lang');
         delete_option('pnty_extcss');
         delete_option('pnty_ogtag');
@@ -146,9 +148,34 @@ class Pnty_Connector {
         register_post_type(PNTY_PTNAME, $job_args);
     }
 
+    function create_post_type_showcase() {
+        $showcase_args = array(
+            'description' => __('Terminated Ponty jobs', 'pnty'),
+            'public' => false,
+            'publicly_queryable' => true,
+            'exclude_from_search' => false,
+            'show_ui' => false,
+            'rewrite' => array(
+                'slug' => '',
+                'with_front' => false
+
+            ),
+            'taxonomies' => array(PNTY_PTNAME.'_tag'),
+            'labels' => array(
+                'name' => __('Terminated Ponty jobs', 'pnty'),
+                'singular_name' => __('Terminated Ponty job', 'pnty')
+            )
+        );
+        // is the slug set? in that case, overwrite default
+        $pnty_slug_showcase = get_option('pnty_slug_showcase');
+        if ($pnty_slug_showcase !== 'jobs' and strlen($pnty_slug_showcase) > 0) {
+            $showcase_args['rewrite']['slug'] = $pnty_slug_showcase;
+        }
+        register_post_type(PNTY_PTNAME_SHOWCASE, $showcase_args);
+    }
+
     function api_auth() {
         $pnty_api_key = get_option('pnty_api_key');
-
         if ($pnty_api_key === '' || $_SERVER['HTTP_X_PNTY_AUTH'] !== $pnty_api_key) {
             $this->api_fail('Not authenticated.');
         }
@@ -156,7 +183,7 @@ class Pnty_Connector {
     }
 
     function api_fail($msg) {
-        print json_encode(array('success'=>false, 'message'=>$msg));
+        print json_encode(array('success' => false, 'message' => $msg));
         die();
     }
 
@@ -186,7 +213,7 @@ class Pnty_Connector {
                 'post_date'     => $data->publish_date,
                 'post_date_gmt' => $data->publish_date,
                 'post_status'   => 'publish',
-                'post_type'     => PNTY_PTNAME
+                'post_type'     => ($data->showcase) ? PNTY_PTNAME_SHOWCASE : PNTY_PTNAME
             );
 
             // does the job exist?
@@ -296,10 +323,14 @@ class Pnty_Connector {
     }
     function pnty_post_type_link($permalink, $post, $leavename) {
         $pnty_slug = get_option('pnty_slug');
+        $pnty_slug_showcase = get_option('pnty_slug_showcase');
         if ( ! gettype($post) == 'post') {
             return $permalink;
         }
         if ($post->post_type === PNTY_PTNAME && $pnty_slug === '') {
+            $permalink = get_home_url() . '/' . $post->post_name . '/';
+        }
+        if ($post->post_type === PNTY_PTNAME_SHOWCASE && $pnty_slug_showcase === '') {
             $permalink = get_home_url() . '/' . $post->post_name . '/';
         }
         return $permalink;
@@ -311,8 +342,10 @@ function pnty_admin_init(){
     if (delete_transient('pnty_slug_saved')) flush_rewrite_rules();
     add_option('pnty_api_key', '');
     register_setting('pnty_options', 'pnty_api_key');
-    add_option('pnty_slug', '');
+    add_option('pnty_slug', PNTY_PTNAME);
     register_setting('pnty_options', 'pnty_slug', 'pnty_slug_save');
+    add_option('pnty_slug_showcase', PNTY_PTNAME_SHOWCASE);
+    register_setting('pnty_options', 'pnty_slug_showcase', 'pnty_slug_save');
     add_option('pnty_lang', 'en_US');
     register_setting('pnty_options', 'pnty_lang');
     add_option('pnty_extcss', null);
@@ -357,6 +390,24 @@ add_shortcode('pnty_jobs_table', function($atts) {
     return ob_get_clean();
 });
 
+add_shortcode('pnty_showcase_table', function($atts) {
+    extract(shortcode_atts(array(
+        'organization_name' => false,
+        'publish_date' => true,
+        'location' => false,
+        'region' => false,
+        'numberposts' => -1,
+        'link_all' => false,
+        'tag' => false,
+        'class' => false,
+        'excerpt_title' => false
+    ), $atts));
+    load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
+    ob_start();
+    include(plugin_dir_path(__FILE__).'snippets/pnty-table-showcase.php');
+    return ob_get_clean();
+});
+
 add_shortcode('pnty_jobs_list', function($atts) {
     extract(shortcode_atts(array(
         'organization_name' => false,
@@ -371,6 +422,23 @@ add_shortcode('pnty_jobs_list', function($atts) {
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
     include(plugin_dir_path(__FILE__).'snippets/pnty-list.php');
+    return ob_get_clean();
+});
+
+add_shortcode('pnty_showcase_list', function($atts) {
+    extract(shortcode_atts(array(
+        'organization_name' => false,
+        'excerpt' => false,
+        'logo' => false,
+        'logo_width' => 150,
+        'readmore' => false,
+        'numberposts' => -1,
+        'tag' => false,
+        'class' => false
+    ), $atts));
+    load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
+    ob_start();
+    include(plugin_dir_path(__FILE__).'snippets/pnty-list-showcase.php');
     return ob_get_clean();
 });
 
@@ -402,6 +470,7 @@ register_deactivation_hook(__FILE__, array($pnty_connector, 'deactivate'));
 add_action('init', array($pnty_connector, 'init'));
 add_action('init', array($pnty_connector, 'localize'));
 add_action('init', array($pnty_connector, 'create_post_type'));
+add_action('init', array($pnty_connector, 'create_post_type_showcase'));
 
 // widget registration
 require_once(plugin_dir_path(__FILE__).'widgets/pnty-latest-jobs.php');

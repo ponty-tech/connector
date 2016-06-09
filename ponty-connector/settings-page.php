@@ -1,6 +1,7 @@
 <?php
     $pnty_api_key = get_option('pnty_api_key');
     $pnty_slug = get_option('pnty_slug');
+    $pnty_slug_showcase = get_option('pnty_slug_showcase');
     $pnty_lang = get_option('pnty_lang');
     $pnty_extcss = get_option('pnty_extcss');
     $pnty_ogtag = get_option('pnty_ogtag');
@@ -25,11 +26,20 @@
                 </tr>
                 <tr valign="top">
                     <th scope="row">
-                        <label for="pnty_slug">URL slug</label>
+                    <label for="pnty_slug">URL slug (<?php _e('active ads');?>)</label>
                     </th>
                     <td>
                         <input type="text" id="pnty_slug" name="pnty_slug" value="<?php echo $pnty_slug;?>" />
                         <p class="description"><?php _e('What url slug should prefix the jobs. Default is <strong>pnty_job</strong>.', 'pnty'); ?></p>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">
+                        <label for="pnty_slug_showcase">URL slug (<?php _e('showcase ads');?>)</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pnty_slug_showcase" name="pnty_slug_showcase" value="<?php echo $pnty_slug_showcase;?>" />
+                        <p class="description"><?php _e('What url slug should prefix the showcase jobs. Default is <strong>pnty_job_showcase</strong>.', 'pnty'); ?></p>
                     </td>
                 </tr>
                 <tr valign="top">
@@ -58,6 +68,7 @@
                     </th>
                     <td>
                         <input type="checkbox" id="pnty_ogtag" name="pnty_ogtag" value="true" <?php echo ($pnty_ogtag) ? 'checked="checked"': '';?> />
+                        <p class="description"><?php _e('Use only if no other OG plugin is present.', 'pnty'); ?></p>
                     </td>
                 </tr>
                 <tr valign="top">
@@ -94,57 +105,131 @@
         <?php submit_button();?>
     </form>
     <h3><?php _e('Available shortcodes', 'pnty'); ?></h3>
-    <p><code>[pnty_jobs_table]</code></p>
+    <h4><code>[pnty_jobs_table] <?php _e('or', 'pnty');?> [pnty_showcase_table]</code></h4>
     <table class="wp-list-table widefat">
         <thead>
             <tr>
                 <th><?php _e('Attribute', 'pnty');?></th>
-                <th>Default</th>
+                <th><?php _e('Default value', 'pnty');?></th>
+                <th><?php _e('Example', 'pnty');?></th>
+                <th><?php _e('Description', 'pnty');?></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>publish_date</td>
-                <td><?php _e('yes', 'pnty');?></td>
+                <td><?php _e('true', 'pnty');?></td>
+                <td><code>[... publish_date="1"]</code></td>
+                <td><?php _e('Shows the publish date as a table column.', 'pnty');?></td>
             </tr>
             <tr>
                 <td>organization_name</td>
-                <td><?php _e('no', 'pnty');?></td>
+                <td><?php _e('false', 'pnty');?></td>
+                <td><code>[... organization_name="1"]</code></td>
+                <td><?php _e('Shows the organization name as a table column.', 'pnty');?></td>
             </tr>
             <tr>
                 <td>region</td>
-                <td><?php _e('no', 'pnty');?></td>
+                <td><?php _e('false', 'pnty');?></td>
+                <td><code>[... region="1"]</code></td>
+                <td><?php _e('Shows the region as a table column.', 'pnty');?></td>
             </tr>
             <tr>
                 <td>location</td>
-                <td><?php _e('no', 'pnty');?></td>
+                <td><?php _e('false', 'pnty');?></td>
+                <td><code>[... location="1"]</code></td>
+                <td><?php _e('Shows the location as a table column.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>numberposts</td>
+                <td>-1</td>
+                <td><code>[... numberposts="5"]</code></td>
+                <td><?php _e('How many items to show.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>link_all</td>
+                <td><?php _e('false', 'pnty');?></td>
+                <td><code>[... link_all="1"]</code></td>
+                <td><?php _e('Make all table cell data linked.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>tag</td>
+                <td></td>
+                <td><code>[... tag="a-tag-slug,another-tag"]</code></td>
+                <td><?php _e('Only show items that has this tag (slug). Separate with commas.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>class</td>
+                <td></td>
+                <td><code>[... class="my-custom-class another-class"]</code></td>
+                <td><?php _e('CSS class for the &lt;table&gt;.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>excerpt_title</td>
+                <td><?php _e('false', 'pnty');?></td>
+                <td><code>[... excerpt_title="1"]</code></td>
+                <td><?php _e('Adds the excerpt as a title attribute to all &lt;tr&gt; tags.', 'pnty');?></td>
             </tr>
         </tbody>
     </table>
-    <p><code>[pnty_jobs_list]</code></p>
+    <h4><code>[pnty_jobs_list] <?php _e('or', 'pnty');?> [pnty_showcase_list]</code></h4>
     <table class="wp-list-table widefat">
         <thead>
             <tr>
                 <th><?php _e('Attribute', 'pnty');?></th>
-                <th>Default</th>
+                <th><?php _e('Default value', 'pnty');?></th>
+                <th><?php _e('Example', 'pnty');?></th>
+                <th><?php _e('Description', 'pnty');?></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>organization_name</td>
-                <td><?php _e('no', 'pnty');?></td>
+                <td><?php _e('false', 'pnty');?></td>
+                <td><code>[... organization_name="1"]</code></td>
+                <td><?php _e('Show the organization name.', 'pnty');?></td>
             </tr>
             <tr>
                 <td>excerpt</td>
-                <td><?php _e('no', 'pnty');?></td>
+                <td><?php _e('false', 'pnty');?></td>
+                <td><code>[... excerpt="1"]</code></td>
+                <td><?php _e('Show excerpt as part of the &lt;li&gt; tag.', 'pnty');?></td>
             </tr>
             <tr>
                 <td>logo</td>
-                <td><?php _e('no', 'pnty');?></td>
+                <td><?php _e('', 'pnty');?></td>
+                <td><code>[... logo="1"]</code></td>
+                <td><?php _e('To show the client logo.', 'pnty');?></td>
             </tr>
             <tr>
                 <td>logo_width</td>
-                <td><?php _e('no', 'pnty');?></td>
+                <td>200</td>
+                <td><code>[... logo_width="200"]</code></td>
+                <td><?php _e('Logo image width.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>readmore</td>
+                <td></td>
+                <td><code>[... readmore="Read more"]</code></td>
+                <td><?php _e('Adds a read more link with attribute value as text.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>numberposts</td>
+                <td>-1</td>
+                <td><code>[... numberposts="10"]</code></td>
+                <td><?php _e('How many items to show.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>tag</td>
+                <td></td>
+                <td><code>[... tag="a-tag-slug,another-tag"]</code></td>
+                <td><?php _e('Only show items that has this tag (slug). Separate with commas.', 'pnty');?></td>
+            </tr>
+            <tr>
+                <td>class</td>
+                <td></td>
+                <td><code>[... class="my-custom-class another-class"]</code></td>
+                <td><?php _e('CSS class for the &lt;ul&gt;.', 'pnty');?></td>
             </tr>
         </tbody>
     </table>
