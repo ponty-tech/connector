@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-09 14:57+0200\n"
+"POT-Creation-Date: 2016-06-10 11:42+0200\n"
 "PO-Revision-Date: 2014-04-15 17:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -38,7 +38,7 @@ msgstr "En url till en cssfil som kan nås över webben."
 msgid "Apply button position"
 msgstr "Plats för ansökningsknapp"
 
-#: ponty-connector.php:448
+#: ponty-connector.php:450
 msgid "Apply here"
 msgstr "Ansök här"
 
@@ -128,14 +128,18 @@ msgid "Make all table cell data linked."
 msgstr "Gör alla tabellers cell-data länkad."
 
 # @ pnty
-#: snippets/pnty-table-showcase.php:71 snippets/pnty-table.php:71
-#: snippets/pnty-list.php:37 snippets/pnty-list-showcase.php:37
+#: snippets/pnty-table-showcase.php:56 snippets/pnty-table.php:71
+#: snippets/pnty-list.php:37 snippets/pnty-list-showcase.php:34
 msgid "No published jobs."
 msgstr "Inga publicerade jobb."
 
 #: widgets/pnty-latest-jobs.php:101
 msgid "Number to show"
 msgstr "Antal att visa"
+
+#: settings-page.php:153 settings-page.php:214
+msgid "Only for active ads"
+msgstr "Endast för aktiva annonser"
 
 #: settings-page.php:159 settings-page.php:226
 msgid "Only show items that has this tag (slug). Separate with commas."
@@ -147,8 +151,7 @@ msgid "Organization"
 msgstr "Organisation"
 
 # @ pnty
-#: snippets/pnty-table-showcase.php:38 snippets/pnty-table.php:38
-#: snippets/pnty-list.php:20 snippets/pnty-list-showcase.php:20
+#: snippets/pnty-table.php:38 snippets/pnty-list.php:20
 msgid "Permalink for"
 msgstr "Permalänk för"
 
@@ -175,7 +178,7 @@ msgstr "Publiceringsdatum"
 msgid "Region"
 msgstr "Region"
 
-#: ponty-connector.php:458
+#: ponty-connector.php:460
 msgid "Shortcode not setup correctly."
 msgstr "Shortcoden är inte inställd korrekt."
 

@@ -32,37 +32,22 @@
         <?php foreach($jobs as $post): setup_postdata($post); ?>
             <?php if($excerpt_title):?>
                 <tr title="<?php echo $post->post_excerpt;?>">
-                    <td><a href="<?php the_permalink();?>"><?php the_title();?></a></td>
+                    <td><?php the_title();?></td>
             <?php else:?>
                 <tr>
-                    <td><a title="<?php _e('Permalink for', 'pnty');?> <?php the_title();?>" href="<?php the_permalink();?>"><?php the_title();?></a></td>
+                    <td><?php the_title();?></td>
             <?php endif;?>
-                <?php if($link_all) :?>
-                    <?php if ($publish_date): ?>
-                        <td><a href="<?php the_permalink();?>"><?php echo get_the_date('Y-m-d', $post->ID);?></a></td>
-                    <?php endif; ?>
-                    <?php if ($organization_name): ?>
-                        <td><a href="<?php the_permalink();?>"><?php echo get_post_meta($post->ID, '_pnty_organization_name', true);?></a></td>
-                    <?php endif; ?>
-                    <?php if ($location): ?>
-                        <td><a href="<?php the_permalink();?>"><?php echo get_post_meta($post->ID, '_pnty_location', true);?></a></td>
-                    <?php endif; ?>
-                    <?php if ($region): ?>
-                        <td><a href="<?php the_permalink();?>"><?php echo get_post_meta($post->ID, '_pnty_region', true);?></a></td>
-                    <?php endif; ?>
-                <?php else: ?>
-                    <?php if ($publish_date): ?>
-                        <td><?php echo get_the_date('Y-m-d', $post->ID);?></td>
-                    <?php endif; ?>
-                    <?php if ($organization_name): ?>
-                        <td><?php echo get_post_meta($post->ID, '_pnty_organization_name', true);?></td>
-                    <?php endif; ?>
-                    <?php if ($location): ?>
-                        <td><?php echo get_post_meta($post->ID, '_pnty_location', true);?></td>
-                    <?php endif; ?>
-                    <?php if ($region): ?>
-                        <td><?php echo get_post_meta($post->ID, '_pnty_region', true);?></td>
-                    <?php endif; ?>
+                <?php if ($publish_date): ?>
+                    <td><?php echo get_the_date('Y-m-d', $post->ID);?></td>
+                <?php endif; ?>
+                <?php if ($organization_name): ?>
+                    <td><?php echo get_post_meta($post->ID, '_pnty_organization_name', true);?></td>
+                <?php endif; ?>
+                <?php if ($location): ?>
+                    <td><?php echo get_post_meta($post->ID, '_pnty_location', true);?></td>
+                <?php endif; ?>
+                <?php if ($region): ?>
+                    <td><?php echo get_post_meta($post->ID, '_pnty_region', true);?></td>
                 <?php endif; ?>
             </tr>
         <?php endforeach;?>

@@ -16,8 +16,7 @@
     <?php endif; ?>
     <ul class="pnty-list<?php echo ($class)?' '.$class:'';?>">
         <?php global $post; foreach($jobs as $post): setup_postdata($post);?>
-            <li>
-                <a class="pnty-list-title" title="<?php _e('Permalink for', 'pnty');?> <?php echo $post->post_title;?>" href="<?php echo get_permalink($post->ID);?>"><?php echo $post->post_title;?></a>
+            <li><?php echo $post->post_title;?>
                 <?php if ($logo && get_post_meta($post->ID, '_pnty_logo', true)): ?>
                 <img class="pnty-list-logo" src="<?php echo get_post_meta($post->ID, '_pnty_logo', true);?>" width="<?php echo $logo_width;?>" alt="<?php _e('Client logo');?>" />
                 <?php endif; ?>
@@ -26,9 +25,6 @@
                 <?php endif; ?>
                 <?php if ($excerpt): ?>
                     <p class="pnty-list-excerpt"><?php echo get_the_excerpt();?></p>
-                <?php endif; ?>
-                <?php if ($readmore): ?>
-                    <p class="pnty-list-readmore"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $readmore;?></a></p>
                 <?php endif; ?>
             </li>
         <?php endforeach;?>

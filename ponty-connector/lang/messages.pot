@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-09 14:58+0200\n"
+"POT-Creation-Date: 2016-06-10 11:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Apply button position"
 msgstr ""
 
-#: ponty-connector.php:448
+#: ponty-connector.php:450
 msgid "Apply here"
 msgstr ""
 
@@ -126,13 +126,17 @@ msgstr ""
 msgid "Make all table cell data linked."
 msgstr ""
 
-#: snippets/pnty-table-showcase.php:71 snippets/pnty-table.php:71
-#: snippets/pnty-list.php:37 snippets/pnty-list-showcase.php:37
+#: snippets/pnty-table-showcase.php:56 snippets/pnty-table.php:71
+#: snippets/pnty-list.php:37 snippets/pnty-list-showcase.php:34
 msgid "No published jobs."
 msgstr ""
 
 #: widgets/pnty-latest-jobs.php:101
 msgid "Number to show"
+msgstr ""
+
+#: settings-page.php:153 settings-page.php:214
+msgid "Only for active ads"
 msgstr ""
 
 #: settings-page.php:159 settings-page.php:226
@@ -143,8 +147,7 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: snippets/pnty-table-showcase.php:38 snippets/pnty-table.php:38
-#: snippets/pnty-list.php:20 snippets/pnty-list-showcase.php:20
+#: snippets/pnty-table.php:38 snippets/pnty-list.php:20
 msgid "Permalink for"
 msgstr ""
 
@@ -169,7 +172,7 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-#: ponty-connector.php:458
+#: ponty-connector.php:460
 msgid "Shortcode not setup correctly."
 msgstr ""
 

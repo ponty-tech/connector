@@ -286,6 +286,8 @@ class Pnty_Connector {
                 update_post_meta($post_id, '_pnty_location', $data->location);
             if (isset($data->region))
                 update_post_meta($post_id, '_pnty_region', $data->region);
+            if (isset($data->address))
+                update_post_meta($post_id, '_pnty_address', $data->address);
             if (isset($data->client_contact))
                 update_post_meta($post_id, '_pnty_client_contact', json_encode($data->client_contact));
             if (isset($data->logo))

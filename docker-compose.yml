@@ -14,6 +14,7 @@ services:
       - mariadb:mysql
     volumes:
       - ./ponty-connector:/var/www/html/wp-content/plugins/ponty-connector
+      - ../wpbones:/var/www/html/wp-content/themes/wptheme
     environment:
       - WORDPRESS_DB_PASSWORD=ponty
     depends_on:

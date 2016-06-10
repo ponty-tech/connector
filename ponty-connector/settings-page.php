@@ -150,7 +150,7 @@
                 <td>link_all</td>
                 <td><?php _e('false', 'pnty');?></td>
                 <td><code>[... link_all="1"]</code></td>
-                <td><?php _e('Make all table cell data linked.', 'pnty');?></td>
+                <td><?php _e('Make all table cell data linked.', 'pnty');?> (<?php _e('Only for active ads', 'pnty');?>)</td>
             </tr>
             <tr>
                 <td>tag</td>
@@ -211,7 +211,7 @@
                 <td>readmore</td>
                 <td></td>
                 <td><code>[... readmore="Read more"]</code></td>
-                <td><?php _e('Adds a read more link with attribute value as text.', 'pnty');?></td>
+                <td><?php _e('Adds a read more link with attribute value as text.', 'pnty');?> (<?php _e('Only for active ads', 'pnty');?>)</td>
             </tr>
             <tr>
                 <td>numberposts</td>
@@ -243,6 +243,7 @@
     <p><code>_pnty_client_contact</code> json representation of the person the recruitment is for. Contains name, title, phone and email.</p>
     <p><code>_pnty_location</code></p>
     <p><code>_pnty_region</code></p>
+    <p><code>_pnty_address</code> json representation of an address. Contains address, postalcode, city and country.</p>
     <p><code>_pnty_logo</code> a logo if attached.</p>
     <p><code>_pnty_apply_btn</code> the JavaScript widget for exposing the apply button.</p>
 </div>
