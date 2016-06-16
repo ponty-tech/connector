@@ -13,7 +13,7 @@
     <table class="pnty-table<?php echo ($class)?' '.$class:'';?>">
         <thead>
             <tr>
-                <th><?php _e('Title', 'pnty');?></th>
+                <th><?php echo $title_column_name;?></th>
                 <?php if ($publish_date): ?>
                     <th><?php _e('Publish date', 'pnty');?></th>
                 <?php endif; ?>

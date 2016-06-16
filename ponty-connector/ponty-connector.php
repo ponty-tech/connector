@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.4.1
+    Version: 0.4.2
     Author URI: http://ponty.se
 */
 
@@ -376,6 +376,7 @@ function pnty_connector_opts_page() {
 
 add_shortcode('pnty_jobs_table', function($atts) {
     extract(shortcode_atts(array(
+        'title_column_name' => __('Title', 'pnty'),
         'organization_name' => false,
         'publish_date' => true,
         'location' => false,
@@ -394,6 +395,7 @@ add_shortcode('pnty_jobs_table', function($atts) {
 
 add_shortcode('pnty_showcase_table', function($atts) {
     extract(shortcode_atts(array(
+        'title_column_name' => __('Title', 'pnty'),
         'organization_name' => false,
         'publish_date' => true,
         'location' => false,

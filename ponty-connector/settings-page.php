@@ -117,6 +117,12 @@
         </thead>
         <tbody>
             <tr>
+                <td>title_column_name</td>
+                <td><?php _e('Title', 'pnty');?></td>
+                <td><code>[... titel_column_name="Role"]</code></td>
+                <td><?php _e('The column name for the ad title.', 'pnty');?></td>
+            </tr>
+            <tr>
                 <td>publish_date</td>
                 <td><?php _e('true', 'pnty');?></td>
                 <td><code>[... publish_date="1"]</code></td>

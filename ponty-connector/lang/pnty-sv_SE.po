@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the Ponty Connector package.
 # Automatically generated, 2014.
 #
-#: settings-page.php:200
+#: settings-page.php:206
 msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-10 11:42+0200\n"
+"POT-Creation-Date: 2016-06-16 17:33+0200\n"
 "PO-Revision-Date: 2014-04-15 17:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "API key"
 msgstr "API-nyckel"
 
-#: settings-page.php:214
+#: settings-page.php:220
 msgid "Adds a read more link with attribute value as text."
 msgstr "Lägger till en läs-mer-länk med attributets värde som text."
 
-#: settings-page.php:171
+#: settings-page.php:177
 msgid "Adds the excerpt as a title attribute to all &lt;tr&gt; tags."
 msgstr "Lägger till utdraget som title attribut till &lt;tr&gt;-taggen."
 
@@ -38,11 +38,11 @@ msgstr "En url till en cssfil som kan nås över webben."
 msgid "Apply button position"
 msgstr "Plats för ansökningsknapp"
 
-#: ponty-connector.php:450
+#: ponty-connector.php:452
 msgid "Apply here"
 msgstr "Ansök här"
 
-#: settings-page.php:112 settings-page.php:179
+#: settings-page.php:112 settings-page.php:185
 msgid "Attribute"
 msgstr "Attribut"
 
@@ -62,23 +62,23 @@ msgstr "Både och"
 msgid "Bottom only"
 msgstr "Bara längst ner"
 
-#: settings-page.php:165
+#: settings-page.php:171
 msgid "CSS class for the &lt;table&gt;."
 msgstr "CSS-klass för &lt;table&gt;."
 
-#: settings-page.php:232
+#: settings-page.php:238
 msgid "CSS class for the &lt;ul&gt;."
 msgstr "CSS-klass för &lt;ul&gt;."
 
-#: snippets/pnty-list.php:22 snippets/pnty-list-showcase.php:22
+#: snippets/pnty-list.php:22 snippets/pnty-list-showcase.php:21
 msgid "Client logo"
 msgstr "Kundlogotyp"
 
-#: settings-page.php:113 settings-page.php:180
+#: settings-page.php:113 settings-page.php:186
 msgid "Default value"
 msgstr "Standardvärde"
 
-#: settings-page.php:115 settings-page.php:182
+#: settings-page.php:115 settings-page.php:188
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -86,7 +86,7 @@ msgstr "Beskrivning"
 msgid "English"
 msgstr "Engelska"
 
-#: settings-page.php:114 settings-page.php:181
+#: settings-page.php:114 settings-page.php:187
 msgid "Example"
 msgstr "Exempel"
 
@@ -94,7 +94,7 @@ msgstr "Exempel"
 msgid "External css file"
 msgstr "Extern cssfil"
 
-#: settings-page.php:236
+#: settings-page.php:242
 msgid "Extra meta data associated with every post"
 msgstr "Extra meta-data associerad till varje post"
 
@@ -102,7 +102,7 @@ msgstr "Extra meta-data associerad till varje post"
 msgid "Has tag"
 msgstr "Har tagg"
 
-#: settings-page.php:147 settings-page.php:220
+#: settings-page.php:153 settings-page.php:226
 msgid "How many items to show."
 msgstr "Hur många objekt som visas."
 
@@ -119,17 +119,17 @@ msgstr "Senaste Ponty-jobben"
 msgid "Location"
 msgstr "Plats"
 
-#: settings-page.php:208
+#: settings-page.php:214
 msgid "Logo image width."
 msgstr "Bredd på logotyp-bild."
 
-#: settings-page.php:153
+#: settings-page.php:159
 msgid "Make all table cell data linked."
 msgstr "Gör alla tabellers cell-data länkad."
 
 # @ pnty
 #: snippets/pnty-table-showcase.php:56 snippets/pnty-table.php:71
-#: snippets/pnty-list.php:37 snippets/pnty-list-showcase.php:34
+#: snippets/pnty-list.php:37 snippets/pnty-list-showcase.php:33
 msgid "No published jobs."
 msgstr "Inga publicerade jobb."
 
@@ -137,11 +137,11 @@ msgstr "Inga publicerade jobb."
 msgid "Number to show"
 msgstr "Antal att visa"
 
-#: settings-page.php:153 settings-page.php:214
+#: settings-page.php:159 settings-page.php:220
 msgid "Only for active ads"
 msgstr "Endast för aktiva annonser"
 
-#: settings-page.php:159 settings-page.php:226
+#: settings-page.php:165 settings-page.php:232
 msgid "Only show items that has this tag (slug). Separate with commas."
 msgstr "Visa bara objekt som har den här taggen (slug). Separera med komma."
 
@@ -178,7 +178,7 @@ msgstr "Publiceringsdatum"
 msgid "Region"
 msgstr "Region"
 
-#: ponty-connector.php:460
+#: ponty-connector.php:462
 msgid "Shortcode not setup correctly."
 msgstr "Shortcoden är inte inställd korrekt."
 
@@ -191,7 +191,7 @@ msgstr "Visa alla (%d)"
 msgid "Show excerpt above the ad in single view"
 msgstr "Visa utdrag ovanför annons vid singel-visning"
 
-#: settings-page.php:196
+#: settings-page.php:202
 msgid "Show excerpt as part of the &lt;li&gt; tag."
 msgstr "Visa utdrag som en del av &lt;li&gt;-taggen."
 
@@ -205,7 +205,7 @@ msgid "Show social media share buttons"
 msgstr "Visa delningsknappar för sociala medier"
 
 # @ pnty
-#: settings-page.php:190
+#: settings-page.php:196
 msgid "Show the organization name."
 msgstr "Visa organisationsnamn."
 
@@ -213,20 +213,20 @@ msgstr "Visa organisationsnamn."
 msgid "Show total jobs count"
 msgstr "Visa totalt antal"
 
-#: settings-page.php:141
+#: settings-page.php:147
 msgid "Shows the location as a table column."
 msgstr "Visa plats som en tabellkolumn."
 
 # @ pnty
-#: settings-page.php:129
+#: settings-page.php:135
 msgid "Shows the organization name as a table column."
 msgstr "Visa organisationsnamn som en tabellkolumn."
 
-#: settings-page.php:123
+#: settings-page.php:129
 msgid "Shows the publish date as a table column."
 msgstr "Visa publiceringsdatum som en tabellkolumn."
 
-#: settings-page.php:135
+#: settings-page.php:141
 msgid "Shows the region as a table column."
 msgstr "Visa region som en tabellkolumn."
 
@@ -242,13 +242,17 @@ msgstr "Avslutat Ponty-jobb"
 msgid "Terminated Ponty jobs"
 msgstr "Avslutade Ponty-jobb"
 
+#: settings-page.php:123
+msgid "The column name for the ad title."
+msgstr "Kolumnnamn för annonstitel."
+
 # @ pnty
-#: snippets/pnty-table-showcase.php:16 snippets/pnty-table.php:16
+#: settings-page.php:121 ponty-connector.php:379 ponty-connector.php:398
 #: widgets/pnty-latest-jobs.php:95
 msgid "Title"
 msgstr "Titel"
 
-#: settings-page.php:202
+#: settings-page.php:208
 msgid "To show the client logo."
 msgstr "Visa kundlogotyp."
 
@@ -291,13 +295,13 @@ msgstr "Du hittar nyckeln när du är inloggad i vårt system."
 msgid "active ads"
 msgstr "aktiva annonser"
 
-#: settings-page.php:127 settings-page.php:133 settings-page.php:139
-#: settings-page.php:151 settings-page.php:169 settings-page.php:188
-#: settings-page.php:194
+#: settings-page.php:133 settings-page.php:139 settings-page.php:145
+#: settings-page.php:157 settings-page.php:175 settings-page.php:194
+#: settings-page.php:200
 msgid "false"
 msgstr "false"
 
-#: settings-page.php:108 settings-page.php:175
+#: settings-page.php:108 settings-page.php:181
 msgid "or"
 msgstr "eller"
 
@@ -305,6 +309,6 @@ msgstr "eller"
 msgid "showcase ads"
 msgstr "referens-annonser"
 
-#: settings-page.php:121
+#: settings-page.php:127
 msgid "true"
 msgstr "true"
