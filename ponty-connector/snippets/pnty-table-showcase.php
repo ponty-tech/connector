@@ -53,5 +53,5 @@
         <?php endforeach;?>
     </table>
 <?php else: ?>
-    <p><?php _e('No published jobs.', 'pnty');?> </p>
+    <p><?php echo $empty_msg;?></p>
 <?php endif; ?>

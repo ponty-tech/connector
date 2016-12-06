@@ -29,10 +29,10 @@
                 <?php endif; ?>
                 <?php if ($readmore): ?>
                     <p class="pnty-list-readmore"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $readmore;?></a></p>
-                <?php endif; ?>                
+                <?php endif; ?>
             </li>
         <?php endforeach;?>
     </ul>
 <?php else: ?>
-    <p><?php _e('No published jobs.', 'pnty');?> </p>
+    <p><?php echo $empty_msg;?></p>
 <?php endif; ?>

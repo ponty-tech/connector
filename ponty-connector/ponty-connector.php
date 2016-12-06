@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.4.4
+    Version: 0.4.5
     Author URI: http://ponty.se
 */
 
@@ -385,7 +385,8 @@ add_shortcode('pnty_jobs_table', function($atts) {
         'link_all' => false,
         'tag' => false,
         'class' => false,
-        'excerpt_title' => false
+        'excerpt_title' => false,
+        'empty_msg' => __('No published jobs.', 'pnty')
     ), $atts));
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
@@ -404,7 +405,8 @@ add_shortcode('pnty_showcase_table', function($atts) {
         'link_all' => false,
         'tag' => false,
         'class' => false,
-        'excerpt_title' => false
+        'excerpt_title' => false,
+        'empty_msg' => __('No published jobs.', 'pnty')
     ), $atts));
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
@@ -421,7 +423,8 @@ add_shortcode('pnty_jobs_list', function($atts) {
         'readmore' => false,
         'numberposts' => -1,
         'tag' => false,
-        'class' => false
+        'class' => false,
+        'empty_msg' => __('No published jobs.', 'pnty')
     ), $atts));
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
@@ -438,7 +441,8 @@ add_shortcode('pnty_showcase_list', function($atts) {
         'readmore' => false,
         'numberposts' => -1,
         'tag' => false,
-        'class' => false
+        'class' => false,
+        'empty_msg' => __('No published jobs.', 'pnty')
     ), $atts));
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
