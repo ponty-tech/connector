@@ -31,7 +31,7 @@
                     <p class="pnty-list-readmore"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $readmore;?></a></p>
                 <?php endif; ?>
             </li>
-        <?php endforeach;?>
+        <?php endforeach; wp_reset_postdata();?>
     </ul>
 <?php else: ?>
     <p><?php echo $empty_msg;?></p>

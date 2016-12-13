@@ -3,8 +3,8 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.4.5
-    Author URI: http://ponty.se
+    Version: 0.4.6
+    Author URI: https://ponty.se
 */
 
 // The name of the custom post type

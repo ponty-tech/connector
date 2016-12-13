@@ -50,7 +50,7 @@
                     <td><?php echo get_post_meta($post->ID, '_pnty_region', true);?></td>
                 <?php endif; ?>
             </tr>
-        <?php endforeach;?>
+        <?php endforeach; wp_reset_postdata();?>
     </table>
 <?php else: ?>
     <p><?php echo $empty_msg;?></p>

@@ -6,8 +6,10 @@ const bump = require('gulp-bump');
 const pkg = require('./package.json');
 
 gulp.task('bump', () => {
-  return gulp.src([
-    'package.json',
+  gulp.src(['package.json'])
+  .pipe(bump())
+  .pipe(gulp.dest('.'))
+  gulp.src([
     'ponty-connector/ponty-connector.php'
   ])
   .pipe(bump())

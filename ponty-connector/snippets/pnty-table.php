@@ -65,7 +65,7 @@
                     <?php endif; ?>
                 <?php endif; ?>
             </tr>
-        <?php endforeach;?>
+        <?php endforeach; wp_reset_postdata();?>
     </table>
 <?php else: ?>
     <p><?php echo $empty_msg;?></p>

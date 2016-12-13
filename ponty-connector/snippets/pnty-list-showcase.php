@@ -27,7 +27,7 @@
                     <p class="pnty-list-excerpt"><?php echo get_the_excerpt();?></p>
                 <?php endif; ?>
             </li>
-        <?php endforeach;?>
+        <?php endforeach; wp_reset_postdata();?>
     </ul>
 <?php else: ?>
     <p><?php echo $empty_msg;?></p>
