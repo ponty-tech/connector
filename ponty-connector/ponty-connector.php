@@ -116,7 +116,7 @@ class Pnty_Connector {
         register_taxonomy(
             PNTY_PTNAME.'_tag',
             array(PNTY_PTNAME),
-            array('labels' => $tag_labels, 'hierarchical' => false)
+            array('labels' => $tag_labels, 'hierarchical' => false, 'public' => false)
         );
 
         $labels = array(
