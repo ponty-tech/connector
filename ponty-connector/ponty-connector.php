@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.4.6
+    Version: 0.4.7
     Author URI: https://ponty.se
 */
 
@@ -236,6 +236,7 @@ class Pnty_Connector {
 
             $std_keys = array(
                 '_pnty_assignment_id',
+                '_pnty_withdrawal_date',
                 '_pnty_organization_name',
                 '_pnty_name',
                 '_pnty_user_title',
@@ -272,6 +273,8 @@ class Pnty_Connector {
             }
 
             update_post_meta($post_id, '_pnty_assignment_id', $data->assignment_id);
+            if (isset($data->withdrawal_date))
+                update_post_meta($post_id, '_pnty_withdrawal_date', $data->withdrawal_date);
             if (isset($data->organization_name))
                 update_post_meta($post_id, '_pnty_organization_name', $data->organization_name);
             if (isset($data->name))

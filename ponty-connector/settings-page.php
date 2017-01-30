@@ -240,7 +240,8 @@
         </tbody>
     </table>
     <h3><?php _e('Extra meta data associated with every post', 'pnty');?></h3>
-    <p><code>_pnty_assignment_id</code> the unique id from our system.</p>
+    <p><code>_pnty_assignment_id</code> the unique id from the Ponty system.</p>
+    <p><code>_pnty_withdrawal_date</code> the date where an ad will be removed.</p>
     <p><code>_pnty_organization_name</code> the name of the organization.</p>
     <p><code>_pnty_name</code> the name of the person responsible for the assignment.</p>
     <p><code>_pnty_user_title</code> the title of the person responsible.</p>
