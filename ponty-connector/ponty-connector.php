@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.4.7
+    Version: 0.4.8
     Author URI: https://ponty.se
 */
 
@@ -247,6 +247,7 @@ class Pnty_Connector {
                 '_pnty_client_contact',
                 '_pnty_logo',
                 '_pnty_apply_btn',
+                '_pnty_hero_image',
                 '_wp_old_slug'
             );
 
@@ -299,6 +300,8 @@ class Pnty_Connector {
                 delete_post_meta($post_id, '_pnty_logo');
             if ( ! is_null($data->apply_btn))
                 update_post_meta($post_id, '_pnty_apply_btn', $data->apply_btn);
+            if ( ! is_null($data->hero_image))
+                update_post_meta($post_id, '_pnty_hero_image', $data->hero_image);
 
             print json_encode(array('success'=>true, 'url'=>get_permalink($post_id)));
             die();
