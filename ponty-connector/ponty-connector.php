@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.4.8
+    Version: 0.4.9
     Author URI: https://ponty.se
 */
 
@@ -291,9 +291,17 @@ class Pnty_Connector {
             if (isset($data->region))
                 update_post_meta($post_id, '_pnty_region', $data->region);
             if (isset($data->address))
-                update_post_meta($post_id, '_pnty_address', $data->address);
+                update_post_meta(
+                    $post_id,
+                    '_pnty_address',
+                    json_encode($data->address, JSON_UNESCAPED_UNICODE)
+                );
             if (isset($data->client_contact))
-                update_post_meta($post_id, '_pnty_client_contact', json_encode($data->client_contact));
+                update_post_meta(
+                    $post_id,
+                    '_pnty_client_contact',
+                    json_encode($data->client_contact, JSON_UNESCAPED_UNICODE)
+                );
             if (isset($data->logo))
                 update_post_meta($post_id, '_pnty_logo', $data->logo);
             else
@@ -374,7 +382,13 @@ function pnty_slug_save($input) {
 
 add_action('admin_menu', 'pnty_menu');
 function pnty_menu() {
-    add_options_page('Ponty Connector', 'Ponty Connector', 'manage_options', 'pnty-options', 'pnty_connector_opts_page');
+    add_options_page(
+        'Ponty Connector',
+        'Ponty Connector',
+        'manage_options',
+        'pnty-options',
+        'pnty_connector_opts_page'
+    );
 }
 function pnty_connector_opts_page() {
     include(plugin_dir_path(__FILE__).'/settings-page.php');
