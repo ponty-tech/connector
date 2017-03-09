@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.4.9
+    Version: 0.4.10
     Author URI: https://ponty.se
 */
 
@@ -254,6 +254,16 @@ class Pnty_Connector {
             // remove lingering custom data
             foreach($std_keys as $c) {
                 delete_post_meta($post_id, $c);
+            }
+
+            // if job exists, remove tags
+            if ($post_id) {
+                $connected_tags = wp_get_post_terms($post_id, PNTY_PTNAME.'_tag');
+                $connected_tags_list = [];
+                foreach($connected_tags as $ct) {
+                    $connected_tags_list[] = $ct->slug;
+                }
+                wp_remove_object_terms($post_id, $connected_tags_list, PNTY_PTNAME.'_tag');
             }
 
             if ( ! empty($data->tags_2)) {
