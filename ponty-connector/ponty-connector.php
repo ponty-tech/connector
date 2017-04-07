@@ -31,6 +31,7 @@ class Pnty_Connector {
         delete_option('pnty_ogtag');
         delete_option('pnty_show_excerpt');
         delete_option('pnty_share');
+        delete_option('pnty_webhook_urls');
         flush_rewrite_rules();
     }
 
@@ -205,6 +206,8 @@ class Pnty_Connector {
                 $this->api_fail('Wont do that without an assignment id :(.');
             }
 
+            $is_new_ad = false;
+
             // set up post
             $post = array(
                 'post_title'    => $data->title,
@@ -224,6 +227,7 @@ class Pnty_Connector {
             $post_id = $wpdb->get_var($query);
             // create or update
             if (is_null($post_id)) {
+                $is_new_ad = true;
                 $post_id = wp_insert_post($post);
             } else {
                 $post['ID'] = $post_id;
@@ -321,6 +325,37 @@ class Pnty_Connector {
             if ( ! is_null($data->hero_image))
                 update_post_meta($post_id, '_pnty_hero_image', $data->hero_image);
 
+            ini_set("log_errors", 1);
+
+            // do we have a webhook?
+            if (function_exists('curl_version')) {
+                $webhook_urls = get_option('pnty_webhook_urls');
+                if ( ! empty($webhook_urls) && $is_new_ad) {
+                    $webhook_data = json_encode(array(
+                        'value1' => $data->title,
+                        'value2' => get_permalink($post_id)
+                    ));
+                    $hook_urls = explode(',', $webhook_urls);
+                    foreach($hook_urls as $hu) {
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $hu);
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $webhook_data);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                            'Content-Type' => 'application/json',
+                            'Content-Length' => strlen($webhook_data)
+                        ));
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $res = curl_exec($ch);
+                        $o = fopen('php://stdout', 'w');
+                        fputs($o, $res);
+                        fclose($o);
+                        // TODO felhantering
+                        curl_close($ch);
+                    }
+                }
+            }
+
             print json_encode(array('success'=>true, 'url'=>get_permalink($post_id)));
             die();
         } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' and
@@ -384,6 +419,8 @@ function pnty_admin_init(){
     register_setting('pnty_options', 'pnty_share');
     add_option('pnty_applybtn_position', '01');
     register_setting('pnty_options', 'pnty_applybtn_position');
+    add_option('pnty_webhook_urls', '');
+    register_setting('pnty_options', 'pnty_webhook_urls');
 }
 function pnty_slug_save($input) {
     set_transient('pnty_slug_saved', 'saved');

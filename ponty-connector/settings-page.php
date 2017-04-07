@@ -7,6 +7,7 @@
     $pnty_ogtag = get_option('pnty_ogtag');
     $pnty_show_excerpt = get_option('pnty_show_excerpt');
     $pnty_share = get_option('pnty_share');
+    $pnty_webhook_urls = get_option('pnty_webhook_urls');
     $pnty_applybtn_position = get_option('pnty_applybtn_position');
 ?>
 <div class="wrap">
@@ -26,7 +27,7 @@
                 </tr>
                 <tr valign="top">
                     <th scope="row">
-                    <label for="pnty_slug">URL slug (<?php _e('active ads');?>)</label>
+                    <label for="pnty_slug_showcase">URL slug (<?php _e('active ads');?>)</label>
                     </th>
                     <td>
                         <input type="text" id="pnty_slug" name="pnty_slug" value="<?php echo $pnty_slug;?>" />
@@ -44,7 +45,7 @@
                 </tr>
                 <tr valign="top">
                     <th scope="row">
-                        <label for="pnty_slug"><?php _e('Language', 'pnty');?></label>
+                        <label for="pnty_lang"><?php _e('Language', 'pnty');?></label>
                     </th>
                     <td>
                         <select id="pnty_lang" name="pnty_lang">
@@ -55,7 +56,7 @@
                 </tr>
                 <tr valign="top">
                     <th scope="row">
-                        <label for="pnty_slug"><?php _e('External css file', 'pnty');?></label>
+                        <label for="pnty_extcss"><?php _e('External css file', 'pnty');?></label>
                     </th>
                     <td>
                         <input type="text" id="pnty_extcss" name="pnty_extcss" value="<?php echo $pnty_extcss;?>" />
@@ -98,6 +99,15 @@
                             <label><input type="radio" name="pnty_applybtn_position" value="11"<?php if ($pnty_applybtn_position === '11') echo ' checked="checked"'; ?> /> <span><?php _e('Both', 'pnty');?></span></label>
                         </fieldset>
                         <p class="description"><?php _e('Where to show the apply button relative to the ad text.', 'pnty');?></p>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">
+                        <label for="pnty_webhook_urls"><?php _e('Webhook URLs', 'pnty');?></label>
+                    </th>
+                    <td>
+                        <input size="70" type="text" id="pnty_webhook_urls" name="pnty_webhook_urls" value="<?php echo $pnty_webhook_urls;?>" />
+                        <p class="description"><?php _e('Comma separated urls that gets triggered when a new ad is published.', 'pnty');?></p>
                     </td>
                 </tr>
             </tbody>

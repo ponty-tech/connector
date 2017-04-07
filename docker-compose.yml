@@ -9,10 +9,12 @@ services:
       - MYSQL_DATABASE=wordpress
 
   wpfpm:
-    image: wordpress:4.5.2-fpm
+    image: wordpress:4.7.3-php7.0-fpm
     links:
       - mariadb:mysql
     volumes:
+      - ./docker-wp/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./docker-wp/opcache.ini:/usr/local/etc/php/conf.d/opcache-recommended.ini
       - ./ponty-connector:/var/www/html/wp-content/plugins/ponty-connector
       - ../wpbones:/var/www/html/wp-content/themes/wptheme
     environment:
