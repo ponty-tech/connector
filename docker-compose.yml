@@ -35,7 +35,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    restart: always
+    restart: on-failure:3
     links:
       - mariadb:db
     #ports:
