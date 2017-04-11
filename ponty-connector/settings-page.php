@@ -108,6 +108,7 @@
                     <td>
                         <input size="70" type="text" id="pnty_webhook_urls" name="pnty_webhook_urls" value="<?php echo $pnty_webhook_urls;?>" />
                         <p class="description"><?php _e('Comma separated urls that gets triggered when a new ad is published.', 'pnty');?></p>
+                        <p class="description"><?php _e('Request that gets sent is a POST request with content-type application/json. JSON keys are value1 for ad title and value2 for ad url.', 'pnty');?></p>
                     </td>
                 </tr>
             </tbody>
@@ -213,7 +214,7 @@
             </tr>
             <tr>
                 <td>logo</td>
-                <td><?php _e('', 'pnty');?></td>
+                <td></td>
                 <td><code>[... logo="1"]</code></td>
                 <td><?php _e('To show the client logo.', 'pnty');?></td>
             </tr>

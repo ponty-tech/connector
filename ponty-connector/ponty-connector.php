@@ -3,10 +3,9 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson
-    Version: 0.4.10
+    Version: 0.4.11
     Author URI: https://ponty.se
 */
-
 // The name of the custom post type
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
@@ -325,10 +324,9 @@ class Pnty_Connector {
             if ( ! is_null($data->hero_image))
                 update_post_meta($post_id, '_pnty_hero_image', $data->hero_image);
 
-            ini_set("log_errors", 1);
-
-            // do we have a webhook?
+            // does cURL exist?
             if (function_exists('curl_version')) {
+                // do we have a webhook?
                 $webhook_urls = get_option('pnty_webhook_urls');
                 if ( ! empty($webhook_urls) && $is_new_ad) {
                     $webhook_data = json_encode(array(
@@ -337,20 +335,17 @@ class Pnty_Connector {
                     ));
                     $hook_urls = explode(',', $webhook_urls);
                     foreach($hook_urls as $hu) {
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, $hu);
+                        $ch = curl_init($hu);
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                         curl_setopt($ch, CURLOPT_POSTFIELDS, $webhook_data);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                            'Content-Type' => 'application/json',
-                            'Content-Length' => strlen($webhook_data)
+                            'Content-Type: application/json',
+                            'Content-Length: '.strlen($webhook_data),
+                            'User-Agent: Ponty Connector'
                         ));
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                         $res = curl_exec($ch);
-                        $o = fopen('php://stdout', 'w');
-                        fputs($o, $res);
-                        fclose($o);
-                        // TODO felhantering
+                        // TODO felhantering?
                         curl_close($ch);
                     }
                 }
