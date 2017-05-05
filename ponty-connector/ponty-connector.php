@@ -2,11 +2,11 @@
 /*
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
-    Author: KO. Mattsson
-    Version: 0.4.11
+    Author: KO. Mattsson with contributions from Andreas Lagerkvist
+    Version: 0.4.12
     Author URI: https://ponty.se
 */
-// The name of the custom post type
+// The name of the custom post types
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
@@ -38,7 +38,6 @@ class Pnty_Connector {
         add_action('parse_request', array($this, 'api'));
         add_action('wp_head', array($this, 'og_tags'));
 
-        add_filter('load_textdomain_mofile', array($this, 'override_lang'), 10, 2);
         add_filter('post_type_link', array($this, 'pnty_post_type_link'), 10, 3);
         // priority 100 on the_content filter to behave well with career site
         add_filter('the_content', array($this, 'apply_btn_and_logo'), 100);
@@ -46,14 +45,6 @@ class Pnty_Connector {
 
     function localize() {
         load_plugin_textdomain('pnty', false, dirname(plugin_basename(__FILE__)) . '/lang');
-    }
-
-    function override_lang($mofile, $domain) {
-        $pnty_lang = get_option('pnty_lang');
-        if ($domain === 'pnty') {
-            return plugin_dir_path(__FILE__).'/lang/pnty-'.$pnty_lang.'.mo';
-        }
-        return $mofile;
     }
 
     function og_tags(){
@@ -66,6 +57,13 @@ class Pnty_Connector {
 
     function apply_btn_and_logo($content) {
         if (is_singular(PNTY_PTNAME)) {
+
+            // let the user override our single job view
+            global $wp_filter;
+            if ( ! is_null($wp_filter['pnty_single_job_filter'])) {
+                return apply_filters('pnty_single_job_filter', $content);
+            }
+
             global $post;
             $pnty_applybtn_position = get_option('pnty_applybtn_position');
             $pnty_extcss = get_option('pnty_extcss');
@@ -129,11 +127,11 @@ class Pnty_Connector {
             'public' => false,
             'publicly_queryable' => true,
             'exclude_from_search' => false,
+            'has_archive' => true,
             'show_ui' => false,
             'rewrite' => array(
-                'slug' => '',
+                'slug' => 'jobs',
                 'with_front' => false
-
             ),
             'taxonomies' => array(PNTY_PTNAME.'_tag'),
             'labels' => $labels,
@@ -155,9 +153,10 @@ class Pnty_Connector {
             'public' => false,
             'publicly_queryable' => true,
             'exclude_from_search' => false,
+            'has_archive' => true,
             'show_ui' => false,
             'rewrite' => array(
-                'slug' => '',
+                'slug' => 'showcase-jobs',
                 'with_front' => false
 
             ),
@@ -201,8 +200,9 @@ class Pnty_Connector {
                 $this->api_fail('Could not understand that.');
             }
 
+            // Can not check system because of backwards compatability
             if (is_null($data->assignment_id)) {
-                $this->api_fail('Wont do that without an assignment id :(.');
+                $this->api_fail('Wont do that without an assignment id and system slug :(.');
             }
 
             $is_new_ad = false;
@@ -220,9 +220,16 @@ class Pnty_Connector {
             );
 
             // does the job exist?
-            $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
-                WHERE meta_key = '_pnty_assignment_id' AND meta_value = %s",
-                $data->assignment_id);
+            if ( ! is_null($data->system_slug)) {
+                $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
+                    WHERE meta_key = '_pnty_unique_id' AND meta_value = %s",
+                    $data->system_slug . $data->assignment_id);
+            } else {
+                // for backwards compatibility, only check assignment id
+                $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
+                    WHERE meta_key = '_pnty_assignment_id' AND meta_value = %s",
+                    $data->assignment_id);
+            }
             $post_id = $wpdb->get_var($query);
             // create or update
             if (is_null($post_id)) {
@@ -239,6 +246,8 @@ class Pnty_Connector {
 
             $std_keys = array(
                 '_pnty_assignment_id',
+                '_pnty_system_slug',
+                '_pnty_unique_id',
                 '_pnty_withdrawal_date',
                 '_pnty_organization_name',
                 '_pnty_name',
@@ -287,6 +296,8 @@ class Pnty_Connector {
             }
 
             update_post_meta($post_id, '_pnty_assignment_id', $data->assignment_id);
+            update_post_meta($post_id, '_pnty_system_slug', $data->system_slug);
+            update_post_meta($post_id, '_pnty_unique_id', $data->system_slug . $data->assignment_id);
             if (isset($data->withdrawal_date))
                 update_post_meta($post_id, '_pnty_withdrawal_date', $data->withdrawal_date);
             if (isset($data->organization_name))
@@ -321,8 +332,10 @@ class Pnty_Connector {
                 delete_post_meta($post_id, '_pnty_logo');
             if ( ! is_null($data->apply_btn))
                 update_post_meta($post_id, '_pnty_apply_btn', $data->apply_btn);
-            if ( ! is_null($data->hero_image))
-                update_post_meta($post_id, '_pnty_hero_image', $data->hero_image);
+
+            if (isset($data->hero_image) and $data->hero_image) {
+                $this->upload_base64_image($post_id, $data->hero_image);
+            }
 
             // does cURL exist?
             if (function_exists('curl_version')) {
@@ -345,7 +358,8 @@ class Pnty_Connector {
                         ));
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                         $res = curl_exec($ch);
-                        // TODO felhantering?
+                        // TODO felhantering? Kanske en extra json-nyckel webhook, som returneras
+                        // till oss?
                         curl_close($ch);
                     }
                 }
@@ -361,13 +375,21 @@ class Pnty_Connector {
             $this->api_auth();
 
             $assignment_id = preg_replace('#.*pnty_jobs_api/(\d+)$#', '$1', $_SERVER['REQUEST_URI']);
+            $system_slug = isset($_SERVER['HTTP_X_PNTY_SLUG']) ? $_SERVER['HTTP_X_PNTY_SLUG'] : false;
             if ( ! $assignment_id) {
                 $this->api_fail('Can not help you without an assignment id.');
             }
 
-            $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
-                WHERE meta_key = '_pnty_assignment_id' AND meta_value = %s",
-                $assignment_id);
+            if ($system_slug) {
+                $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
+                    WHERE meta_key = '_pnty_unique_id' AND meta_value = %s",
+                    $system_slug . $assignment_id);
+            } else {
+                // for backwards compatibility, only check assignment id
+                $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
+                    WHERE meta_key = '_pnty_assignment_id' AND meta_value = %s",
+                    $assignment_id);
+            }
             $post_id = $wpdb->get_var($query);
 
             if (wp_delete_post($post_id) === false) {
@@ -377,6 +399,54 @@ class Pnty_Connector {
             die();
         }
     }
+
+    function upload_base64_image ($postId, $base64Image) {
+        // From Andreas Lagerkvist
+        try {
+            # Convert mime to extension
+            $mime2ext = [
+                'image/gif' => 'gif',
+                'image/png' => 'png',
+                'image/jpeg' => 'jpg'
+            ];
+
+            # Store upload directory
+            $uploadDir = wp_upload_dir();
+            $uploadDir = $uploadDir['path'];
+
+            # Explode the data we need
+            $imageData = explode(',', $base64Image);
+            $type = $imageData[0];
+            $image = base64_decode($imageData[1]);
+
+            # Determine filetype (http://stackoverflow.com/questions/6061505/detecting-image-type-from-base64-string-in-php)
+            $f = finfo_open();
+            $mime = finfo_buffer($f, $image, FILEINFO_MIME_TYPE);
+
+            # Create a filename
+            $filename = microtime(true) . '.' . $mime2ext[$mime];
+
+            # Upload the file
+            file_put_contents($uploadDir . '/' . $filename, $image);
+
+            # Insert into DB
+            $attachmentId = wp_insert_attachment(array(
+                'post_mime_type'    => $mime,
+                'post_title'        => get_the_title($postId),
+                'post_content'      => '',
+                'post_status'       => 'inherit'
+            ), $uploadDir . '/' . $filename);
+
+            # Update meta data(?) (I guess this creates the post thumbnail sizes among other things??)
+            wp_update_attachment_metadata($attachmentId, wp_generate_attachment_metadata($attachmentId, $uploadDir . '/' . $filename));
+
+            # Set as featured image
+            set_post_thumbnail($postId, $attachmentId);
+        } catch (Exception $e) {
+            echo json_encode(['error' => $e]);
+        }
+    }
+
     function pnty_post_type_link($permalink, $post, $leavename) {
         $pnty_slug = get_option('pnty_slug');
         $pnty_slug_showcase = get_option('pnty_slug_showcase');

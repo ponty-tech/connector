@@ -96,7 +96,8 @@
                         <fieldset>
                             <label><input type="radio" name="pnty_applybtn_position" value="01"<?php if ($pnty_applybtn_position === '01') echo ' checked="checked"'; ?> /> <span><?php _e('Bottom only', 'pnty');?></span></label><br />
                             <label><input type="radio" name="pnty_applybtn_position" value="10"<?php if ($pnty_applybtn_position === '10') echo ' checked="checked"'; ?> /> <span><?php _e('Top only', 'pnty');?></span></label><br />
-                            <label><input type="radio" name="pnty_applybtn_position" value="11"<?php if ($pnty_applybtn_position === '11') echo ' checked="checked"'; ?> /> <span><?php _e('Both', 'pnty');?></span></label>
+                            <label><input type="radio" name="pnty_applybtn_position" value="11"<?php if ($pnty_applybtn_position === '11') echo ' checked="checked"'; ?> /> <span><?php _e('Both', 'pnty');?></span></label><br />
+                            <label><input type="radio" name="pnty_applybtn_position" value="00"<?php if ($pnty_applybtn_position === '00') echo ' checked="checked"'; ?> /> <span><?php _e('Do not show', 'pnty');?></span></label><br />
                         </fieldset>
                         <p class="description"><?php _e('Where to show the apply button relative to the ad text.', 'pnty');?></p>
                     </td>
