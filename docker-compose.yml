@@ -9,7 +9,7 @@ services:
       - MYSQL_DATABASE=wordpress
 
   wpfpm:
-    image: wordpress:4.7.3-php7.0-fpm
+    image: wordpress:4.7.4-php7.0-fpm
     links:
       - mariadb:mysql
     volumes:
@@ -28,8 +28,6 @@ services:
       - ./docker-wp/nginx.conf:/etc/nginx/nginx.conf:ro
     volumes_from:
       - wpfpm
-    #ports:
-    #  - "127.0.0.1:8080:80"
     depends_on:
       - wpfpm
 
@@ -38,7 +36,5 @@ services:
     restart: on-failure:3
     links:
       - mariadb:db
-    #ports:
-    #  - "8088:80"
     depends_on:
       - mariadb
