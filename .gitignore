@@ -1,4 +1,4 @@
-*.swp
+*.sw[po]
 docker-wp/wordpress
 docker-wp/mariadb
 node_modules
