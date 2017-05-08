@@ -175,9 +175,36 @@ class Pnty_Connector {
 
     function api_auth() {
         $pnty_api_key = get_option('pnty_api_key');
-        if ($pnty_api_key === '' || $_SERVER['HTTP_X_PNTY_AUTH'] !== $pnty_api_key) {
-            $this->api_fail('Not authenticated.');
+        if ($pnty_api_key === '' || ! isset($_SERVER['HTTP_X_PNTY_AUTH_2'])) {
+            $this->api_fail('Not authenticated to WordPress instance. Please check API keys.');
         }
+
+        $jwt_str = str_replace('Bearer ', '', $_SERVER['HTTP_X_PNTY_AUTH_2']);
+
+        list($jwt_header, $jwt_payload, $jwt_sig) = explode('.', $jwt_str);
+
+        $header_and_payload = $jwt_header.'.'.$jwt_payload;
+        $almost_real_sig = base64_encode(
+            hash_hmac('sha256', $header_and_payload, $pnty_api_key, true)
+        );
+        # make some "urlsafe" replacements
+        $real_sig = str_replace(['+','/','='], ['-','_',''], $almost_real_sig);
+
+        $payload = json_decode(base64_decode($jwt_payload));
+        $now = new DateTime();
+        $ts = $now->getTimestamp();
+        if ($ts - $payload->iat > 60) {
+            $this->api_fail('Not authenticated to WordPress instance. Please check API keys.');
+        }
+
+        if ($ts > $payload->exp) {
+            $this->api_fail('Not authenticated to WordPress instance. Please check API keys.');
+        }
+
+        if ($jwt_sig !== $real_sig){
+            $this->api_fail('Not authenticated to WordPress instance. Please check API keys.');
+        }
+
         return true;
     }
 
