@@ -113,7 +113,11 @@ class Pnty_Connector {
         register_taxonomy(
             PNTY_PTNAME.'_tag',
             array(PNTY_PTNAME),
-            array('labels' => $tag_labels, 'hierarchical' => false, 'public' => false)
+            array(
+                'labels' => $tag_labels,
+                'hierarchical' => false,
+                'public' => false
+            )
         );
 
         $labels = array(
@@ -226,9 +230,9 @@ class Pnty_Connector {
                 $this->api_fail('Could not understand that.');
             }
 
-            # Can not check system because of backwards compatability
+            # Can not check system_slug because of backwards compatability
             if (is_null($data->assignment_id)) {
-                $this->api_fail('Wont do that without an assignment id and system slug :(.');
+                $this->api_fail('Wont do that without an assignment id :(.');
             }
 
             $is_new_ad = false;
@@ -418,16 +422,21 @@ class Pnty_Connector {
             }
             $post_id = $wpdb->get_var($query);
 
+            $attachment_id = get_post_thumbnail_id($post_id);
+            wp_delete_attachment($attachment_id);
+
             if (wp_delete_post($post_id) === false) {
                 $this->api_fail('WP could not delete job.');
             }
+
+
             print json_encode(array('success'=>true));
             die();
         }
     }
 
-    function upload_base64_image ($postId, $base64Image) {
-        # From Andreas Lagerkvist
+    function upload_base64_image ($post_id, $base64_image) {
+        # Parts from Andreas Lagerkvist
         try {
             # Convert mime to extension
             $mime2ext = [
@@ -437,13 +446,13 @@ class Pnty_Connector {
             ];
 
             # Store upload directory
-            $uploadDir = wp_upload_dir();
-            $uploadDir = $uploadDir['path'];
+            $upload_dir = wp_upload_dir();
+            $upload_dir = $upload_dir['path'];
 
             # Explode the data we need
-            $imageData = explode(',', $base64Image);
-            $type = $imageData[0];
-            $image = base64_decode($imageData[1]);
+            $image_data = explode(',', $base64_image);
+            $type = $image_data[0];
+            $image = base64_decode($image_data[1]);
 
             # Determine filetype (http://stackoverflow.com/questions/6061505/detecting-image-type-from-base64-string-in-php)
             $f = finfo_open();
@@ -454,21 +463,23 @@ class Pnty_Connector {
             $filename = microtime(true) . '.' . $mime2ext[$mime];
 
             # Upload the file
-            file_put_contents($uploadDir . '/' . $filename, $image);
+            file_put_contents($upload_dir . '/' . $filename, $image);
 
             # Insert into DB
-            $attachmentId = wp_insert_attachment(array(
+            $attachment_id = wp_insert_attachment(array(
                 'post_mime_type'    => $mime,
-                'post_title'        => get_the_title($postId),
+                'post_title'        => get_the_title($post_id),
                 'post_content'      => '',
                 'post_status'       => 'inherit'
-            ), $uploadDir . '/' . $filename);
+            ), $upload_dir . '/' . $filename);
 
+            # Include WP image.php for next methods.
+            include_once(ABSPATH.'wp-admin/includes/image.php');
             # Update meta data.
-            wp_update_attachment_metadata($attachmentId, wp_generate_attachment_metadata($attachmentId, $uploadDir . '/' . $filename));
+            wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $upload_dir . '/' . $filename));
 
             # Set as featured image
-            set_post_thumbnail($postId, $attachmentId);
+            set_post_thumbnail($post_id, $attachment_id);
         } catch (Exception $e) {
             echo json_encode(['error' => $e]);
         }
@@ -488,6 +499,27 @@ class Pnty_Connector {
         }
         return $permalink;
     }
+}
+
+# used to get_terms for a specific post_typ (pnty_job|pnty_job_showcase)
+function pnty_get_active_terms($post_type){
+    global $wpdb;
+    return $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT t2.*
+            FROM $wpdb->term_taxonomy AS t1
+            JOIN $wpdb->terms AS t2 ON t2.term_id = t1.term_id
+            WHERE EXISTS (
+                SELECT * FROM $wpdb->posts AS u1
+                JOIN $wpdb->term_relationships AS u2 ON u2.object_id = u1.ID
+                WHERE u2.term_taxonomy_id = t1.term_taxonomy_id
+                AND u1.post_type = %s
+            )
+            AND t1.taxonomy = 'pnty_job_tag'",
+            $post_type
+        ),
+        OBJECT
+    );
 }
 
 add_action('admin_init', 'pnty_admin_init');
