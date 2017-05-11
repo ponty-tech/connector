@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-08 12:07+0200\n"
+"POT-Creation-Date: 2017-05-10 10:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 msgid "Apply button position"
 msgstr ""
 
-#: ponty-connector.php:586
+#: ponty-connector.php:645
 msgid "Apply here"
 msgstr ""
 
@@ -137,8 +137,8 @@ msgstr ""
 msgid "Make all table cell data linked."
 msgstr ""
 
-#: ponty-connector.php:519 ponty-connector.php:539 ponty-connector.php:557
-#: ponty-connector.php:575
+#: ponty-connector.php:578 ponty-connector.php:598 ponty-connector.php:616
+#: ponty-connector.php:634
 msgid "No published jobs."
 msgstr ""
 
@@ -162,7 +162,11 @@ msgstr ""
 msgid "Permalink for"
 msgstr ""
 
-#: ponty-connector.php:121
+#: settings-page.php:15
+msgid "Ponty Connector settings"
+msgstr ""
+
+#: ponty-connector.php:125
 msgid "Ponty job"
 msgstr ""
 
@@ -170,8 +174,8 @@ msgstr ""
 msgid "Ponty job tags"
 msgstr ""
 
-#: ponty-connector.php:120 ponty-connector.php:125
-#: widgets/pnty-latest-jobs.php:10
+#: widgets/pnty-latest-jobs.php:10 ponty-connector.php:124
+#: ponty-connector.php:129
 msgid "Ponty jobs"
 msgstr ""
 
@@ -189,7 +193,7 @@ msgid ""
 "JSON keys are value1 for ad title and value2 for ad url."
 msgstr ""
 
-#: ponty-connector.php:596
+#: ponty-connector.php:655
 msgid "Shortcode not setup correctly."
 msgstr ""
 
@@ -238,11 +242,11 @@ msgstr ""
 msgid "Shows the region as a table column."
 msgstr ""
 
-#: ponty-connector.php:165
+#: ponty-connector.php:169
 msgid "Terminated Ponty job"
 msgstr ""
 
-#: ponty-connector.php:151 ponty-connector.php:164
+#: ponty-connector.php:155 ponty-connector.php:168
 msgid "Terminated Ponty jobs"
 msgstr ""
 
@@ -250,8 +254,8 @@ msgstr ""
 msgid "The column name for the ad title."
 msgstr ""
 
-#: docs-page.php:15 ponty-connector.php:509 ponty-connector.php:529
-#: widgets/pnty-latest-jobs.php:95
+#: widgets/pnty-latest-jobs.php:95 docs-page.php:15 ponty-connector.php:568
+#: ponty-connector.php:588
 msgid "Title"
 msgstr ""
 

@@ -12,7 +12,7 @@
     $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'base_settings';
 ?>
 <div class="wrap">
-    <h2><img style="vertical-align:middle;" src="<?php echo plugin_dir_url(__FILE__).'wpicon.svg';?>" width="32" height="32" alt="PC logo" /> Ponty Connector settings</h2>
+    <h2><img style="vertical-align:middle;" src="<?php echo plugin_dir_url(__FILE__).'favicon-4.min.svg';?>" width="32" height="32" alt="PC logo" /> <?php _e('Ponty Connector settings', 'pnty');?></h2>
     <h2 class="nav-tab-wrapper">
         <a href="?page=pnty-options&tab=base_settings" class="nav-tab <?php echo $active_tab == 'base_settings' ? 'nav-tab-active' : '';?>"><?php _e('Base settings', 'pnty');?></a>
         <a href="?page=pnty-options&tab=advanced_settings" class="nav-tab <?php echo $active_tab == 'advanced_settings' ? 'nav-tab-active' : '';?>"><?php _e('Advanced settings', 'pnty');?></a>

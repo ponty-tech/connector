@@ -3,7 +3,7 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson with contributions from Andreas Lagerkvist
-    Version: 0.4.12
+    Version: 1.0.0-dev
     Author URI: https://ponty.se
 */
 # The name of the custom post types
@@ -75,8 +75,19 @@ class Pnty_Connector {
                 $content = '<div class="pnty-excerpt">'.$post->post_excerpt.'</div>'
                     .PHP_EOL.$content;
             }
-            $logo = get_post_meta($post->ID, '_pnty_logo', true);
-            if ($logo !== '') {
+
+            # Get post metadata
+            $metadata = get_post_custom($post->ID);
+            # assign the values we need
+            $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0];
+            $logo = $metadata['_pnty_logo'];
+
+            if ($logo_attachment_id) {
+                list($logo_url, $logo_width, $logo_height) =
+                    wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
+                $content = '<img class="pnty-logo" src="'.$logo_url.'" alt="Logo" width="'.
+                    $logo_width.'" height="'.$logo_height.'" />'.$content;
+            } else if ($logo !== '') {
                 $content = '<img class="pnty-logo" src="'.$logo.'" alt="Logo" />'.$content;
             }
             $apply_btn = get_post_meta($post->ID, '_pnty_apply_btn', true);
@@ -275,21 +286,22 @@ class Pnty_Connector {
             }
 
             $std_keys = array(
+                '_pnty_address',
+                '_pnty_apply_btn',
                 '_pnty_assignment_id',
+                '_pnty_client_contact',
+                '_pnty_email',
+                '_pnty_hero_image',
+                '_pnty_location',
+                '_pnty_logo',
+                '_pnty_name',
+                '_pnty_organization_name',
+                '_pnty_phone',
+                '_pnty_region',
                 '_pnty_system_slug',
                 '_pnty_unique_id',
-                '_pnty_withdrawal_date',
-                '_pnty_organization_name',
-                '_pnty_name',
                 '_pnty_user_title',
-                '_pnty_phone',
-                '_pnty_email',
-                '_pnty_location',
-                '_pnty_region',
-                '_pnty_client_contact',
-                '_pnty_logo',
-                '_pnty_apply_btn',
-                '_pnty_hero_image',
+                '_pnty_withdrawal_date',
                 '_wp_old_slug'
             );
 
@@ -327,7 +339,11 @@ class Pnty_Connector {
 
             update_post_meta($post_id, '_pnty_assignment_id', $data->assignment_id);
             update_post_meta($post_id, '_pnty_system_slug', $data->system_slug);
-            update_post_meta($post_id, '_pnty_unique_id', $data->system_slug . $data->assignment_id);
+            update_post_meta(
+                $post_id,
+                '_pnty_unique_id',
+                $data->system_slug . $data->assignment_id
+            );
             if (isset($data->withdrawal_date))
                 update_post_meta($post_id, '_pnty_withdrawal_date', $data->withdrawal_date);
             if (isset($data->organization_name))
@@ -356,18 +372,25 @@ class Pnty_Connector {
                     '_pnty_client_contact',
                     json_encode($data->client_contact, JSON_UNESCAPED_UNICODE)
                 );
-            if (isset($data->logo))
-                update_post_meta($post_id, '_pnty_logo', $data->logo);
-            else
-                delete_post_meta($post_id, '_pnty_logo');
             if ( ! is_null($data->apply_btn))
                 update_post_meta($post_id, '_pnty_apply_btn', $data->apply_btn);
 
-            if (isset($data->hero_image) and $data->hero_image) {
-                $this->upload_base64_image($post_id, $data->hero_image);
+            # special case for logo
+            if (isset($data->logo)) {
+                update_post_meta($post_id, '_pnty_logo', $data->logo);
+                $this->upload_url_image($post_id, $data->logo);
+            } else {
+                $this->pnty_delete_attachment($post_id, '_pnty_logo_attachment_id');
             }
 
-            # does cURL exist?
+            # and special case for hero
+            if (isset($data->hero_image) and $data->hero_image) {
+                $this->upload_base64_image($post_id, $data->hero_image);
+            } else {
+                $this->pnty_delete_attachment($post_id, '_thumbnail_id');
+            }
+
+            # Does cURL exist?
             if (function_exists('curl_version')) {
                 # do we have a webhook?
                 $webhook_urls = get_option('pnty_webhook_urls');
@@ -404,8 +427,13 @@ class Pnty_Connector {
 
             $this->api_auth();
 
-            $assignment_id = preg_replace('#.*pnty_jobs_api/(\d+)$#', '$1', $_SERVER['REQUEST_URI']);
-            $system_slug = isset($_SERVER['HTTP_X_PNTY_SLUG']) ? $_SERVER['HTTP_X_PNTY_SLUG'] : false;
+            $assignment_id = preg_replace(
+                '#.*pnty_jobs_api/(\d+)$#',
+                '$1',
+                $_SERVER['REQUEST_URI']
+            );
+            $system_slug = isset($_SERVER['HTTP_X_PNTY_SLUG']) ?
+                $_SERVER['HTTP_X_PNTY_SLUG'] : false;
             if ( ! $assignment_id) {
                 $this->api_fail('Can not help you without an assignment id.');
             }
@@ -422,20 +450,87 @@ class Pnty_Connector {
             }
             $post_id = $wpdb->get_var($query);
 
-            $attachment_id = get_post_thumbnail_id($post_id);
-            wp_delete_attachment($attachment_id);
+            $this->pnty_delete_attachment($post_id, '_pnty_logo_attachment_id');
+            $this->pnty_delete_attachment($post_id, '_thumbnail_id');
 
             if (wp_delete_post($post_id) === false) {
                 $this->api_fail('WP could not delete job.');
             }
-
 
             print json_encode(array('success'=>true));
             die();
         }
     }
 
+    function pnty_delete_attachment($post_id, $meta_key) {
+        $attachment_id = get_post_meta($post_id, $meta_key, true);
+        if ($attachment_id) {
+            wp_delete_attachment($attachment_id);
+        }
+    }
+
+    function upload_url_image($post_id, $url) {
+        # TODO checksum checksum
+        # Begin by deleting a possible old image.
+        $this->pnty_delete_attachment($post_id, '_pnty_logo_attachment_id');
+
+        try {
+            $upload_dir = wp_upload_dir();
+            $upload_dir = $upload_dir['path'];
+
+            # Break down url
+            $url_parts = parse_url($url);
+            # Check path for a filename
+            $filename_from_ponty = basename($url_parts['path']);
+
+            # Get ext + mime
+            $wp_file_info = wp_check_filetype($filename_from_ponty);
+            $file_ext = $wp_file_info['ext'];
+            $file_mime = $wp_file_info['type'];
+
+            $filename = microtime(true) . '.' . $file_ext;
+
+            # Fetch the file
+            $file_data = file_get_contents($url);
+            if ($file_data === false) {
+                throw new Exception('Could not fetch file.');
+            }
+
+            # Store the file
+            $stored_bytes = file_put_contents($upload_dir . '/' . $filename, $file_data);
+            if ($stored_bytes === false) {
+                throw new Exception('Could not save file.');
+            }
+
+            # Insert into DB
+            $attachment_id = wp_insert_attachment(array(
+                'post_mime_type'    => $file_mime,
+                'post_title'        => get_the_title($post_id),
+                'post_content'      => '',
+                'post_name'         => $filename,
+                'post_status'       => 'inherit'
+            ), $upload_dir . '/' . $filename);
+
+            # Include WP image.php for next methods.
+            include_once(ABSPATH.'wp-admin/includes/image.php');
+            # Update meta data.
+            wp_update_attachment_metadata(
+                $attachment_id,
+                wp_generate_attachment_metadata($attachment_id, $upload_dir . '/' . $filename)
+            );
+
+            update_post_meta($post_id, '_pnty_logo_attachment_id', $attachment_id);
+
+        } catch (Exception $e) {
+            #echo json_encode(['error' => $e]);
+            error_log($e);
+        }
+    }
+
     function upload_base64_image ($post_id, $base64_image) {
+        # Begin by deleting a possible old image
+        $this->pnty_delete_attachment($post_id, '_thumbnail_id');
+
         # Parts from Andreas Lagerkvist
         try {
             # Convert mime to extension
@@ -470,18 +565,23 @@ class Pnty_Connector {
                 'post_mime_type'    => $mime,
                 'post_title'        => get_the_title($post_id),
                 'post_content'      => '',
+                'post_name'         => $filename,
                 'post_status'       => 'inherit'
             ), $upload_dir . '/' . $filename);
 
             # Include WP image.php for next methods.
             include_once(ABSPATH.'wp-admin/includes/image.php');
             # Update meta data.
-            wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $upload_dir . '/' . $filename));
+            wp_update_attachment_metadata(
+                $attachment_id,
+                wp_generate_attachment_metadata($attachment_id, $upload_dir . '/' . $filename)
+            );
 
             # Set as featured image
             set_post_thumbnail($post_id, $attachment_id);
         } catch (Exception $e) {
-            echo json_encode(['error' => $e]);
+            #echo json_encode(['error' => $e]);
+            error_log($e);
         }
     }
 
@@ -498,6 +598,10 @@ class Pnty_Connector {
             $permalink = get_home_url() . '/' . $post->post_name . '/';
         }
         return $permalink;
+    }
+
+    function add_pnty_image_size(){
+        add_image_size('pnty_logo', 500, 500);
     }
 }
 
@@ -668,7 +772,10 @@ add_action('init', array($pnty_connector, 'init'));
 add_action('init', array($pnty_connector, 'localize'));
 add_action('init', array($pnty_connector, 'create_post_type'));
 add_action('init', array($pnty_connector, 'create_post_type_showcase'));
+add_action('init', array($pnty_connector, 'add_pnty_image_size'));
 
 # widget registration
 require_once(plugin_dir_path(__FILE__).'widgets/pnty-latest-jobs.php');
-add_action('widgets_init', create_function('', 'return register_widget("pnty_latest_jobs_widget");'));
+add_action(
+    'widgets_init', create_function('', 'return register_widget("pnty_latest_jobs_widget");')
+);
