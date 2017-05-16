@@ -1,6 +1,6 @@
 {
   "name": "ponty-connector",
-  "version": "1.0.0-dev",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {

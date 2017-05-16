@@ -4,6 +4,7 @@
     $pnty_slug_showcase = get_option('pnty_slug_showcase');
     $pnty_extcss = get_option('pnty_extcss');
     $pnty_ogtag = get_option('pnty_ogtag');
+    $pnty_jsonld = get_option('pnty_jsonld');
     $pnty_show_excerpt = get_option('pnty_show_excerpt');
     $pnty_share = get_option('pnty_share');
     $pnty_webhook_urls = get_option('pnty_webhook_urls');
@@ -94,6 +95,14 @@
                         <td>
                             <input type="checkbox" id="pnty_ogtag" name="pnty_ogtag" value="true" <?php echo ($pnty_ogtag) ? 'checked="checked"': '';?> />
                             <p class="description"><?php _e('Use only if no other OG plugin is present.', 'pnty'); ?></p>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label for="pnty_jsonld"><?php _e('Add JSON-LD metadata (JobPosting) to ads.', 'pnty');?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" id="pnty_jsonld" name="pnty_jsonld" value="true" <?php echo ($pnty_jsonld) ? 'checked="checked"': '';?> />
                         </td>
                     </tr>
                     <tr valign="top">

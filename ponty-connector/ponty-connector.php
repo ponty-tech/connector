@@ -3,10 +3,11 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson with contributions from Andreas Lagerkvist
-    Version: 1.0.0-dev
+    Version: 1.0.0
     Author URI: https://ponty.se
 */
 # The name of the custom post types
+define('PNTY_VERSION', '1.0.0');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
@@ -27,6 +28,7 @@ class Pnty_Connector {
         delete_option('pnty_slug_showcase');
         delete_option('pnty_extcss');
         delete_option('pnty_ogtag');
+        delete_option('pnty_jsonld');
         delete_option('pnty_show_excerpt');
         delete_option('pnty_share');
         delete_option('pnty_webhook_urls');
@@ -36,6 +38,7 @@ class Pnty_Connector {
     function init() {
         add_action('parse_request', array($this, 'api'));
         add_action('wp_head', array($this, 'og_tags'));
+        add_action('wp_footer', array($this, 'json_ld'));
 
         add_filter('post_type_link', array($this, 'pnty_post_type_link'), 10, 3);
         # priority 100 on the_content filter to behave well with career site
@@ -54,9 +57,16 @@ class Pnty_Connector {
         }
     }
 
+    function json_ld(){
+        $pnty_jsonld = get_option('pnty_jsonld');
+        if (is_singular(PNTY_PTNAME) and $pnty_jsonld) {
+            global $post;
+            include(plugin_dir_path(__FILE__).'snippets/pnty-json-ld.php');
+        }
+    }
+
     function apply_btn_and_logo($content) {
         if (is_singular(PNTY_PTNAME)) {
-
             # let the user override our single job view
             global $wp_filter;
             if ( ! is_null($wp_filter['pnty_single_job_filter'])) {
@@ -69,35 +79,58 @@ class Pnty_Connector {
             $pnty_show_excerpt = get_option('pnty_show_excerpt');
             $pnty_share = get_option('pnty_share');
             if ( ! is_null($pnty_extcss) && ! empty($pnty_extcss)){
-                $content = $content.'<link rel="stylesheet" href="'.$pnty_extcss.'" />';
+                $d = new DOMDocument();
+                $link = $d->createElement('link');
+                $link->setAttribute('rel', 'stylesheet');
+                $link->setAttribute('href', $pnty_extcss);
+                $d->appendChild($link);
+                $content = $content . $d->saveHTML();
             }
             if ($pnty_show_excerpt){
-                $content = '<div class="pnty-excerpt">'.$post->post_excerpt.'</div>'
-                    .PHP_EOL.$content;
+                $d = new DOMDocument();
+                $div = $d->createElement('div', $post->post_excerpt);
+                $div->setAttribute('class', 'pnty-excerpt');
+                $d->appendChild($div);
+                $content = $d->saveHTML() . $content;
             }
 
             # Get post metadata
             $metadata = get_post_custom($post->ID);
             # assign the values we need
             $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0];
-            $logo = $metadata['_pnty_logo'];
+            $logo = $metadata['_pnty_logo'][0];
 
-            if ($logo_attachment_id) {
+            if ( ! is_null($logo_attachment_id)) {
                 list($logo_url, $logo_width, $logo_height) =
                     wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
-                $content = '<img class="pnty-logo" src="'.$logo_url.'" alt="Logo" width="'.
-                    $logo_width.'" height="'.$logo_height.'" />'.$content;
-            } else if ($logo !== '') {
-                $content = '<img class="pnty-logo" src="'.$logo.'" alt="Logo" />'.$content;
+                $d = new DOMDocument();
+                $img = $d->createElement('img');
+                $img->setAttribute('class', 'pnty-logo');
+                $img->setAttribute('src', $logo_url);
+                $img->setAttribute('width', $logo_width);
+                # not working responsive?
+                #$img->setAttribute('height', $logo_height);
+                $img->setAttribute('alt', __('Client logotype', 'pnty'));
+                $d->appendChild($img);
+                $content = $d->saveHTML() . $content;
+            } else if ( ! is_null($logo)) {
+                echo $logo;
+                $d = new DOMDocument();
+                $img = $d->createElement('img');
+                $img->setAttribute('class', 'pnty-logo');
+                $img->setAttribute('src', $logo);
+                $img->setAttribute('alt', __('Client logotype', 'pnty'));
+                $d->appendChild($img);
+                $content = $d->saveHTML() . $content;
             }
-            $apply_btn = get_post_meta($post->ID, '_pnty_apply_btn', true);
+            $apply_btn = $metadata['_pnty_apply_btn'][0];
             if ($apply_btn !== '') {
                 if (in_array($pnty_applybtn_position, array('01', ''))) {
-                    $content = $content.$apply_btn;
+                    $content = $content . $apply_btn;
                 } elseif ($pnty_applybtn_position == '10') {
-                    $content = $apply_btn.$content;
+                    $content = $apply_btn . $content;
                 } elseif ($pnty_applybtn_position == '11') {
-                    $content = $apply_btn.$content.$apply_btn;
+                    $content = $apply_btn . $content . $apply_btn;
                 }
             }
             if ($pnty_share){
@@ -105,14 +138,17 @@ class Pnty_Connector {
                 include(plugin_dir_path(__FILE__).'style.css.php');
                 $pnty_share_css = ob_get_clean();
                 $pnty_share_css = trim(preg_replace('/\s+/', '', $pnty_share_css));
-                $content = "<style>".$pnty_share_css."</style>".$content;
+                $d = new DOMDocument();
+                $style = $d->createElement('style', $pnty_share_css);
+                $d->appendChild($style);
+                $content = $d->saveHTML() . $content;
 
                 ob_start();
                 include(plugin_dir_path(__FILE__).'snippets/pnty-share.php');
                 $pnty_share_markup = ob_get_clean();
-                $content = $content.PHP_EOL.$pnty_share_markup;
+                $content = $content . PHP_EOL . $pnty_share_markup;
             }
-            $content = '<div class="pnty-single-job">'.$content.'</div>';
+            $content = '<div class="pnty-single-job">' . PHP_EOL . $content . PHP_EOL . '</div>';
         }
         return $content;
     }
@@ -172,7 +208,6 @@ class Pnty_Connector {
             'rewrite' => array(
                 'slug' => 'showcase-jobs',
                 'with_front' => false
-
             ),
             'taxonomies' => array(PNTY_PTNAME.'_tag'),
             'labels' => array(
@@ -230,6 +265,14 @@ class Pnty_Connector {
 
     function api() {
         global $wpdb;
+        # return version number after 1.0.0
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' and
+            strpos($_SERVER['REQUEST_URI'], 'pnty_version') !== false) {
+            header('content-type:application/json');
+            print json_encode(['version'=>PNTY_VERSION]);
+            die();
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' and
             strpos($_SERVER['REQUEST_URI'], 'pnty_jobs_api') !== false) {
 
@@ -241,7 +284,6 @@ class Pnty_Connector {
                 $this->api_fail('Could not understand that.');
             }
 
-            # Can not check system_slug because of backwards compatability
             if (is_null($data->assignment_id)) {
                 $this->api_fail('Wont do that without an assignment id :(.');
             }
@@ -380,14 +422,14 @@ class Pnty_Connector {
                 update_post_meta($post_id, '_pnty_logo', $data->logo);
                 $this->upload_url_image($post_id, $data->logo);
             } else {
-                $this->pnty_delete_attachment($post_id, '_pnty_logo_attachment_id');
+                $this->delete_attachment($post_id, '_pnty_logo_attachment_id');
             }
 
             # and special case for hero
             if (isset($data->hero_image) and $data->hero_image) {
                 $this->upload_base64_image($post_id, $data->hero_image);
             } else {
-                $this->pnty_delete_attachment($post_id, '_thumbnail_id');
+                $this->delete_attachment($post_id, '_thumbnail_id');
             }
 
             # Does cURL exist?
@@ -412,7 +454,7 @@ class Pnty_Connector {
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                         $res = curl_exec($ch);
                         # TODO felhantering? Kanske en extra json-nyckel webhook, som returneras
-                        # till oss?
+                        # till oss? Fundera även på om filhanteringsfel skall returnera felsträng.
                         curl_close($ch);
                     }
                 }
@@ -420,6 +462,7 @@ class Pnty_Connector {
 
             print json_encode(array('success'=>true, 'url'=>get_permalink($post_id)));
             die();
+
         } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' and
             strpos($_SERVER['REQUEST_URI'], 'pnty_jobs_api') !== false) {
 
@@ -432,10 +475,14 @@ class Pnty_Connector {
                 '$1',
                 $_SERVER['REQUEST_URI']
             );
-            $system_slug = isset($_SERVER['HTTP_X_PNTY_SLUG']) ?
-                $_SERVER['HTTP_X_PNTY_SLUG'] : false;
             if ( ! $assignment_id) {
                 $this->api_fail('Can not help you without an assignment id.');
+            }
+            # >= v1? Check for slug
+            $system_slug = isset($_SERVER['HTTP_X_PNTY_SLUG']) ?
+                $_SERVER['HTTP_X_PNTY_SLUG'] : false;
+            if (defined(PNTY_VERSION) and ! $system_slug) {
+                $this->api_fail('Can not help you without a slug.');
             }
 
             if ($system_slug) {
@@ -450,8 +497,8 @@ class Pnty_Connector {
             }
             $post_id = $wpdb->get_var($query);
 
-            $this->pnty_delete_attachment($post_id, '_pnty_logo_attachment_id');
-            $this->pnty_delete_attachment($post_id, '_thumbnail_id');
+            $this->delete_attachment($post_id, '_pnty_logo_attachment_id');
+            $this->delete_attachment($post_id, '_thumbnail_id');
 
             if (wp_delete_post($post_id) === false) {
                 $this->api_fail('WP could not delete job.');
@@ -462,19 +509,40 @@ class Pnty_Connector {
         }
     }
 
-    function pnty_delete_attachment($post_id, $meta_key) {
+    function delete_attachment($post_id, $meta_key) {
         $attachment_id = get_post_meta($post_id, $meta_key, true);
         if ($attachment_id) {
             wp_delete_attachment($attachment_id);
         }
+        delete_post_meta($post_id, $meta_key);
     }
 
     function upload_url_image($post_id, $url) {
-        # TODO checksum checksum
-        # Begin by deleting a possible old image.
-        $this->pnty_delete_attachment($post_id, '_pnty_logo_attachment_id');
-
         try {
+            # Fetch the file data
+            $file_data = file_get_contents($url);
+            if ($file_data === false) {
+                throw new Exception('Could not fetch file.');
+            }
+
+            $current_hash = sha1($file_data);
+
+            # Do we have it already?
+            $attachment_id = get_post_meta($post_id, '_pnty_logo_attachment_id', true);
+            if ($attachment_id) {
+                $filepath = get_attached_file($attachment_id);
+                $previous_hash = sha1_file($filepath);
+            }
+            # Is it the same file?
+            if (isset($previous_hash) && $previous_hash === $current_hash) {
+                # No further action needed. Bail.
+                return;
+            } else if (isset($previous_hash)) {
+                # We have an existing file but it's not the same file. Remove it.
+                wp_delete_attachment($attachment_id);
+            }
+
+            # Where to put the file
             $upload_dir = wp_upload_dir();
             $upload_dir = $upload_dir['path'];
 
@@ -489,12 +557,6 @@ class Pnty_Connector {
             $file_mime = $wp_file_info['type'];
 
             $filename = microtime(true) . '.' . $file_ext;
-
-            # Fetch the file
-            $file_data = file_get_contents($url);
-            if ($file_data === false) {
-                throw new Exception('Could not fetch file.');
-            }
 
             # Store the file
             $stored_bytes = file_put_contents($upload_dir . '/' . $filename, $file_data);
@@ -522,16 +584,12 @@ class Pnty_Connector {
             update_post_meta($post_id, '_pnty_logo_attachment_id', $attachment_id);
 
         } catch (Exception $e) {
-            #echo json_encode(['error' => $e]);
             error_log($e);
         }
     }
 
     function upload_base64_image ($post_id, $base64_image) {
-        # Begin by deleting a possible old image
-        $this->pnty_delete_attachment($post_id, '_thumbnail_id');
-
-        # Parts from Andreas Lagerkvist
+        # Adapted from Andreas Lagerkvist
         try {
             # Convert mime to extension
             $mime2ext = [
@@ -540,19 +598,36 @@ class Pnty_Connector {
                 'image/jpeg' => 'jpg'
             ];
 
-            # Store upload directory
-            $upload_dir = wp_upload_dir();
-            $upload_dir = $upload_dir['path'];
-
             # Explode the data we need
             $image_data = explode(',', $base64_image);
             $type = $image_data[0];
             $image = base64_decode($image_data[1]);
 
+            $current_hash = sha1($image);
+
+            # Do we have it already?
+            $attachment_id = get_post_meta($post_id, '_thumbnail_id', true);
+            if ($attachment_id) {
+                $filepath = get_attached_file($attachment_id);
+                $previous_hash = sha1_file($filepath);
+            }
+            # Is it the same file?
+            if (isset($previous_hash) && $previous_hash === $current_hash) {
+                # No further action needed. Bail.
+                return;
+            } else if (isset($previous_hash)) {
+                # We have an existing file but it's not the same file. Remove it.
+                wp_delete_attachment($attachment_id);
+            }
+
             # Determine filetype (http://stackoverflow.com/questions/6061505/detecting-image-type-from-base64-string-in-php)
             $f = finfo_open();
             $mime = finfo_buffer($f, $image, FILEINFO_MIME_TYPE);
             finfo_close($f);
+
+            # Where to put the file
+            $upload_dir = wp_upload_dir();
+            $upload_dir = $upload_dir['path'];
 
             # Create a filename
             $filename = microtime(true) . '.' . $mime2ext[$mime];
@@ -580,7 +655,6 @@ class Pnty_Connector {
             # Set as featured image
             set_post_thumbnail($post_id, $attachment_id);
         } catch (Exception $e) {
-            #echo json_encode(['error' => $e]);
             error_log($e);
         }
     }
@@ -603,6 +677,7 @@ class Pnty_Connector {
     function add_pnty_image_size(){
         add_image_size('pnty_logo', 500, 500);
     }
+
 }
 
 # used to get_terms for a specific post_typ (pnty_job|pnty_job_showcase)
@@ -639,6 +714,8 @@ function pnty_admin_init(){
     register_setting('pnty_options', 'pnty_extcss');
     add_option('pnty_ogtag', false);
     register_setting('pnty_options', 'pnty_ogtag');
+    add_option('pnty_jsonld', false);
+    register_setting('pnty_options', 'pnty_jsonld');
     add_option('pnty_show_excerpt', false);
     register_setting('pnty_options', 'pnty_show_excerpt');
     add_option('pnty_share', false);
