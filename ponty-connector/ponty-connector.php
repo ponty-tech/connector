@@ -108,7 +108,7 @@ class Pnty_Connector {
                 $img->setAttribute('class', 'pnty-logo');
                 $img->setAttribute('src', $logo_url);
                 $img->setAttribute('width', $logo_width);
-                # not working responsive?
+                # not working responsive? FIXME?
                 #$img->setAttribute('height', $logo_height);
                 $img->setAttribute('alt', __('Client logotype', 'pnty'));
                 $d->appendChild($img);
