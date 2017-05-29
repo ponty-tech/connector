@@ -315,7 +315,10 @@ class Pnty_Connector {
             $post_id = $wpdb->get_var($query);
             # create or update
             if (is_null($post_id)) {
-                $is_new_ad = true;
+                if ($data->showcase) {
+                    # It's a new ad only if it's an ad. Not showcase content.
+                    $is_new_ad = true;
+                }
                 $post_id = wp_insert_post($post);
             } else {
                 $post['ID'] = $post_id;
@@ -431,7 +434,7 @@ class Pnty_Connector {
                 $this->delete_attachment($post_id, '_thumbnail_id');
             }
 
-            # Does cURL exist?
+            # Does cURL exist and we're posting an ad??
             if (function_exists('curl_version')) {
                 # do we have a webhook?
                 $webhook_urls = get_option('pnty_webhook_urls');
