@@ -3,11 +3,11 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson with contributions from Andreas Lagerkvist
-    Version: 1.0.2
+    Version: 1.0.3
     Author URI: https://ponty.se
 */
 # The name of the custom post types
-define('PNTY_VERSION', '1.0.2');
+define('PNTY_VERSION', '1.0.3');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
@@ -315,7 +315,7 @@ class Pnty_Connector {
             $post_id = $wpdb->get_var($query);
             # create or update
             if (is_null($post_id)) {
-                if ($data->showcase) {
+                if ( ! $data->showcase) {
                     # It's a new ad only if it's an ad. Not showcase content.
                     $is_new_ad = true;
                 }

@@ -1,3 +1,4 @@
+'use strict';
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const zip = require('gulp-zip');
