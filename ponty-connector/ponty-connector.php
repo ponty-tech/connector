@@ -522,7 +522,7 @@ class Pnty_Connector {
     function upload_url_image($post_id, $url) {
         try {
             # Fetch the file data
-            $file_data = file_get_contents($url);
+            $file_data = @file_get_contents($url);
             if ($file_data === false) {
                 throw new Exception('Could not fetch file.');
             }
