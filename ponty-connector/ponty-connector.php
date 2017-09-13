@@ -336,16 +336,18 @@ class Pnty_Connector {
                 '_pnty_client_contact',
                 '_pnty_email',
                 '_pnty_hero_image',
+                '_pnty_region',
                 '_pnty_location',
+                '_pnty_confidential',
                 '_pnty_logo',
                 '_pnty_name',
                 '_pnty_organization_name',
                 '_pnty_phone',
-                '_pnty_region',
                 '_pnty_system_slug',
                 '_pnty_unique_id',
                 '_pnty_user_title',
                 '_pnty_withdrawal_date',
+                '_pnty_external_apply_url',
                 '_wp_old_slug'
             );
 
@@ -404,6 +406,10 @@ class Pnty_Connector {
                 update_post_meta($post_id, '_pnty_location', $data->location);
             if (isset($data->region))
                 update_post_meta($post_id, '_pnty_region', $data->region);
+            if (isset($data->confidential))
+                update_post_meta($post_id, '_pnty_confidential', $data->confidential);
+            if (isset($data->external_apply_url))
+                update_post_meta($post_id, '_pnty_external_apply_url', $data->external_apply_url);
             if (isset($data->address))
                 update_post_meta(
                     $post_id,
