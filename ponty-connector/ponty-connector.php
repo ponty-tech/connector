@@ -567,7 +567,7 @@ class Pnty_Connector {
             $filename = microtime(true) . '.' . $file_ext;
 
             # Store the file
-            $stored_bytes = file_put_contents($upload_dir . '/' . $filename, $file_data);
+            $stored_bytes = @file_put_contents($upload_dir . '/' . $filename, $file_data);
             if ($stored_bytes === false) {
                 throw new Exception('Could not save file.');
             }
@@ -641,7 +641,10 @@ class Pnty_Connector {
             $filename = microtime(true) . '.' . $mime2ext[$mime];
 
             # Upload the file
-            file_put_contents($upload_dir . '/' . $filename, $image);
+            $stored_bytes = @file_put_contents($upload_dir . '/' . $filename, $image);
+            if ($stored_bytes === false) {
+                throw new Exception('Could not save b64 file.');
+            }
 
             # Insert into DB
             $attachment_id = wp_insert_attachment(array(
