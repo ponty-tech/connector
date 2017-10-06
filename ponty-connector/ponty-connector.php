@@ -69,7 +69,8 @@ class Pnty_Connector {
         if (is_singular(PNTY_PTNAME)) {
             # let the user override our single job view
             global $wp_filter;
-            if ( ! is_null($wp_filter['pnty_single_job_filter'])) {
+            if (array_key_exists('pnty_single_job_filter', $wp_filter) &&
+                ! is_null($wp_filter['pnty_single_job_filter'])) {
                 return apply_filters('pnty_single_job_filter', $content);
             }
 
