@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  line-height: 1.5rem; }
+
+h2, h3 {
+  margin: 4rem 0 2rem;
+  color: #e3304c;
+  font-weight: 900;
+  text-align: center; }
+
+p {
+  margin: 0 0 1rem; }
+  p:last-of-type {
+    margin: 0; }
+
+a {
+  color: #3a3f4b; }
+  a:hover {
+    color: #e3304c; }
+
+.top {
+  background-color: #3a3f4b; }
+  .top h1 {
+    margin: 0;
+    padding: 8rem 0;
+    font-size: 4rem;
+    font-weight: 900;
+    text-align: center;
+    color: white; }
+
+.page-wrapper {
+  margin: 4rem auto;
+  width: 36rem; }
+
+.gist {
+  margin: 2rem auto 2rem; }
+
+.change {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 0 0 4rem; }
+  .change__meta {
+    flex-basis: 8rem;
+    flex-shrink: 0; }
+  .change .cdate {
+    color: rgba(0, 0, 0, 0.57);
+    font-size: .8125rem; }
+  .change h4 {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.67); }

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name="robots" content="noindex">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ponty Connector</title>
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,900" rel="stylesheet">
+        <link rel="stylesheet" href="build/style.css">
+    </head>
+    <body>
+        <div class="top">
+            <h1>connector</h1>
+        </div>
+        <div class="page-wrapper">
+            <p>För annonspublicering i en WordPress-installation används vårt plugin Ponty Connector som kan <a href="https://ponty.se/content/uploads/2017/09/ponty-connector-1.0.4.zip">hämtas här (37KB)</a>.</p>
+            <p>Vårt plugin gör i korthet två saker:</p>
+            <ol>
+                <li>Deklarerar två så kallade <a href="https://codex.wordpress.org/Post_Types#Custom_Post_Types">Custom Post Types</a> (<em>pnty_job, pnty_job_showcase</em>)</li>
+                <li>Tar emot data från vårt system på en särskild url</li>
+            </ol>
+            <p>Följden av detta är att annonsdata, när det väl skickats från vårt system till WordPress-installationen, därefter kan hanteras som vilket WordPress-innehåll som helst.</p>
+            <h2>Använda pluginet</h2>
+            <p>Till pluginet finns tre <a href="https://codex.wordpress.org/Shortcode">shortcodes</a> som kan användas för att få en grundläggande funktionalitet på plats. Tillgängliga attribut för att styra vissa av shortcodens egenskaper finns dokumenterat på pluginets inställningssida. Även den meta-data som också finns tillgänglig för varje annons dokumenteras där.</p>
+            <h2>Vanliga ändringar</h2>
+            <p>Den absolut vanligaste ändringen som görs för att få annonsvisningen att se bra ut är att skapa en ny fil i tema-mappen som heter <em>single-pnty_job.php</em>. Den filen ansvarar då för hur enskilda annonser visas på sajten. Ett väldigt grundläggande exempel visas nedan.</p>
+            <!-- gist 1 -->
+            <script src="https://gist.github.com/karloskar/2388f77f32cfd6550179.js"></script>
+            <p>Andra vanliga ändringar är att skriva egna metoder för visningen av alla eller utvalda annonser. Ett exempel följer nedan för visning av annonser som har en viss tagg.</p>
+            <!-- gist 2 -->
+            <script src="https://gist.github.com/karloskar/fcea0cea19bddb93c8b4.js"></script>
+            <h2>Spontanansökningsknapp</h2>
+            <p>Om man vill låta Ponty Connector rendera en spontanansökningsknapp kan man använda följande shortcode.</p>
+            <pre class="prettyprint"><code>
+[pnty_apply_btn
+    org="{exempelorg}"
+    color="{hexadecimal färgkod}"
+    assignment_id="{uppdragsid från Ponty}"
+]
+            </code></pre>
+            <p>Både exempelorg och uppdragsid fås genom Ponty-systemet där exempelorg är den underdomän som aktuellt system körs på och uppdragsid hämtas från önskat uppdrag.</p>
+
+            <h2>Changelog</h2>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.4</h4>
+                    <div class="cdate">2017-09-25</div>
+                </div>
+                <p>Metadatan <em>_pnty_confidential </em>och <em>_pnty_external_apply_url </em>finns nu tillgänglig i egna fält. Den inbyggda list-shortcoden använder också lokalt uppladdade loggor i de fall sådana finns.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.3</h4>
+                    <div class="cdate">2017-06-16</div>
+                </div>
+                <p>Buggfix. Villkorssatsen för 1.0.2 skulle ha negerats.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.2</h4>
+                    <div class="cdate">2017-05-29</div>
+                </div>
+                <p>Förfrågningar mot webhooks-url:er sker bara när nya annonser publiceras. Referensannonser (pnty_jobs_showcase) undantas nu.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.1</h4>
+                    <div class="cdate">2017-05-22</div>
+                </div>
+                <p>Buggfix. En felsökningssträng för test av bakåtkompatibilitet låg kvar i koden.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.0</h4>
+                    <div class="cdate">2017-05-16</div>
+                </div>
+                <ul>
+                    <li>Refaktorerad autentisering.</li>
+                    <li>Loggor sparas nu som media-filer direkt i WP.</li>
+                    <li>Thumbnail-storleken <em>pnty_logo</em> finns att tillgå.</li>
+                    <li>Hero-bilder sparas nu som media-filer direkt i WP.</li>
+                    <li>Möjlighet att exponera <a href="http://schema.org/JobPosting">metadata</a> i JSON-LD-format.</li>
+                </ul>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.11</h4>
+                    <div class="cdate">2017-04-11</div>
+                </div>
+                <p>Möjlighet att ange url:er för webhooks som triggas när ny annons publiceras.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.10</h4>
+                    <div class="cdate">2017-03-09</div>
+                </div>
+                <p>Uppdatering av annons rensar nu tidigare kopplade taggar.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.9</h4>
+                    <div class="cdate">2017-03-02</div>
+                </div>
+                <p>Buggfix. Meta-data för kontakt och adress lagrades inte konsekvent och som de JSON-strängar dokumentation hänvisar till.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.8</h4>
+                    <div class="cdate">2017-02-19</div>
+                </div>
+                <p>Möjlighet att ta emot en base64-kodad hero-bild. Om den skickas lagras den som meta-data till annonsen under nyckeln <em>_pnty_hero_image</em>.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.7</h4>
+                    <div class="cdate">2017-01-30</div>
+                </div>
+                <p><em>_pnty_withdrawal_date</em> finns nu som meta-data till varje annons. Avser det datum som annonsen avpubliceras.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.6</h4>
+                    <div class="cdate">2016-12-13</div>
+                </div>
+                <p>Lagt till <code>wp_reset_postdata();</code> efter varje get_posts-loop så att eventuella senare tema-funktioner beroende av globala variabler fungerar som de skall.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.5</h4>
+                    <div class="cdate">2016-12-06</div>
+                </div>
+                <p>Möjlighet att styra vilket meddelande som visas när inga annonser finns. Gäller för samtliga shortcodes genom attributet <em>empty_msg</em>.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.4</h4>
+                    <div class="cdate">2016-09-26</div>
+                </div>
+                <p>Löste en bugg som gjorde att rensning av tidigare skapad meta-data hindrade annonser från att publiceras.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.3</h4>
+                    <div class="cdate">2016-09-19</div>
+                </div>
+                <p>Städning/borttagning av annons-metadata tar inte längre bort data som ej skapats av vårt plugin.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.2</h4>
+                    <div class="cdate">2016-06-16</div>
+                </div>
+                <p>Möjlighet att via shortcode-attribut styra kolumnnamn för annonstitel-kolumn.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.4.1</h4>
+                    <div class="cdate">2016-06-12</div>
+                </div>
+                <p>Möjlighet att ta emot annonsdata som referenscase. Inkl nya shortcodes för att visa dem. Även dokumentationsförtydliganden på inställningssidan.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.3.27</h4>
+                    <div class="cdate">2016-03-16</div>
+                </div>
+                <p>Meta-data för kontaktuppgifter till ”slutkund” tillagt.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.3.26</h4>
+                    <div class="cdate">2016-02-18</div>
+                </div>
+                <p>Möjlighet att visa delningsknappar för sociala medier genom inställning.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.3.25</h4>
+                    <div class="cdate">2016-01-18</div>
+                </div>
+                <p>En widget för att visa jobb i lista i sidebar eller motsvarande har lagts till.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.3.24</h4>
+                    <div class="cdate">2015-12-22</div>
+                </div>
+                <p>Shortcoden <em>pnty_jobs_table</em> har nu stöd för attributet <em>excerpt_title</em> som kan ha värdet 1 eller 0. Används 1 kommer varje rad (&lt;tr&gt;) att få ett title-attribut med annonsens utdrag/excerpt.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>0.3.23</h4>
+                </div>
+                <p>Första publika versionen</p>
+            </div>
+        </div>
+        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    </body>
+</html>

@@ -6,5 +6,12 @@
   "repository": "https://github.com/N/A",
   "author": "KO. Mattsson <karloskar@ponty.se>",
   "license": "UNLICENSED",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "browser-sync": "^2.21.0",
+    "gulp": "^3.9.1",
+    "gulp-hash": "^4.1.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0"
+  }
 }
