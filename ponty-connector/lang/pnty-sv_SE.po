@@ -1,0 +1,353 @@
+# Swedish translations for Ponty Connector package.
+# Copyright (C) 2014 2014 Ponty
+# This file is distributed under the same license as the Ponty Connector package.
+# Automatically generated, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Ponty Connector 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-16 13:18+0200\n"
+"PO-Revision-Date: 2014-04-15 17:25+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: settings-page.php:36
+msgid "API key"
+msgstr "API-nyckel"
+
+#: settings-page.php:102
+msgid "Add JSON-LD metadata (JobPosting) to ads."
+msgstr "Lägg till JSON-LD-metadata (JobPosting) för annonser."
+
+#: docs-page.php:114
+msgid "Adds a read more link with attribute value as text."
+msgstr "Lägger till en läs-mer-länk med attributets värde som text."
+
+#: docs-page.php:71
+msgid "Adds the excerpt as a title attribute to all &lt;tr&gt; tags."
+msgstr "Lägger till utdraget som title attribut till &lt;tr&gt;-taggen."
+
+#: settings-page.php:19
+msgid "Advanced settings"
+msgstr "Avancerade inställningar"
+
+#: settings-page.php:88
+msgid "An URL to a web reachable css file."
+msgstr "En url till en cssfil som kan nås över webben."
+
+#: settings-page.php:63
+msgid "Apply button position"
+msgstr "Plats för ansökningsknapp"
+
+#: ponty-connector.php:826
+msgid "Apply here"
+msgstr "Ansök här"
+
+#: docs-page.php:6 docs-page.php:79
+msgid "Attribute"
+msgstr "Attribut"
+
+#: settings-page.php:93
+msgid "Automatically create Open Graph meta tags within head"
+msgstr "Lägg till Open Graph-metataggar automatiskt innanför head-taggen"
+
+#: docs-page.php:1
+msgid "Available shortcodes"
+msgstr "Tillgängliga shortcodes"
+
+#: settings-page.php:18
+msgid "Base settings"
+msgstr "Grundinställningar"
+
+#: settings-page.php:69
+msgid "Both"
+msgstr "Både och"
+
+#: settings-page.php:67
+msgid "Bottom only"
+msgstr "Bara längst ner"
+
+#: docs-page.php:65
+msgid "CSS class for the &lt;table&gt;."
+msgstr "CSS-klass för &lt;table&gt;."
+
+#: docs-page.php:132
+msgid "CSS class for the &lt;ul&gt;."
+msgstr "CSS-klass för &lt;ul&gt;."
+
+#: snippets/pnty-list.php:22 snippets/pnty-list-showcase.php:21
+msgid "Client logo"
+msgstr "Kundlogotyp"
+
+#: ponty-connector.php:113 ponty-connector.php:122
+msgid "Client logotype"
+msgstr "Kundlogotyp"
+
+#: settings-page.php:130
+msgid "Comma separated urls that gets triggered when a new ad is published."
+msgstr "Komma-separerade url:er som triggas när en annons publiceras."
+
+#: docs-page.php:7 docs-page.php:80
+msgid "Default value"
+msgstr "Standardvärde"
+
+#: docs-page.php:9 docs-page.php:82
+msgid "Description"
+msgstr "Beskrivning"
+
+#: settings-page.php:70
+msgid "Do not show"
+msgstr "Visa inte"
+
+# @ pnty
+#: settings-page.php:20
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: docs-page.php:8 docs-page.php:81
+msgid "Example"
+msgstr "Exempel"
+
+#: settings-page.php:84
+msgid "External css file"
+msgstr "Extern cssfil"
+
+#: docs-page.php:136
+msgid "Extra meta data associated with every post"
+msgstr "Extra meta-data associerad till varje post"
+
+#: widgets/pnty-latest-jobs.php:104
+msgid "Has tag"
+msgstr "Har tagg"
+
+#: docs-page.php:47 docs-page.php:120
+msgid "How many items to show."
+msgstr "Hur många objekt som visas."
+
+#: widgets/pnty-latest-jobs.php:8
+msgid "Latest Ponty jobs"
+msgstr "Senaste Ponty-jobben"
+
+# @ pnty
+#: snippets/pnty-table-showcase.php:24 snippets/pnty-table.php:24
+msgid "Location"
+msgstr "Plats"
+
+#: docs-page.php:108
+msgid "Logo image width."
+msgstr "Bredd på logotyp-bild."
+
+#: docs-page.php:53
+msgid "Make all table cell data linked."
+msgstr "Gör alla tabellers cell-data länkad."
+
+# @ pnty
+#: ponty-connector.php:759 ponty-connector.php:779 ponty-connector.php:797
+#: ponty-connector.php:815
+msgid "No published jobs."
+msgstr "Inga publicerade jobb."
+
+#: widgets/pnty-latest-jobs.php:101
+msgid "Number to show"
+msgstr "Antal att visa"
+
+#: docs-page.php:53 docs-page.php:114
+msgid "Only for active ads"
+msgstr "Endast för aktiva annonser"
+
+#: docs-page.php:59 docs-page.php:126
+msgid "Only show items that has this tag (slug). Separate with commas."
+msgstr "Visa bara objekt som har den här taggen (slug). Separera med komma."
+
+# @ pnty
+#: snippets/pnty-table-showcase.php:21 snippets/pnty-table.php:21
+msgid "Organization"
+msgstr "Organisation"
+
+# @ pnty
+#: snippets/pnty-table.php:38 snippets/pnty-list.php:20
+msgid "Permalink for"
+msgstr "Permalänk för"
+
+#: settings-page.php:16
+msgid "Ponty Connector settings"
+msgstr "Inställningar Ponty Connector"
+
+#: ponty-connector.php:172
+msgid "Ponty job"
+msgstr "Pontyjobb"
+
+#: ponty-connector.php:158
+msgid "Ponty job tags"
+msgstr "Pontyjobb-taggar"
+
+#: widgets/pnty-latest-jobs.php:10 ponty-connector.php:171
+#: ponty-connector.php:176
+msgid "Ponty jobs"
+msgstr "Pontyjobb"
+
+# @ pnty
+#: snippets/pnty-table-showcase.php:18 snippets/pnty-table.php:18
+msgid "Publish date"
+msgstr "Publiceringsdatum"
+
+# @ pnty
+#: snippets/pnty-table-showcase.php:27 snippets/pnty-table.php:27
+msgid "Region"
+msgstr "Region"
+
+#: settings-page.php:131
+msgid ""
+"Request that gets sent is a POST request with content-type application/json. "
+"JSON keys are value1 for ad title and value2 for ad url."
+msgstr ""
+"En POST-förfrågan med content-type application/json skickas. JSON-nycklarna "
+"är value1 för annonstitel och value2 för annons-url."
+
+#: ponty-connector.php:836
+msgid "Shortcode not setup correctly."
+msgstr "Shortcoden är inte inställd korrekt."
+
+#: widgets/pnty-latest-jobs.php:66
+#, php-format
+msgid "Show all (%d)"
+msgstr "Visa alla (%d)"
+
+#: settings-page.php:110
+msgid "Show excerpt above the ad in single view"
+msgstr "Visa utdrag ovanför annons vid singel-visning"
+
+#: docs-page.php:96
+msgid "Show excerpt as part of the &lt;li&gt; tag."
+msgstr "Visa utdrag som en del av &lt;li&gt;-taggen."
+
+# @ pnty
+#: widgets/pnty-latest-jobs.php:126
+msgid "Show organization name"
+msgstr "Visa organisationsnamn"
+
+#: settings-page.php:118
+msgid "Show social media share buttons"
+msgstr "Visa delningsknappar för sociala medier"
+
+# @ pnty
+#: docs-page.php:90
+msgid "Show the organization name."
+msgstr "Visa organisationsnamn."
+
+#: widgets/pnty-latest-jobs.php:119
+msgid "Show total jobs count"
+msgstr "Visa totalt antal"
+
+#: docs-page.php:41
+msgid "Shows the location as a table column."
+msgstr "Visa plats som en tabellkolumn."
+
+# @ pnty
+#: docs-page.php:29
+msgid "Shows the organization name as a table column."
+msgstr "Visa organisationsnamn som en tabellkolumn."
+
+#: docs-page.php:23
+msgid "Shows the publish date as a table column."
+msgstr "Visa publiceringsdatum som en tabellkolumn."
+
+#: docs-page.php:35
+msgid "Shows the region as a table column."
+msgstr "Visa region som en tabellkolumn."
+
+#: ponty-connector.php:215
+msgid "Terminated Ponty job"
+msgstr "Avslutat Ponty-jobb"
+
+#: ponty-connector.php:202 ponty-connector.php:214
+msgid "Terminated Ponty jobs"
+msgstr "Avslutade Ponty-jobb"
+
+#: docs-page.php:17
+msgid "The column name for the ad title."
+msgstr "Kolumnnamn för annonstitel."
+
+# @ pnty
+#: widgets/pnty-latest-jobs.php:95 docs-page.php:15 ponty-connector.php:749
+#: ponty-connector.php:769
+msgid "Title"
+msgstr "Titel"
+
+#: docs-page.php:102
+msgid "To show the client logo."
+msgstr "Visa kundlogotyp."
+
+#: settings-page.php:68
+msgid "Top only"
+msgstr "Bara längst upp"
+
+#: widgets/pnty-latest-jobs.php:98
+msgid "Url to all jobs"
+msgstr "Url till alla jobb"
+
+#: settings-page.php:97
+msgid "Use only if no other OG plugin is present."
+msgstr "Använd bara om inget annat OG-plugin är installerat."
+
+#: settings-page.php:126
+msgid "Webhook URLs"
+msgstr "URL:er för webhooks"
+
+#: settings-page.php:49
+msgid "What url slug should prefix the jobs. Default is <strong>jobs</strong>."
+msgstr ""
+"Vilken url-slug skall användas innan jobben. Standard är <strong>jobs</"
+"strong>."
+
+#: settings-page.php:58
+msgid ""
+"What url slug should prefix the showcase jobs. Default is <strong>showcase-"
+"jobs</strong>."
+msgstr ""
+"Vilken url-slug skall användas innan referens-jobben. Standard är "
+"<strong>showcase-jobs</strong>."
+
+#: settings-page.php:72
+msgid "Where to show the apply button relative to the ad text."
+msgstr "Var ansökningsknappen skall visas i relation till annonstexten."
+
+#: settings-page.php:40
+msgid "You find the key while logged in to our system."
+msgstr "Du hittar nyckeln när du är inloggad i vårt system."
+
+#: settings-page.php:45
+msgid "active ads"
+msgstr "aktiva annonser"
+
+#: docs-page.php:27 docs-page.php:33 docs-page.php:39 docs-page.php:51
+#: docs-page.php:69 docs-page.php:88 docs-page.php:94
+msgid "false"
+msgstr "false"
+
+#: docs-page.php:2 docs-page.php:75
+msgid "or"
+msgstr "eller"
+
+#: settings-page.php:54
+msgid "showcase ads"
+msgstr "referens-annonser"
+
+#: docs-page.php:21
+msgid "true"
+msgstr "true"
+
+#~ msgid "English"
+#~ msgstr "Engelska"
+
+#~ msgid "Language"
+#~ msgstr "Språk"
+
+#~ msgid "Swedish"
+#~ msgstr "Svenska"

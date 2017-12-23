@@ -1,0 +1,19 @@
+{
+  "name": "ponty-connector",
+  "version": "1.0.4",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {},
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-bump": "^2.9.0",
+    "gulp-util": "^3.0.8",
+    "gulp-zip": "^4.0.0",
+    "vinyl-map": "^1.0.2"
+  }
+}

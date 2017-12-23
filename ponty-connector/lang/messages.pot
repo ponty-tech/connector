@@ -1,0 +1,327 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR 2014 Ponty
+# This file is distributed under the same license as the Ponty Connector package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Ponty Connector 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-16 13:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: settings-page.php:36
+msgid "API key"
+msgstr ""
+
+#: settings-page.php:102
+msgid "Add JSON-LD metadata (JobPosting) to ads."
+msgstr ""
+
+#: docs-page.php:114
+msgid "Adds a read more link with attribute value as text."
+msgstr ""
+
+#: docs-page.php:71
+msgid "Adds the excerpt as a title attribute to all &lt;tr&gt; tags."
+msgstr ""
+
+#: settings-page.php:19
+msgid "Advanced settings"
+msgstr ""
+
+#: settings-page.php:88
+msgid "An URL to a web reachable css file."
+msgstr ""
+
+#: settings-page.php:63
+msgid "Apply button position"
+msgstr ""
+
+#: ponty-connector.php:826
+msgid "Apply here"
+msgstr ""
+
+#: docs-page.php:6 docs-page.php:79
+msgid "Attribute"
+msgstr ""
+
+#: settings-page.php:93
+msgid "Automatically create Open Graph meta tags within head"
+msgstr ""
+
+#: docs-page.php:1
+msgid "Available shortcodes"
+msgstr ""
+
+#: settings-page.php:18
+msgid "Base settings"
+msgstr ""
+
+#: settings-page.php:69
+msgid "Both"
+msgstr ""
+
+#: settings-page.php:67
+msgid "Bottom only"
+msgstr ""
+
+#: docs-page.php:65
+msgid "CSS class for the &lt;table&gt;."
+msgstr ""
+
+#: docs-page.php:132
+msgid "CSS class for the &lt;ul&gt;."
+msgstr ""
+
+#: snippets/pnty-list.php:22 snippets/pnty-list-showcase.php:21
+msgid "Client logo"
+msgstr ""
+
+#: ponty-connector.php:113 ponty-connector.php:122
+msgid "Client logotype"
+msgstr ""
+
+#: settings-page.php:130
+msgid "Comma separated urls that gets triggered when a new ad is published."
+msgstr ""
+
+#: docs-page.php:7 docs-page.php:80
+msgid "Default value"
+msgstr ""
+
+#: docs-page.php:9 docs-page.php:82
+msgid "Description"
+msgstr ""
+
+#: settings-page.php:70
+msgid "Do not show"
+msgstr ""
+
+#: settings-page.php:20
+msgid "Documentation"
+msgstr ""
+
+#: docs-page.php:8 docs-page.php:81
+msgid "Example"
+msgstr ""
+
+#: settings-page.php:84
+msgid "External css file"
+msgstr ""
+
+#: docs-page.php:136
+msgid "Extra meta data associated with every post"
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:104
+msgid "Has tag"
+msgstr ""
+
+#: docs-page.php:47 docs-page.php:120
+msgid "How many items to show."
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:8
+msgid "Latest Ponty jobs"
+msgstr ""
+
+#: snippets/pnty-table-showcase.php:24 snippets/pnty-table.php:24
+msgid "Location"
+msgstr ""
+
+#: docs-page.php:108
+msgid "Logo image width."
+msgstr ""
+
+#: docs-page.php:53
+msgid "Make all table cell data linked."
+msgstr ""
+
+#: ponty-connector.php:759 ponty-connector.php:779 ponty-connector.php:797
+#: ponty-connector.php:815
+msgid "No published jobs."
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:101
+msgid "Number to show"
+msgstr ""
+
+#: docs-page.php:53 docs-page.php:114
+msgid "Only for active ads"
+msgstr ""
+
+#: docs-page.php:59 docs-page.php:126
+msgid "Only show items that has this tag (slug). Separate with commas."
+msgstr ""
+
+#: snippets/pnty-table-showcase.php:21 snippets/pnty-table.php:21
+msgid "Organization"
+msgstr ""
+
+#: snippets/pnty-table.php:38 snippets/pnty-list.php:20
+msgid "Permalink for"
+msgstr ""
+
+#: settings-page.php:16
+msgid "Ponty Connector settings"
+msgstr ""
+
+#: ponty-connector.php:172
+msgid "Ponty job"
+msgstr ""
+
+#: ponty-connector.php:158
+msgid "Ponty job tags"
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:10 ponty-connector.php:171
+#: ponty-connector.php:176
+msgid "Ponty jobs"
+msgstr ""
+
+#: snippets/pnty-table-showcase.php:18 snippets/pnty-table.php:18
+msgid "Publish date"
+msgstr ""
+
+#: snippets/pnty-table-showcase.php:27 snippets/pnty-table.php:27
+msgid "Region"
+msgstr ""
+
+#: settings-page.php:131
+msgid ""
+"Request that gets sent is a POST request with content-type application/json. "
+"JSON keys are value1 for ad title and value2 for ad url."
+msgstr ""
+
+#: ponty-connector.php:836
+msgid "Shortcode not setup correctly."
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:66
+#, php-format
+msgid "Show all (%d)"
+msgstr ""
+
+#: settings-page.php:110
+msgid "Show excerpt above the ad in single view"
+msgstr ""
+
+#: docs-page.php:96
+msgid "Show excerpt as part of the &lt;li&gt; tag."
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:126
+msgid "Show organization name"
+msgstr ""
+
+#: settings-page.php:118
+msgid "Show social media share buttons"
+msgstr ""
+
+#: docs-page.php:90
+msgid "Show the organization name."
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:119
+msgid "Show total jobs count"
+msgstr ""
+
+#: docs-page.php:41
+msgid "Shows the location as a table column."
+msgstr ""
+
+#: docs-page.php:29
+msgid "Shows the organization name as a table column."
+msgstr ""
+
+#: docs-page.php:23
+msgid "Shows the publish date as a table column."
+msgstr ""
+
+#: docs-page.php:35
+msgid "Shows the region as a table column."
+msgstr ""
+
+#: ponty-connector.php:215
+msgid "Terminated Ponty job"
+msgstr ""
+
+#: ponty-connector.php:202 ponty-connector.php:214
+msgid "Terminated Ponty jobs"
+msgstr ""
+
+#: docs-page.php:17
+msgid "The column name for the ad title."
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:95 docs-page.php:15 ponty-connector.php:749
+#: ponty-connector.php:769
+msgid "Title"
+msgstr ""
+
+#: docs-page.php:102
+msgid "To show the client logo."
+msgstr ""
+
+#: settings-page.php:68
+msgid "Top only"
+msgstr ""
+
+#: widgets/pnty-latest-jobs.php:98
+msgid "Url to all jobs"
+msgstr ""
+
+#: settings-page.php:97
+msgid "Use only if no other OG plugin is present."
+msgstr ""
+
+#: settings-page.php:126
+msgid "Webhook URLs"
+msgstr ""
+
+#: settings-page.php:49
+msgid "What url slug should prefix the jobs. Default is <strong>jobs</strong>."
+msgstr ""
+
+#: settings-page.php:58
+msgid ""
+"What url slug should prefix the showcase jobs. Default is <strong>showcase-"
+"jobs</strong>."
+msgstr ""
+
+#: settings-page.php:72
+msgid "Where to show the apply button relative to the ad text."
+msgstr ""
+
+#: settings-page.php:40
+msgid "You find the key while logged in to our system."
+msgstr ""
+
+#: settings-page.php:45
+msgid "active ads"
+msgstr ""
+
+#: docs-page.php:27 docs-page.php:33 docs-page.php:39 docs-page.php:51
+#: docs-page.php:69 docs-page.php:88 docs-page.php:94
+msgid "false"
+msgstr ""
+
+#: docs-page.php:2 docs-page.php:75
+msgid "or"
+msgstr ""
+
+#: settings-page.php:54
+msgid "showcase ads"
+msgstr ""
+
+#: docs-page.php:21
+msgid "true"
+msgstr ""
