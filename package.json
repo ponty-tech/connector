@@ -1,0 +1,10 @@
+{
+  "name": "ponty-connector-gh-pages",
+  "version": "0.0.1",
+  "description": "N/A",
+  "main": "index.js",
+  "repository": "https://github.com/N/A",
+  "author": "KO. Mattsson <karloskar@ponty.se>",
+  "license": "UNLICENSED",
+  "private": true
+}
