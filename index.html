@@ -58,13 +58,13 @@
     &lt;ul class="exempel"&gt;
         &lt;?php foreach($jobs as $job):?&gt;
             &lt;li&gt;
-        &lt;a
-           href="&lt;?php echo get_permalink($job-&gt;ID);?&gt;"
-           title="Permalänk till &lt;?php echo $job-&gt;post_title;?&gt;"
-        &gt;
-          &lt;?php echo $job-&gt;post_title;?&gt;
-        &lt;/a&gt;
-        &lt;/li&gt;
+                &lt;a
+                   href="&lt;?php echo get_permalink($job-&gt;ID);?&gt;"
+                   title="Permalänk till &lt;?php echo $job-&gt;post_title;?&gt;"
+                &gt;
+                  &lt;?php echo $job-&gt;post_title;?&gt;
+                &lt;/a&gt;
+            &lt;/li&gt;
         &lt;?php endforeach;?&gt;
     &lt;/ul&gt;
 &lt;?php else:?&gt;
