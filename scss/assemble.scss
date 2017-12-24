@@ -14,7 +14,6 @@
 }
 
 
-
 body {
     margin: 0;
     padding: 0;
@@ -61,6 +60,10 @@ a {
         text-align: center;
         color: white;
         @include longShadow(darken($clr-grey, 3%));
+
+        @media (max-width: 40rem) {
+            font-size: 4rem;
+        }
     }
 }
 
