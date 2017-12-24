@@ -1,3 +1,20 @@
+// https://codepen.io/choogoor/pen/vLXyJd
+@function setLongShadow($color, $length) {
+    $value: 0 0 $color;
+
+    @for $i from 1 through $length {
+        $value: #{$value}, #{$i}px #{$i}px #{$color};
+    }
+
+    @return $value;
+}
+
+@mixin longShadow($color, $length:200) {
+    text-shadow: setLongShadow($color, $length);
+}
+
+
+
 body {
     margin: 0;
     padding: 0;
@@ -16,7 +33,7 @@ h2, h3 {
     text-align: center;
 }
 
-p {
+p, ol, ul {
     margin: 0 0 1rem;
     &:last-of-type {
         margin: 0;
@@ -32,24 +49,42 @@ a {
 
 .top {
     background-color: $clr-grey;
+    width: 100%;
+
+    overflow-y: hidden;
+
     h1 {
         margin: 0;
         padding: 8rem 0;
-        font-size: 4rem;
+        font-size: 7rem;
         font-weight: 900;
         text-align: center;
         color: white;
+        @include longShadow(darken($clr-grey, 3%));
     }
 }
 
 .page-wrapper {
     margin: 4rem auto;
     width: 36rem;
+
+    box-sizing: border-box;
+
+    @media (max-width: 40rem) {
+        width: 100%;
+        padding: 0 1rem;
+    }
 }
 
-.gist {
-    margin: 2rem auto 2rem;
+pre[class*="language-"] {
+    margin: 2rem -6rem 2rem -6rem;
+    box-sizing: border-box;
+
+    @media (max-width: 52rem) {
+        margin: 2rem auto;
+    }
 }
+
 
 .change {
 
@@ -60,7 +95,7 @@ a {
     margin: 0 0 4rem;
 
     &__meta {
-        flex-basis: 8rem;
+        flex-basis: 20%;
         flex-shrink: 0;
     }
     .cdate {

@@ -7,6 +7,14 @@
         <title>Ponty Connector</title>
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,900" rel="stylesheet">
         <link rel="stylesheet" href="build/style.css">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="build/fav/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="build/fav/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="build/fav/favicon-16x16.png">
+        <link rel="manifest" href="build/fav/manifest.json">
+        <link rel="shortcut icon" href="build/fav/favicon.ico">
+        <meta name="theme-color" content="#3a3f4b">
+
     </head>
     <body>
         <div class="top">
@@ -25,19 +33,50 @@
             <h2>Vanliga ändringar</h2>
             <p>Den absolut vanligaste ändringen som görs för att få annonsvisningen att se bra ut är att skapa en ny fil i tema-mappen som heter <em>single-pnty_job.php</em>. Den filen ansvarar då för hur enskilda annonser visas på sajten. Ett väldigt grundläggande exempel visas nedan.</p>
             <!-- gist 1 -->
-            <script src="https://gist.github.com/karloskar/2388f77f32cfd6550179.js"></script>
+<pre><code class="line-numbers language-php">&lt;?php get_header(); ?&gt;
+&lt;?php if (have_posts()): while(have_posts()): the_post();?&gt;
+    &lt;div class="pnty-job"&gt;
+        &lt;h1&gt;&lt;?php the_title();?&gt;&lt;/h1&gt;
+        &lt;?php the_content();?&gt;
+    &lt;/div&gt;
+&lt;?php endwhile; endif;?&gt;
+&lt;?php get_footer(); ?&gt;</code></pre>
             <p>Andra vanliga ändringar är att skriva egna metoder för visningen av alla eller utvalda annonser. Ett exempel följer nedan för visning av annonser som har en viss tagg.</p>
             <!-- gist 2 -->
-            <script src="https://gist.github.com/karloskar/fcea0cea19bddb93c8b4.js"></script>
+<pre><code class="line-numbers language-php">&lt;?php
+    $jobs = get_posts([
+        'post_type' =&gt; 'pnty_job',
+        'numberposts' =&gt; -1,
+        'tax_query' =&gt; [[
+            'taxonomy' =&gt; 'pnty_job_tag',
+            'field'    =&gt; 'slug',
+            'terms'    =&gt; 'exempeltagg'
+        ]]
+    ]);
+?&gt;
+&lt;?php if (count($jobs) &gt; 0):?&gt;
+    &lt;ul class="exempel"&gt;
+        &lt;?php foreach($jobs as $job):?&gt;
+            &lt;li&gt;
+        &lt;a
+           href="&lt;?php echo get_permalink($job-&gt;ID);?&gt;"
+           title="Permalänk till &lt;?php echo $job-&gt;post_title;?&gt;"
+        &gt;
+          &lt;?php echo $job-&gt;post_title;?&gt;
+        &lt;/a&gt;
+        &lt;/li&gt;
+        &lt;?php endforeach;?&gt;
+    &lt;/ul&gt;
+&lt;?php else:?&gt;
+    &lt;p&gt;Det finns inga publicerade annonser just nu.&lt;/p&gt;
+&lt;?php endif;?&gt;</code></pre>
             <h2>Spontanansökningsknapp</h2>
             <p>Om man vill låta Ponty Connector rendera en spontanansökningsknapp kan man använda följande shortcode.</p>
-            <pre class="prettyprint"><code>
-[pnty_apply_btn
+<pre><code class="language-php">[pnty_apply_btn
     org="{exempelorg}"
     color="{hexadecimal färgkod}"
     assignment_id="{uppdragsid från Ponty}"
-]
-            </code></pre>
+]</code></pre>
             <p>Både exempelorg och uppdragsid fås genom Ponty-systemet där exempelorg är den underdomän som aktuellt system körs på och uppdragsid hämtas från önskat uppdrag.</p>
 
             <h2>Changelog</h2>
@@ -194,6 +233,6 @@
                 <p>Första publika versionen</p>
             </div>
         </div>
-        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+        <script src="build/main.js"></script>
     </body>
 </html>
