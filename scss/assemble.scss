@@ -34,9 +34,9 @@ h2, h3 {
 
 p, ol, ul {
     margin: 0 0 1rem;
-    &:last-of-type {
-        margin: 0;
-    }
+}
+p:last-of-type {
+    margin: 0;
 }
 
 a {
