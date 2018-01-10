@@ -37,5 +37,5 @@ gulp.task('build', () => {
     '!ponty-connector/translate.sh'
   ], {base: '.'})
   .pipe(zip(`ponty-connector-${pkg.version}.zip`))
-  .pipe(gulp.dest('.'));
+  .pipe(gulp.dest('release'));
 });
