@@ -1,4 +1,0 @@
-Warning: file_get_contents(https://pnty-prs3.s3-eu-west-1.amazonaws.com/utveckling/logo-2616-bf64.png?Cache-Control=public&amp;pnty=ba): faile
-d to open stream: HTTP request failed! HTTP/1.1 403 Forbidden
- in /storage/content/34/116034/kraftsam.se/public_html/wp-content/plugins/ponty-connector/ponty-connector.php on line 525
-{"success":true,"url":"http:\/\/kraftsam.se\/pnty_job\/167-junior-rekryteringskonsult-med-saljerfarenhet\/"}
