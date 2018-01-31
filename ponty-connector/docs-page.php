@@ -147,4 +147,4 @@
 <p><code>_pnty_address</code> json representation of an address. Contains address, postalcode, city and country.</p>
 <p><code>_pnty_logo</code> a logo if attached.</p>
 <p><code>_pnty_apply_btn</code> the JavaScript widget for exposing the apply button.</p>
-<p><code>_pnty_hero_image</code> a base64 encoded image that could be used as a hero image.</p>
+<p><code>_pnty_logo_attachment_id</code> an attachment id. Can be used with any of the built in methods for dealing with associated attachments. The attachment is an image stored as a media object in WP.</p>

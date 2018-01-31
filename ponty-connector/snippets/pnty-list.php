@@ -20,19 +20,19 @@
                 # Get post metadata
                 $metadata = get_post_custom($post->ID);
                 $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0];
-                $logo = $metadata['_pnty_logo'][0];
+                $logo_old = $metadata['_pnty_logo'][0];
                 $logo_url = false;
 
                 if ( ! is_null($logo_attachment_id)) {
                     list($logo_url, $logo_width, $logo_height) =
                         wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
-                } else if ( ! is_null($logo)) {
-                    $logo_url = $logo;
+                } else if ( ! is_null($logo_old)) {
+                    $logo_url = $logo_old;
                 }
             ?>
             <li>
                 <a class="pnty-list-title" title="<?php _e('Permalink for', 'pnty');?> <?php echo $post->post_title;?>" href="<?php echo get_permalink($post->ID);?>"><?php echo $post->post_title;?></a>
-                <?php if ($logo_url): ?>
+                <?php if ($logo_url && $logo): ?>
                 <img class="pnty-list-logo" src="<?php echo $logo_url;?>" width="<?php echo $logo_width;?>" alt="<?php _e('Client logotype', 'pnty');?>" />
                 <?php endif; ?>
                 <?php if ($organization_name): ?>
