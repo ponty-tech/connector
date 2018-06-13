@@ -9,7 +9,7 @@ services:
       - MYSQL_DATABASE=wordpress
 
   wpfpm:
-    image: wordpress:4.8-php7.0-fpm
+    image: wordpress:4.9-php7.2-fpm
     links:
       - mariadb:mysql
     volumes:
