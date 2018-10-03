@@ -3,11 +3,11 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site
     Author: KO. Mattsson with contributions from Andreas Lagerkvist
-    Version: 1.0.5
+    Version: 1.0.6
     Author URI: https://ponty.se
 */
 # The name of the custom post types
-define('PNTY_VERSION', '1.0.5');
+define('PNTY_VERSION', '1.0.6');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
@@ -349,6 +349,7 @@ class Pnty_Connector {
                 '_pnty_user_title',
                 '_pnty_withdrawal_date',
                 '_pnty_external_apply_url',
+                '_pnty_language',
                 '_wp_old_slug'
             );
 
@@ -411,6 +412,8 @@ class Pnty_Connector {
                 update_post_meta($post_id, '_pnty_confidential', $data->confidential);
             if (isset($data->external_apply_url))
                 update_post_meta($post_id, '_pnty_external_apply_url', $data->external_apply_url);
+            if (isset($data->language))
+                update_post_meta($post_id, '_pnty_language', $data->language);
             if (isset($data->address))
                 update_post_meta(
                     $post_id,
