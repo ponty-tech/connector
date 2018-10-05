@@ -1,35 +1,41 @@
-version: '2'
+version: '3'
 
 services:
-
   mariadb:
     image: mariadb:10.3
+    volumes:
+      - db_data:/var/lib/mysql/data
     environment:
       - MYSQL_ROOT_PASSWORD=ponty
       - MYSQL_DATABASE=wordpress
+    networks:
+      net1:
 
   wpfpm:
     image: wordpress:4.9-php7.2-fpm
     links:
       - mariadb:mysql
     volumes:
+      - www_data:/var/www/html
       - ./docker-wp/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./docker-wp/opcache.ini:/usr/local/etc/php/conf.d/opcache-recommended.ini
       - ./ponty-connector:/var/www/html/wp-content/plugins/ponty-connector
-      - ../wpbones:/var/www/html/wp-content/themes/wptheme
     environment:
       - WORDPRESS_DB_PASSWORD=ponty
     depends_on:
       - mariadb
+    networks:
+      net1:
 
   nginx:
-    image: nginx:1.13-alpine
+    image: nginx:1.15-alpine
     volumes:
+      - www_data:/var/www/html
       - ./docker-wp/nginx.conf:/etc/nginx/nginx.conf:ro
-    volumes_from:
-      - wpfpm
     depends_on:
       - wpfpm
+    networks:
+      net1:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -38,3 +44,16 @@ services:
       - mariadb:db
     depends_on:
       - mariadb
+    networks:
+      net1:
+
+volumes:
+  db_data:
+  www_data:
+
+networks:
+  net1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
