@@ -110,3 +110,14 @@ pre[class*="language-"] {
         color: rgba(0, 0, 0, .67);
     }
 }
+
+dl {
+    dt {
+        margin: 0 0 .5rem;
+        font-weight: 600;
+        color: #373737;
+    }
+    dd {
+        margin: 0 0 1rem;
+    }
+}

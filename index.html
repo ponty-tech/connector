@@ -21,7 +21,7 @@
             <h1>connector</h1>
         </div>
         <div class="page-wrapper">
-            <p>För annonspublicering i en WordPress-installation används vårt plugin Ponty Connector som kan <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.6.zip">hämtas här (37KB)</a>.</p>
+            <p>För annonspublicering i en WordPress-installation används vårt plugin Ponty Connector som kan <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.7.zip">hämtas här (37KB)</a>.</p>
             <p>Vårt plugin gör i korthet två saker:</p>
             <ol>
                 <li>Deklarerar två så kallade <a href="https://codex.wordpress.org/Post_Types#Custom_Post_Types">Custom Post Types</a> (<em>pnty_job, pnty_job_showcase</em>)</li>
@@ -30,6 +30,11 @@
             <p>Följden av detta är att annonsdata, när det väl <em>skickats från vårt system</em> till WordPress-installationen, därefter kan hanteras som vilket WordPress-innehåll som helst.</p>
             <h2>Använda pluginet</h2>
             <p>Till pluginet finns tre <a href="https://codex.wordpress.org/Shortcode">shortcodes</a> som kan användas för att få en grundläggande funktionalitet på plats. Tillgängliga attribut för att styra vissa av shortcodens egenskaper finns dokumenterat på pluginets inställningssida. Även den meta-data som också finns tillgänglig för varje annons dokumenteras där.</p>
+            <h2>FAQ</h2>
+            <dl>
+                <dt>Jag har matat in API-nyckeln men ser inga annonser?</dt>
+                <dd>Pluginet hämtar aldrig data utan möjliggör bara mottagande. Ett Ponty-system måste skicka annonsdata för att det skall dyka upp i WordPress-installationen.</dd>
+            </dl>
             <h2>Vanliga ändringar</h2>
             <p>Den absolut vanligaste ändringen som görs för att få annonsvisningen att se bra ut är att skapa en ny fil i tema-mappen som heter <em>single-pnty_job.php</em>. Den filen ansvarar då för hur enskilda annonser visas på sajten. Ett väldigt grundläggande exempel visas nedan.</p>
             <!-- gist 1 -->
@@ -80,6 +85,13 @@
             <p>Både exempelorg och uppdragsid fås genom Ponty-systemet där exempelorg är den underdomän som aktuellt system körs på och uppdragsid hämtas från önskat uppdrag.</p>
 
             <h2>Changelog</h2>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.7</h4>
+                    <div class="cdate">2018-12-13</div>
+                </div>
+                <p>Buggfix. Shortcode-attributet logo_width skrevs felaktigt över.</p>
+            </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.6</h4>
