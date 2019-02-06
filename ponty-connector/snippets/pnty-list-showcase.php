@@ -24,7 +24,7 @@
                 $logo_url = false;
 
                 if ( ! is_null($logo_attachment_id)) {
-                    list($logo_url, $logo_width, $logo_height) =
+                    list($logo_url, $logo_attachment_width, $logo_attachment_height) =
                         wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
                 } else if ( ! is_null($logo_old)) {
                     $logo_url = $logo_old;
