@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name="robots" content="noindex">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ponty Connector</title>
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,900" rel="stylesheet">
+        <link rel="stylesheet" href="build/style.css">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="build/fav/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="build/fav/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="build/fav/favicon-16x16.png">
+        <link rel="manifest" href="build/fav/manifest.json">
+        <link rel="shortcut icon" href="build/fav/favicon.ico">
+        <meta name="theme-color" content="#3a3f4b">
+
+    </head>
+    <body>
+        <div class="top">
+            <h1>connector</h1>
+        </div>
+        <div class="page-wrapper">
+            <p>To get ads to a WordPress installation, this plugin - Ponty Connector, is a good choice. It's available <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.7.zip">here (37KB)</a> and does two things.</p>
+            <ol>
+                <li>Declares two <a href="https://codex.wordpress.org/Post_Types#Custom_Post_Types">Custom Post Types</a> (<em>pnty_job, pnty_job_showcase</em>)</li>
+                <li>Receives data from a Ponty system on a dedicated URL</li>
+            </ol>
+            <p>Which means that ads, when they <em>have been sent from a Ponty system</em> to the WordPress installation, are available as native WordPress content.</p>
+            <h2>Using the plugin</h2>
+            <p>The plugin comes with a few <a href="https://codex.wordpress.org/Shortcode">shortcodes</a> which can be used to get basic functionality in place. Available attributes to control certain aspects of the shortcodes is documented on the settings page for the plugin. So is the meta data that comes with every ad.</p>
+            <h2>FAQ</h2>
+            <dl>
+                <dt>I've applied the API key but can't see any ads?</dt>
+                <dd>The plugin <em>never fetches anything</em>. It only <em>enables receiving ads</em>. A Ponty system must send ads before anything exists in the WordPress installation.</dd>
+            </dl>
+            <h2>Common customizations</h2>
+            <p>The most common customization to make ad presentation look good is to create a new file in the template folder with the name <em>single-pnty_job.php</em>. That file is then responsible for the rendering/presentation of a single ad. A most basic example is shown below.</p>
+            <!-- gist 1 -->
+<pre><code class="line-numbers language-php">&lt;?php get_header(); ?&gt;
+&lt;?php if (have_posts()): while(have_posts()): the_post();?&gt;
+    &lt;div class="pnty-job"&gt;
+        &lt;h1&gt;&lt;?php the_title();?&gt;&lt;/h1&gt;
+        &lt;?php the_content();?&gt;
+    &lt;/div&gt;
+&lt;?php endwhile; endif;?&gt;
+&lt;?php get_footer(); ?&gt;</code></pre>
+            <p>Other commen customizations is to write your own methods for the listing of all or a subset of the ads. Below is an example of listing ads that has a specific tag.</p>
+            <!-- gist 2 -->
+<pre><code class="line-numbers language-php">&lt;?php
+    $jobs = get_posts([
+        'post_type' =&gt; 'pnty_job',
+        'numberposts' =&gt; -1,
+        'tax_query' =&gt; [[
+            'taxonomy' =&gt; 'pnty_job_tag',
+            'field'    =&gt; 'slug',
+            'terms'    =&gt; 'exampletag'
+        ]]
+    ]);
+?&gt;
+&lt;?php if (count($jobs) &gt; 0):?&gt;
+    &lt;ul class="exempel"&gt;
+        &lt;?php foreach($jobs as $job):?&gt;
+            &lt;li&gt;
+                &lt;a
+                   href="&lt;?php echo get_permalink($job-&gt;ID);?&gt;"
+                   title="Permallink for &lt;?php echo $job-&gt;post_title;?&gt;"
+                &gt;
+                  &lt;?php echo $job-&gt;post_title;?&gt;
+                &lt;/a&gt;
+            &lt;/li&gt;
+        &lt;?php endforeach;?&gt;
+    &lt;/ul&gt;
+&lt;?php else:?&gt;
+    &lt;p&gt;No published ads at the moment.&lt;/p&gt;
+&lt;?php endif;?&gt;</code></pre>
+            <h2>Open application</h2>
+            <p>If you want the plugin to render an application button for open applications the following shortcode can be used.</p>
+<pre><code class="language-php">[pnty_apply_btn
+    org="{example_org}"
+    color="{hexadecimal color code}"
+    assignment_id="{assignment_id from Ponty}"
+]</code></pre>
+            <p>Both example_org and assignment_id is available from within Ponty where example_org is the subdomain the system is running from and assignment_id comes from the chosen assignment.</p>
+            <h2>Changelog</h2>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.7</h4>
+                    <div class="cdate">2018-12-13</div>
+                </div>
+                <p>Bugfix. The shortcode attribute logo_width was overwritten.</p>
+            </div>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.6</h4>
+                    <div class="cdate">2018-10-03</div>
+                </div>
+                <p>The meta data <em>_pnty_language</em> is now available.</p>
+            </div>
+        </div>
+        <script src="build/main.js"></script>
+    </body>
+</html>
