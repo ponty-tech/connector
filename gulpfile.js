@@ -1,6 +1,5 @@
 'use strict';
 const gulp = require('gulp');
-const gutil = require('gulp-util');
 const zip = require('gulp-zip');
 const bump = require('gulp-bump');
 const vMap = require('vinyl-map');
@@ -8,7 +7,7 @@ const semver = require('semver');
 
 const pkg = require('./package.json');
 
-gulp.task('bump', () => {
+const bumpVersion = (done) => {
   gulp.src(['package.json'])
   .pipe(bump())
   .pipe(gulp.dest('.'))
@@ -29,13 +28,18 @@ gulp.task('bump', () => {
     return new_content;
   }))
   .pipe(gulp.dest('ponty-connector'))
-});
 
-gulp.task('build', () => {
+  done();
+};
+
+const build = () => {
   return gulp.src([
     'ponty-connector/**/*',
     '!ponty-connector/translate.sh'
   ], {base: '.'})
   .pipe(zip(`ponty-connector-${pkg.version}.zip`))
   .pipe(gulp.dest('release'));
-});
+};
+
+exports.bump = bumpVersion;
+exports.build = build;
