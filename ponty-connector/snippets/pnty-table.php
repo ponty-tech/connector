@@ -1,11 +1,15 @@
 <?php
-    $q = array('post_type'=>PNTY_PTNAME, 'numberposts'=>$numberposts);
+    $q = [
+        'post_type' => PNTY_PTNAME,
+        'numberposts' => $numberposts,
+        'has_password' => false
+    ];
     if ($tag) {
-        $q['tax_query'] = array(array(
+        $q['tax_query'] = [[
             'taxonomy' => PNTY_PTNAME.'_tag',
             'field' => 'slug',
             'terms' => explode('|', $tag)
-        ));
+        ]];
     }
     $jobs = get_posts($q);
 ?>

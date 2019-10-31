@@ -302,6 +302,13 @@ class Pnty_Connector {
                 'post_type'     => ($data->showcase) ? PNTY_PTNAME_SHOWCASE : PNTY_PTNAME
             );
 
+            # is this going to be password protected?
+            if (isset($data->ad_password) && $data->ad_password) {
+                $post['post_password'] = $data->ad_password;
+            } else {
+                $post['post_password'] = null;
+            }
+
             # does the job exist?
             if ( ! is_null($data->system_slug)) {
                 $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta

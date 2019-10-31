@@ -22,7 +22,8 @@ class pnty_latest_jobs_widget extends WP_Widget {
 
         $query = array(
             'post_type' => 'pnty_job',
-            'numberposts' => $job_count 
+            'has_password' => false,
+            'numberposts' => $job_count
         );
         if ( ! empty($job_tag)) {
             $tax_query = array(
