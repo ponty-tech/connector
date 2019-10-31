@@ -22,7 +22,7 @@
             <h1>connector</h1>
         </div>
         <div class="page-wrapper">
-            <p>To get ads to a WordPress installation, this plugin - Ponty Connector, is a good choice. It's available <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.8.zip">here (37KB)</a> and does two things.</p>
+            <p>To get ads to a WordPress installation, this plugin - Ponty Connector, is a good choice. It's available <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.9.zip">here (37KB)</a> and does two things.</p>
             <ol>
                 <li>Declares two <a href="https://codex.wordpress.org/Post_Types#Custom_Post_Types">Custom Post Types</a> (<em>pnty_job, pnty_job_showcase</em>)</li>
                 <li>Receives data from a Ponty system on a dedicated URL</li>
@@ -51,6 +51,7 @@
 <pre><code class="line-numbers language-php">&lt;?php
     $jobs = get_posts([
         'post_type' =&gt; 'pnty_job',
+        'has_password' =&gt; false,
         'numberposts' =&gt; -1,
         'tax_query' =&gt; [[
             'taxonomy' =&gt; 'pnty_job_tag',
@@ -84,6 +85,13 @@
 ]</code></pre>
             <p>Both example_org and assignment_id is available from within Ponty where example_org is the subdomain the system is running from and assignment_id comes from the chosen assignment.</p>
             <h2>Changelog</h2>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.9</h4>
+                    <div class="cdate">2019-10-31</div>
+                </div>
+                <p>The plugin can now receive a password which enable single ads to be protected. The reason is to be able to "preview" an ad. Please be aware that any custom method that fetches ads should have <code>'has_password' =&gt; false</code>.</p>
+            </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.8</h4>
