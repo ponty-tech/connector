@@ -357,6 +357,7 @@ class Pnty_Connector {
                 '_pnty_withdrawal_date',
                 '_pnty_external_apply_url',
                 '_pnty_language',
+                '_pnty_video_url',
                 '_wp_old_slug'
             );
 
@@ -421,6 +422,8 @@ class Pnty_Connector {
                 update_post_meta($post_id, '_pnty_external_apply_url', $data->external_apply_url);
             if (isset($data->language))
                 update_post_meta($post_id, '_pnty_language', $data->language);
+            if (isset($data->video_url))
+                update_post_meta($post_id, '_pnty_video_url', $data->video_url);
             if (isset($data->address))
                 update_post_meta(
                     $post_id,
