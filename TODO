@@ -1,0 +1,5 @@
+Add
+require_once(ABSPATH . "wp-admin/includes/file.php");
+after initial constants to make compatible with S3-Upload plugin.
+
+Give user an option for showcase redirect fallback as well as custom 404 fallback.
