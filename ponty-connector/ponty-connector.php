@@ -1,13 +1,13 @@
 <?php
 /*
     Plugin Name: Ponty Connector
-    Description: Plugin used to connect Ponty Recruitment System with your site
-    Author: KO. Mattsson with contributions from Andreas Lagerkvist
-    Version: 1.0.10
+    Description: Plugin used to connect Ponty Recruitment System with your site. With contributions from Andreas Lagerkvist and Pål Martin Bakken.
+    Author: KO. Mattsson
+    Version: 1.0.11
     Author URI: https://ponty.se
 */
 # The name of the custom post types
-define('PNTY_VERSION', '1.0.10');
+define('PNTY_VERSION', '1.0.11');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
@@ -337,6 +337,9 @@ class Pnty_Connector {
                 $this->api_fail('WordPress could not create job.');
             }
 
+            // needed for hooks
+            $data->ponty_post_id = $post_id;
+
             $std_keys = array(
                 '_pnty_address',
                 '_pnty_apply_btn',
@@ -482,6 +485,8 @@ class Pnty_Connector {
                 }
             }
 
+            do_action('pnty_action_post_job', $data);
+
             print json_encode(array('success'=>true, 'url'=>get_permalink($post_id)));
             die();
 
@@ -525,6 +530,8 @@ class Pnty_Connector {
             if (wp_delete_post($post_id) === false) {
                 $this->api_fail('WP could not delete job.');
             }
+
+            do_action('pnty_action_delete_job', $assignment_id);
 
             print json_encode(array('success'=>true));
             die();

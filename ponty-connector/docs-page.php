@@ -148,3 +148,9 @@
 <p><code>_pnty_logo</code> a logo if attached.</p>
 <p><code>_pnty_apply_btn</code> the JavaScript widget for exposing the apply button.</p>
 <p><code>_pnty_logo_attachment_id</code> an attachment id. Can be used with any of the built in methods for dealing with associated attachments. The attachment is an image stored as a media object in WP.</p>
+
+<h3>Custom post processing</h3>
+<p>Should you want to do something with ad data after Ponty Connector has done it's
+thing there are two hooks available for post processing. <code>pnty_action_post_job</code>
+ and <code>pnty_action_delete_job</code>. The post version gets sent all data as an argument
+and the delete version the Ponty specific assignment id.</p>
