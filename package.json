@@ -11,7 +11,7 @@
     "last 2 versions"
   ],
   "devDependencies": {
-    "browser-sync": "^2.21.0",
+    "browser-sync": "^2.26.14",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean-css": "^4.2.0",
@@ -22,7 +22,7 @@
     "gulp-uglify": "^3.0.2",
     "prismjs": "^1.17.1",
     "pump": "^3.0.0",
-    "uglify-js": "3.6.5",
-    "remove": "^0.1.5"
+    "remove": "^0.1.5",
+    "uglify-js": "3.6.5"
   }
 }
