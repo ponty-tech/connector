@@ -42,6 +42,9 @@
                 <?php if ($organization_name): ?>
                     <span class="pnty-list-organization-name"><?php echo get_post_meta($post->ID, '_pnty_organization_name', true);?></span>
                 <?php endif; ?>
+                <?php if ($location && $metadata['_pnty_location'][0]): ?>
+                    <span class="pnty-list-location"><?php echo $metadata['_pnty_location'][0];?></span>
+                <?php endif; ?>
                 <?php if ($excerpt): ?>
                     <p class="pnty-list-excerpt"><?php echo get_the_excerpt();?></p>
                 <?php endif; ?>
