@@ -1,29 +1,31 @@
-version: '3'
-
 services:
-  mariadb:
-    image: mariadb:10.3
+  connectormysql:
+    image: mysql:5.7
     volumes:
-      - db_data:/var/lib/mysql/data
+      - db_data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=ponty
-      - MYSQL_DATABASE=wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: ponty
+      MYSQL_PASSWORD: ponty
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
     networks:
       net1:
 
-  wpfpm:
-    image: wordpress:5-php7.2-fpm
-    links:
-      - mariadb:mysql
+  connectorwpfpm:
+    image: wordpress:6-php8.1-fpm
     volumes:
       - www_data:/var/www/html
       - ./docker-wp/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./docker-wp/opcache.ini:/usr/local/etc/php/conf.d/opcache-recommended.ini
       - ./ponty-connector:/var/www/html/wp-content/plugins/ponty-connector
     environment:
-      - WORDPRESS_DB_PASSWORD=ponty
+      WORDPRESS_DB_HOST: connectormysql
+      WORDPRESS_DB_USER: ponty
+      WORDPRESS_DB_PASSWORD: ponty
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
     depends_on:
-      - mariadb
+      - connectormysql
     networks:
       net1:
 
@@ -35,17 +37,15 @@ services:
     ports:
       - "8787:80"
     depends_on:
-      - wpfpm
+      - connectorwpfpm
     networks:
       net1:
 
-  phpmyadmin:
+  connectorphpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: on-failure:3
-    links:
-      - mariadb:db
     depends_on:
-      - mariadb
+      - connectormysql
     networks:
       net1:
 
@@ -55,9 +55,4 @@ volumes:
 
 networks:
   net1:
-    external:
-      name: prs-meta_net1
-    #driver: bridge
-    #ipam:
-    #  config:
-    #    - subnet: 172.22.0.0/16
+    name: localdevelopment
