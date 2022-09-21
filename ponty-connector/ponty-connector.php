@@ -98,8 +98,8 @@ class Pnty_Connector {
             # Get post metadata
             $metadata = get_post_custom($post->ID);
             # assign the values we need
-            $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0];
-            $logo = $metadata['_pnty_logo'][0];
+            $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0] ?? null;
+            $logo = $metadata['_pnty_logo'][0] ?? null;
 
             if ( ! is_null($logo_attachment_id)) {
                 list($logo_url, $logo_width, $logo_height) =
@@ -123,7 +123,7 @@ class Pnty_Connector {
                 $d->appendChild($img);
                 $content = $d->saveHTML() . $content;
             }
-            $apply_btn = $metadata['_pnty_apply_btn'][0];
+            $apply_btn = $metadata['_pnty_apply_btn'][0] ?? '';
             if ($apply_btn !== '') {
                 if (in_array($pnty_applybtn_position, array('01', ''))) {
                     $content = $content . $apply_btn;
