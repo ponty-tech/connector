@@ -4,3 +4,4 @@ docker-wp/mariadb
 node_modules
 *.zip
 !release/*.zip
+.DS_Store

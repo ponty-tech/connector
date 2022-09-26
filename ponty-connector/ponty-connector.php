@@ -1,9 +1,9 @@
 <?php
 /*
     Plugin Name: Ponty Connector
-    Description: Plugin used to connect Ponty Recruitment System with your site. With contributions from Andreas Lagerkvist and Pål Martin Bakken.
+    Description: Plugin used to connect Ponty Recruitment System with your site. With contributions from Andreas Lagerkvist, Pål Martin Bakken and Pontus Bergkvist.
     Author: KO. Mattsson
-    Version: 1.0.12
+    Version: 1.0.13
     Author URI: https://ponty.se
 */
 # The name of the custom post types
@@ -32,6 +32,7 @@ class Pnty_Connector {
         delete_option('pnty_show_excerpt');
         delete_option('pnty_share');
         delete_option('pnty_webhook_urls');
+        delete_option('pnty:rest');
         flush_rewrite_rules();
     }
 
@@ -40,7 +41,14 @@ class Pnty_Connector {
         add_action('wp_head', array($this, 'og_tags'));
         add_action('wp_footer', array($this, 'json_ld'));
 
-        add_filter('post_type_link', array($this, 'pnty_post_type_link'), 10, 3);
+        add_filter('post_type_link', array($this, 'pnty_post_type_link'), 10, 3);      
+        add_filter( 'register_post_type_args', function ( $args, $post_type ) {
+            if ( $post_type === PNTY_PTNAME || $post_type === PNTY_PTNAME_SHOWCASE) {
+                    $args['show_in_rest'] = get_option('pnty_rest');
+            }
+            return $args;
+        }, 10, 2 );
+
         # priority 100 on the_content filter to behave well with career site
         add_filter('the_content', array($this, 'apply_btn_and_logo'), 100);
     }
@@ -179,7 +187,9 @@ class Pnty_Connector {
             'exclude_from_search' => false,
             'has_archive' => true,
             'show_ui' => false,
-            'rewrite' => array(
+            'show_in_rest' => false,
+            'rest_base' => 'pnty_jobs',
+             'rewrite' => array(
                 'slug' => 'jobs',
                 'with_front' => false
             ),
@@ -195,6 +205,46 @@ class Pnty_Connector {
         }
 
         register_post_type(PNTY_PTNAME, $job_args);
+
+        register_rest_field( PNTY_PTNAME, 'excerpt', array(
+            'get_callback' => function ($data) {
+                return get_the_excerpt();
+            }
+        ));
+       
+        register_rest_field( PNTY_PTNAME, 'content', array(
+            'get_callback' => function ($data) {
+                return get_the_content();
+            }
+        ));
+
+        register_rest_field( PNTY_PTNAME, 'meta', array(
+            'get_callback' => function ($data) {
+                return array(
+                    '_pnty_address' => get_post_meta( $data['id'], '_pnty_address', true ),
+                    '_pnty_apply_btn' => get_post_meta( $data['id'], '_pnty_apply_btn', true ),
+                    '_pnty_assignment_id' => get_post_meta( $data['id'], '_pnty_assignment_id', true ),
+                    '_pnty_client_contact' => get_post_meta( $data['id'], '_pnty_client_contact', true ),
+                    '_pnty_email' => get_post_meta( $data['id'], '_pnty_email', true ),
+                    '_pnty_hero_image' => get_post_meta( $data['id'], '_pnty_hero_image', true ),
+                    '_pnty_region' => get_post_meta( $data['id'], '_pnty_region', true ),
+                    '_pnty_location' => get_post_meta( $data['id'], '_pnty_location', true ),
+                    '_pnty_confidential' => get_post_meta( $data['id'], '_pnty_confidential', true ),
+                    '_pnty_logo' => get_post_meta( $data['id'], '_pnty_logo', true ),
+                    '_pnty_name' => get_post_meta( $data['id'], '_pnty_name', true ),
+                    '_pnty_organization_name' => get_post_meta( $data['id'], '_pnty_organization_name', true ),
+                    '_pnty_phone' => get_post_meta( $data['id'], '_pnty_phone', true ),
+                    '_pnty_system_slug' => get_post_meta( $data['id'], '_pnty_system_slug', true ),
+                    '_pnty_unique_id' => get_post_meta( $data['id'], '_pnty_unique_id', true ),
+                    '_pnty_user_title' => get_post_meta( $data['id'], '_pnty_user_title', true ),
+                    '_pnty_withdrawal_date' => get_post_meta( $data['id'], '_pnty_withdrawal_date', true ),
+                    '_pnty_external_apply_url' => get_post_meta( $data['id'], '_pnty_external_apply_url', true ),
+                    '_pnty_language' => get_post_meta( $data['id'], '_pnty_language', true ),
+                    '_pnty_video_url' => get_post_meta( $data['id'], '_pnty_video_url', true ),
+                    '_wp_old_slug' => get_post_meta( $data['id'], '_wp_old_slug', true )
+                );
+            }
+        ));
     }
 
     function create_post_type_showcase() {
@@ -205,6 +255,8 @@ class Pnty_Connector {
             'exclude_from_search' => false,
             'has_archive' => true,
             'show_ui' => false,
+            'show_in_rest' => false,
+            'rest_base' => 'pnty_job_showcases',          
             'rewrite' => array(
                 'slug' => 'showcase-jobs',
                 'with_front' => false
@@ -221,6 +273,45 @@ class Pnty_Connector {
             $showcase_args['rewrite']['slug'] = $pnty_slug_showcase;
         }
         register_post_type(PNTY_PTNAME_SHOWCASE, $showcase_args);
+
+        register_rest_field( PNTY_PTNAME, 'excerpt', array(
+            'get_callback' => function ($data) {
+                return get_the_excerpt();
+            }
+        ));
+       
+        register_rest_field( PNTY_PTNAME, 'content', array(
+            'get_callback' => function ($data) {
+                return get_the_content();
+            }
+        ));
+
+        register_rest_field( PNTY_PTNAME, 'meta', array(
+            'get_callback' => function ($data) {
+                return array(
+                    '_pnty_address' => get_post_meta( $data['id'], '_pnty_address', true ),
+                    '_pnty_assignment_id' => get_post_meta( $data['id'], '_pnty_assignment_id', true ),
+                    '_pnty_client_contact' => get_post_meta( $data['id'], '_pnty_client_contact', true ),
+                    '_pnty_email' => get_post_meta( $data['id'], '_pnty_email', true ),
+                    '_pnty_hero_image' => get_post_meta( $data['id'], '_pnty_hero_image', true ),
+                    '_pnty_region' => get_post_meta( $data['id'], '_pnty_region', true ),
+                    '_pnty_location' => get_post_meta( $data['id'], '_pnty_location', true ),
+                    '_pnty_confidential' => get_post_meta( $data['id'], '_pnty_confidential', true ),
+                    '_pnty_logo' => get_post_meta( $data['id'], '_pnty_logo', true ),
+                    '_pnty_name' => get_post_meta( $data['id'], '_pnty_name', true ),
+                    '_pnty_organization_name' => get_post_meta( $data['id'], '_pnty_organization_name', true ),
+                    '_pnty_phone' => get_post_meta( $data['id'], '_pnty_phone', true ),
+                    '_pnty_system_slug' => get_post_meta( $data['id'], '_pnty_system_slug', true ),
+                    '_pnty_unique_id' => get_post_meta( $data['id'], '_pnty_unique_id', true ),
+                    '_pnty_user_title' => get_post_meta( $data['id'], '_pnty_user_title', true ),
+                    '_pnty_withdrawal_date' => get_post_meta( $data['id'], '_pnty_withdrawal_date', true ),
+                    '_pnty_external_apply_url' => get_post_meta( $data['id'], '_pnty_external_apply_url', true ),
+                    '_pnty_language' => get_post_meta( $data['id'], '_pnty_language', true ),
+                    '_pnty_video_url' => get_post_meta( $data['id'], '_pnty_video_url', true ),
+                    '_wp_old_slug' => get_post_meta( $data['id'], '_wp_old_slug', true )
+                );
+            }
+        ));        
     }
 
     function api_auth() {
@@ -533,7 +624,7 @@ class Pnty_Connector {
 
             do_action('pnty_action_delete_job', $assignment_id);
 
-            print json_encode(array('success'=>true));
+            print json_encode(array('success'=>true, 'post_id'=>$post_id));
             die();
         }
     }
@@ -752,6 +843,8 @@ function pnty_admin_init(){
     register_setting('pnty_options', 'pnty_show_excerpt');
     add_option('pnty_share', false);
     register_setting('pnty_options', 'pnty_share');
+    add_option('pnty_rest', false);
+    register_setting('pnty_options', 'pnty_rest');
     add_option('pnty_applybtn_position', '01');
     register_setting('pnty_options', 'pnty_applybtn_position');
     add_option('pnty_webhook_urls', '');

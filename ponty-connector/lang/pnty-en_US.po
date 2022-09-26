@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-16 13:18+0200\n"
+"POT-Creation-Date: 2022-09-26 16:43+0200\n"
 "PO-Revision-Date: 2014-04-15 17:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: settings-page.php:36
+#: settings-page.php:37
 msgid "API key"
 msgstr "API key"
 
-#: settings-page.php:102
+#: settings-page.php:103
 msgid "Add JSON-LD metadata (JobPosting) to ads."
 msgstr "Add JSON-LD metadata (JobPosting) to ads."
 
@@ -33,19 +33,19 @@ msgstr "Adds a read more link with attribute value as text."
 msgid "Adds the excerpt as a title attribute to all &lt;tr&gt; tags."
 msgstr "Adds the excerpt as a title attribute to all &lt;tr&gt; tags."
 
-#: settings-page.php:19
+#: settings-page.php:20
 msgid "Advanced settings"
 msgstr "Advanced settings"
 
-#: settings-page.php:88
+#: settings-page.php:89
 msgid "An URL to a web reachable css file."
 msgstr "An URL to a web reachable css file."
 
-#: settings-page.php:63
+#: settings-page.php:64
 msgid "Apply button position"
 msgstr "Apply button position"
 
-#: ponty-connector.php:826
+#: ponty-connector.php:953
 msgid "Apply here"
 msgstr "Apply here"
 
@@ -53,7 +53,7 @@ msgstr "Apply here"
 msgid "Attribute"
 msgstr "Attribute"
 
-#: settings-page.php:93
+#: settings-page.php:94
 msgid "Automatically create Open Graph meta tags within head"
 msgstr "Automatically create Open Graph meta tags within the head tag"
 
@@ -61,15 +61,15 @@ msgstr "Automatically create Open Graph meta tags within the head tag"
 msgid "Available shortcodes"
 msgstr "Available shortcodes"
 
-#: settings-page.php:18
+#: settings-page.php:19
 msgid "Base settings"
 msgstr "Base settings"
 
-#: settings-page.php:69
+#: settings-page.php:70
 msgid "Both"
 msgstr "Both"
 
-#: settings-page.php:67
+#: settings-page.php:68
 msgid "Bottom only"
 msgstr "Bottom only"
 
@@ -81,15 +81,12 @@ msgstr "CSS class for the &lt;table&gt;."
 msgid "CSS class for the &lt;ul&gt;."
 msgstr "CSS class for the &lt;ul&gt;."
 
-#: snippets/pnty-list.php:22 snippets/pnty-list-showcase.php:21
-msgid "Client logo"
-msgstr "Client logo"
-
-#: ponty-connector.php:113 ponty-connector.php:122
+#: snippets/pnty-list.php:40 snippets/pnty-list-showcase.php:35
+#: ponty-connector.php:122 ponty-connector.php:130
 msgid "Client logotype"
 msgstr "Client logotype"
 
-#: settings-page.php:130
+#: settings-page.php:140
 msgid "Comma separated urls that gets triggered when a new ad is published."
 msgstr "Comma separated urls that gets triggered when a new ad is published."
 
@@ -101,11 +98,11 @@ msgstr "Default value"
 msgid "Description"
 msgstr "Description"
 
-#: settings-page.php:70
+#: settings-page.php:71
 msgid "Do not show"
 msgstr "Do not show"
 
-#: settings-page.php:20
+#: settings-page.php:21
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -113,7 +110,7 @@ msgstr "Documentation"
 msgid "Example"
 msgstr "Example"
 
-#: settings-page.php:84
+#: settings-page.php:85
 msgid "External css file"
 msgstr "External css file"
 
@@ -121,7 +118,7 @@ msgstr "External css file"
 msgid "Extra meta data associated with every post"
 msgstr "Extra meta data associated with every post"
 
-#: widgets/pnty-latest-jobs.php:104
+#: widgets/pnty-latest-jobs.php:105
 msgid "Has tag"
 msgstr "Has tag"
 
@@ -133,7 +130,7 @@ msgstr "How many items to show."
 msgid "Latest Ponty jobs"
 msgstr "Latest Ponty jobs"
 
-#: snippets/pnty-table-showcase.php:24 snippets/pnty-table.php:24
+#: snippets/pnty-table.php:28 snippets/pnty-table-showcase.php:24
 msgid "Location"
 msgstr "Location"
 
@@ -145,12 +142,12 @@ msgstr "Logo image width."
 msgid "Make all table cell data linked."
 msgstr "Make all table cell data linked."
 
-#: ponty-connector.php:759 ponty-connector.php:779 ponty-connector.php:797
-#: ponty-connector.php:815
+#: ponty-connector.php:884 ponty-connector.php:904 ponty-connector.php:923
+#: ponty-connector.php:942
 msgid "No published jobs."
 msgstr "No published jobs."
 
-#: widgets/pnty-latest-jobs.php:101
+#: widgets/pnty-latest-jobs.php:102
 msgid "Number to show"
 msgstr "Number to show"
 
@@ -162,40 +159,44 @@ msgstr "Only for active ads"
 msgid "Only show items that has this tag (slug). Separate with commas."
 msgstr "Only show items that has this tag (slug). Separate with commas."
 
-#: snippets/pnty-table-showcase.php:21 snippets/pnty-table.php:21
+#: snippets/pnty-table.php:25 snippets/pnty-table-showcase.php:21
 msgid "Organization"
 msgstr "Organization"
 
-#: snippets/pnty-table.php:38 snippets/pnty-list.php:20
+#: snippets/pnty-table.php:42 snippets/pnty-list.php:38
 msgid "Permalink for"
 msgstr "Permalink for"
 
-#: settings-page.php:16
+#: settings-page.php:17
 msgid "Ponty Connector settings"
 msgstr "Ponty Connector settings"
 
-#: ponty-connector.php:172
+#: ponty-connector.php:180
 msgid "Ponty job"
 msgstr "Ponty job"
 
-#: ponty-connector.php:158
+#: ponty-connector.php:166
 msgid "Ponty job tags"
 msgstr "Ponty job tags"
 
-#: widgets/pnty-latest-jobs.php:10 ponty-connector.php:171
-#: ponty-connector.php:176
+#: ponty-connector.php:179 ponty-connector.php:184
+#: widgets/pnty-latest-jobs.php:10
 msgid "Ponty jobs"
 msgstr "Ponty jobs"
 
-#: snippets/pnty-table-showcase.php:18 snippets/pnty-table.php:18
+#: settings-page.php:127
+msgid "PostTypes visible in REST API"
+msgstr "Post types visible in REST API"
+
+#: snippets/pnty-table.php:22 snippets/pnty-table-showcase.php:18
 msgid "Publish date"
 msgstr "Publish date"
 
-#: snippets/pnty-table-showcase.php:27 snippets/pnty-table.php:27
+#: snippets/pnty-table.php:31 snippets/pnty-table-showcase.php:27
 msgid "Region"
 msgstr "Region"
 
-#: settings-page.php:131
+#: settings-page.php:141
 msgid ""
 "Request that gets sent is a POST request with content-type application/json. "
 "JSON keys are value1 for ad title and value2 for ad url."
@@ -203,16 +204,16 @@ msgstr ""
 "Request that gets sent is a POST request with content-type application/json. "
 "JSON keys are value1 for ad title and value2 for ad url."
 
-#: ponty-connector.php:836
+#: ponty-connector.php:963
 msgid "Shortcode not setup correctly."
 msgstr "Shortcode not setup correctly."
 
-#: widgets/pnty-latest-jobs.php:66
+#: widgets/pnty-latest-jobs.php:67
 #, php-format
 msgid "Show all (%d)"
 msgstr "Show all (%d)"
 
-#: settings-page.php:110
+#: settings-page.php:111
 msgid "Show excerpt above the ad in single view"
 msgstr "Show excerpt above the ad in single view"
 
@@ -220,11 +221,11 @@ msgstr "Show excerpt above the ad in single view"
 msgid "Show excerpt as part of the &lt;li&gt; tag."
 msgstr "Show excerpt as part of the &lt;li&gt; tag."
 
-#: widgets/pnty-latest-jobs.php:126
+#: widgets/pnty-latest-jobs.php:127
 msgid "Show organization name"
 msgstr "Show organization name"
 
-#: settings-page.php:118
+#: settings-page.php:119
 msgid "Show social media share buttons"
 msgstr "Show social media share buttons"
 
@@ -232,7 +233,7 @@ msgstr "Show social media share buttons"
 msgid "Show the organization name."
 msgstr "Show the organization name."
 
-#: widgets/pnty-latest-jobs.php:119
+#: widgets/pnty-latest-jobs.php:120
 msgid "Show total jobs count"
 msgstr "Show total jobs count"
 
@@ -252,11 +253,11 @@ msgstr "Shows the publish date as a table column."
 msgid "Shows the region as a table column."
 msgstr "Shows the region as a table column."
 
-#: ponty-connector.php:215
+#: ponty-connector.php:267
 msgid "Terminated Ponty job"
 msgstr "Terminated Ponty job"
 
-#: ponty-connector.php:202 ponty-connector.php:214
+#: ponty-connector.php:252 ponty-connector.php:266
 msgid "Terminated Ponty jobs"
 msgstr "Terminated Ponty jobs"
 
@@ -264,8 +265,8 @@ msgstr "Terminated Ponty jobs"
 msgid "The column name for the ad title."
 msgstr "The column name for the ad title."
 
-#: widgets/pnty-latest-jobs.php:95 docs-page.php:15 ponty-connector.php:749
-#: ponty-connector.php:769
+#: ponty-connector.php:874 ponty-connector.php:894 docs-page.php:15
+#: widgets/pnty-latest-jobs.php:96
 msgid "Title"
 msgstr "Title"
 
@@ -273,28 +274,28 @@ msgstr "Title"
 msgid "To show the client logo."
 msgstr "To show the client logo."
 
-#: settings-page.php:68
+#: settings-page.php:69
 msgid "Top only"
 msgstr "Top only"
 
-#: widgets/pnty-latest-jobs.php:98
+#: widgets/pnty-latest-jobs.php:99
 msgid "Url to all jobs"
 msgstr "Url to all jobs"
 
-#: settings-page.php:97
+#: settings-page.php:98
 msgid "Use only if no other OG plugin is present."
 msgstr "Use only if no other OG plugin is present."
 
-#: settings-page.php:126
+#: settings-page.php:136
 msgid "Webhook URLs"
 msgstr "Webhook URLs"
 
-#: settings-page.php:49
+#: settings-page.php:50
 msgid "What url slug should prefix the jobs. Default is <strong>jobs</strong>."
 msgstr ""
 "What url slug should prefix the jobs. Default is <strong>jobs</strong>."
 
-#: settings-page.php:58
+#: settings-page.php:59
 msgid ""
 "What url slug should prefix the showcase jobs. Default is <strong>showcase-"
 "jobs</strong>."
@@ -302,15 +303,15 @@ msgstr ""
 "What url slug should prefix the showcase jobs. Default is <strong>showcase-"
 "jobs</strong>."
 
-#: settings-page.php:72
+#: settings-page.php:73
 msgid "Where to show the apply button relative to the ad text."
 msgstr "Where to show the apply button relative to the ad text."
 
-#: settings-page.php:40
+#: settings-page.php:41
 msgid "You find the key while logged in to our system."
 msgstr "You find the key while logged in to our system."
 
-#: settings-page.php:45
+#: settings-page.php:46
 msgid "active ads"
 msgstr "active ads"
 
@@ -323,13 +324,25 @@ msgstr "false"
 msgid "or"
 msgstr "or"
 
-#: settings-page.php:54
+#: settings-page.php:131
+#, fuzzy
+msgid ""
+"pnty_job, pnty_job_showcase will be exposed in REST API /wp-json/wp/v2/"
+"pnty_jobs, /wp-json/wp/v2/pnty_job_showcases."
+msgstr ""
+"pnty_job, pnty_job_showcase will be exposed in REST API /wp-json/wp/v2/"
+"pnty_jobs, /wp-json/wp/v2/pnty_job_showcases."
+
+#: settings-page.php:55
 msgid "showcase ads"
 msgstr "showcase ads"
 
 #: docs-page.php:21
 msgid "true"
 msgstr "true"
+
+#~ msgid "Client logo"
+#~ msgstr "Client logo"
 
 #~ msgid "English"
 #~ msgstr "English"

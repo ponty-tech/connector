@@ -7,6 +7,7 @@
     $pnty_jsonld = get_option('pnty_jsonld');
     $pnty_show_excerpt = get_option('pnty_show_excerpt');
     $pnty_share = get_option('pnty_share');
+    $pnty_rest = get_option('pnty_rest');
     $pnty_webhook_urls = get_option('pnty_webhook_urls');
     $pnty_applybtn_position = get_option('pnty_applybtn_position');
     # for tabbed nav
@@ -119,6 +120,15 @@
                         </th>
                         <td>
                             <input type="checkbox" id="pnty_share" name="pnty_share" value="true" <?php echo ($pnty_share) ? 'checked="checked"': '';?> />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label for="pnty_rest"><?php _e('PostTypes visible in REST API', 'pnty');?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" id="pnty_rest" name="pnty_rest" value="true" <?php echo ($pnty_rest) ? 'checked="checked"': '';?> />
+                            <p class="description"><?php _e('pnty_job, pnty_job_showcase will be exposed in REST API /wp-json/wp/v2/pnty_jobs, /wp-json/wp/v2/pnty_job_showcases.', 'pnty'); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
