@@ -19,8 +19,8 @@
             <?php
                 # Get post metadata
                 $metadata = get_post_custom($post->ID);
-                $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0];
-                $logo_old = $metadata['_pnty_logo'][0];
+                $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0] ?? null;
+                $logo_old = $metadata['_pnty_logo'][0] ?? null;
                 $logo_url = false;
 
                 if ( ! is_null($logo_attachment_id)) {
