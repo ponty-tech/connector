@@ -7,7 +7,7 @@
     Author URI: https://ponty.se
 */
 # The name of the custom post types
-define('PNTY_VERSION', '1.0.12');
+define('PNTY_VERSION', '1.0.13');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
@@ -357,11 +357,28 @@ class Pnty_Connector {
     function api() {
         global $wpdb;
         # return version number after 1.0.0
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' and
-            strpos($_SERVER['REQUEST_URI'], 'pnty_version') !== false) {
-            header('content-type:application/json');
-            print json_encode(['version'=>PNTY_VERSION]);
-            die();
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                if (strpos($_SERVER['REQUEST_URI'], 'pnty_version') !== false) {
+                header('content-type:application/json');
+                print json_encode(['version'=>PNTY_VERSION], JSON_PRETTY_PRINT);
+                die();
+            } elseif (strpos($_SERVER['REQUEST_URI'], 'pnty_jobs') !== false) {
+                header('content-type:application/json');
+                $posts = get_posts([
+                    'post_type' => ['pnty_job', 'pnty_job_showcase']
+                ]);
+                $res = [];
+                if($posts) {
+                    foreach ($posts as $post) {
+                        $assignment_id = get_post_meta($post->ID,'_pnty_assignment_id', true);
+                        if($assignment_id){
+                            $res[$post->post_type] = ['assignmentId' => $assignment_id, 'timeStamp' => $post->post_modified];
+                        }
+                    }                    
+                }
+                print json_encode($res, JSON_PRETTY_PRINT);
+                die();
+            }
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' and
@@ -624,7 +641,7 @@ class Pnty_Connector {
 
             do_action('pnty_action_delete_job', $assignment_id);
 
-            print json_encode(array('success'=>true, 'post_id'=>$post_id));
+            print json_encode(array('success'=>true, 'post_id'=>$post_id, 'assignment_id'=>$assignment_id));
             die();
         }
     }
