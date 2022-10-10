@@ -362,7 +362,7 @@ class Pnty_Connector {
                 header('content-type:application/json');
                 print json_encode(['version'=>PNTY_VERSION], JSON_PRETTY_PRINT);
                 die();
-            } elseif (strpos($_SERVER['REQUEST_URI'], 'pnty_jobs') !== false) {
+            } elseif (strpos($_SERVER['REQUEST_URI'], 'pnty_ads') !== false) {
                 header('content-type:application/json');
                 $posts = get_posts([
                     'post_type' => ['pnty_job', 'pnty_job_showcase']
