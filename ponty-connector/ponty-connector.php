@@ -372,7 +372,8 @@ class Pnty_Connector {
                     foreach ($posts as $post) {
                         $assignment_id = get_post_meta($post->ID,'_pnty_assignment_id', true);
                         if($assignment_id){
-                            $res[$post->post_type] = ['assignmentId' => $assignment_id, 'timeStamp' => $post->post_modified];
+                            $unique_id = get_post_meta($post->ID,'_pnty_unique_id', true);
+                            $res[$post->post_type] = ['assignmentId' => $assignment_id, 'uniqueId' => $unique_id, 'postModified' => $post->post_modified];
                         }
                     }                    
                 }
@@ -619,7 +620,7 @@ class Pnty_Connector {
             if (defined(PNTY_VERSION) and ! $system_slug) {
                 $this->api_fail('Can not help you without a slug.');
             }
-
+      
             if ($system_slug) {
                 $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
                     WHERE meta_key = '_pnty_unique_id' AND meta_value = %s",
@@ -630,18 +631,25 @@ class Pnty_Connector {
                     WHERE meta_key = '_pnty_assignment_id' AND meta_value = %s",
                     $assignment_id);
             }
-            $post_id = $wpdb->get_var($query);
+            $post_id = $wpdb->get_var($query);           
 
-            $this->delete_attachment($post_id, '_pnty_logo_attachment_id');
-            $this->delete_attachment($post_id, '_thumbnail_id');
+            # ads created with Ponty Connector =< 1.0.0 doesn't store _ponty_unique_id and will be ignored in the above query.
+            # If no post_id is returned check for the post the old way.
+            $post_id = $post_id ?? $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
+                WHERE meta_key = '_pnty_assignment_id' AND meta_value = %s",
+                $assignment_id));
 
-            if (wp_delete_post($post_id) === false) {
-                $this->api_fail('WP could not delete job.');
+            if (!is_null($post_id)) {             
+                $this->delete_attachment($post_id, '_pnty_logo_attachment_id');
+                $this->delete_attachment($post_id, '_thumbnail_id');
+
+                if (wp_delete_post($post_id) === false) {
+                    $this->api_fail('WP could not delete job.');
+                }
+
+                do_action('pnty_action_delete_job', $assignment_id);
             }
-
-            do_action('pnty_action_delete_job', $assignment_id);
-
-            print json_encode(array('success'=>true, 'post_id'=>$post_id, 'assignment_id'=>$assignment_id));
+            print json_encode(array('success'=>true, 'post_id'=>$post_id));
             die();
         }
     }
