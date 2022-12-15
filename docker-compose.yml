@@ -8,8 +8,6 @@ services:
       MYSQL_USER: ponty
       MYSQL_PASSWORD: ponty
       MYSQL_RANDOM_ROOT_PASSWORD: "1"
-    networks:
-      net1:
 
   connectorwpfpm:
     image: wordpress:6-php8.1-fpm
@@ -23,11 +21,9 @@ services:
       WORDPRESS_DB_USER: ponty
       WORDPRESS_DB_PASSWORD: ponty
       WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DEBUG: 1
+      WORDPRESS_DEBUG: 0
     depends_on:
       - connectormysql
-    networks:
-      net1:
 
   connectornginx:
     image: nginx:1.15-alpine
@@ -38,21 +34,17 @@ services:
       - "8787:80"
     depends_on:
       - connectorwpfpm
-    networks:
-      net1:
 
   connectorphpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: on-failure:3
     depends_on:
       - connectormysql
-    networks:
-      net1:
 
 volumes:
   db_data:
   www_data:
 
 networks:
-  net1:
+  default:
     name: localdevelopment
