@@ -633,12 +633,6 @@ class Pnty_Connector {
             }
             $post_id = $wpdb->get_var($query);           
 
-            # ads created with Ponty Connector =< 1.0.0 doesn't store _ponty_unique_id and will be ignored in the above query.
-            # If no post_id is returned check for the post the old way.
-            $post_id = $post_id ?? $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta
-                WHERE meta_key = '_pnty_assignment_id' AND meta_value = %s",
-                $assignment_id));
-
             if (!is_null($post_id)) {             
                 $this->delete_attachment($post_id, '_pnty_logo_attachment_id');
                 $this->delete_attachment($post_id, '_thumbnail_id');
