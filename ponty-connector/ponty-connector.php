@@ -271,6 +271,23 @@ class Pnty_Connector {
             header('content-type:application/json');
             print json_encode(['version'=>PNTY_VERSION]);
             die();
+        } elseif (strpos($_SERVER['REQUEST_URI'], 'pnty_ads') !== false) {
+            header('content-type:application/json');
+            $posts = get_posts([
+                'post_type' => ['pnty_job', 'pnty_job_showcase']
+            ]);
+            $res = [];
+            if($posts) {
+                foreach ($posts as $post) {
+                    $assignment_id = get_post_meta($post->ID,'_pnty_assignment_id', true);
+                    if($assignment_id){
+                        $unique_id = get_post_meta($post->ID,'_pnty_unique_id', true);
+                        $res[$post->post_type] = ['assignmentId' => $assignment_id, 'uniqueId' => $unique_id, 'postModified' => $post->post_modified];
+                    }
+                }                    
+            }
+            print json_encode($res, JSON_PRETTY_PRINT);
+            die();            
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' and
@@ -361,7 +378,8 @@ class Pnty_Connector {
                 '_pnty_external_apply_url',
                 '_pnty_language',
                 '_pnty_video_url',
-                '_wp_old_slug'
+                '_wp_old_slug',
+                '_pnty_user_profile_image',
             );
 
             # remove lingering custom data
@@ -427,6 +445,8 @@ class Pnty_Connector {
                 update_post_meta($post_id, '_pnty_language', $data->language);
             if (isset($data->video_url))
                 update_post_meta($post_id, '_pnty_video_url', $data->video_url);
+            if (isset($data->user_profile_image))
+                update_post_meta($post_id, '_pnty_user_profile_image', $data->user_profile_image);
             if (isset($data->address))
                 update_post_meta(
                     $post_id,

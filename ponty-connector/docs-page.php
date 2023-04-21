@@ -139,6 +139,7 @@
 <p><code>_pnty_organization_name</code> the name of the organization.</p>
 <p><code>_pnty_name</code> the name of the person responsible for the assignment.</p>
 <p><code>_pnty_user_title</code> the title of the person responsible.</p>
+<p><code>_pnty_user_profile_image</code> URL to the image of the person responsible if it exists in Ponty.</p>
 <p><code>_pnty_phone</code> phone number to the person responsible.</p>
 <p><code>_pnty_email</code> email address to the person responsible.</p>
 <p><code>_pnty_client_contact</code> json representation of the person the recruitment is for. Contains name, title, phone and email.</p>
