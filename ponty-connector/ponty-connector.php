@@ -547,13 +547,14 @@ class Pnty_Connector {
             $this->delete_attachment($post_id, '_pnty_logo_attachment_id');
             $this->delete_attachment($post_id, '_thumbnail_id');
 
-            if (wp_delete_post($post_id) === false) {
+            $deleted_post = wp_delete_post($post_id);
+            if ($deleted_post === false) {
                 $this->api_fail('WP could not delete job.');
             }
 
             do_action('pnty_action_delete_job', $assignment_id);
 
-            print json_encode(array('success'=>true));
+            print json_encode(array('success'=>true, 'post'=>$deleted_post));
             die();
         }
     }
