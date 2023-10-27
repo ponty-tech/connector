@@ -906,8 +906,3 @@ add_action('init', array($pnty_connector, 'create_post_type'));
 add_action('init', array($pnty_connector, 'create_post_type_showcase'));
 add_action('init', array($pnty_connector, 'add_pnty_image_size'));
 
-# widget registration
-require_once(plugin_dir_path(__FILE__).'widgets/pnty-latest-jobs.php');
-add_action('widgets_init', function(){
-    register_widget("pnty_latest_jobs_widget");
-});
