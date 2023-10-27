@@ -3,11 +3,11 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site. With contributions from Andreas Lagerkvist and Pål Martin Bakken.
     Author: KO. Mattsson
-    Version: 1.0.12
+    Version: 1.0.13
     Author URI: https://ponty.se
 */
 # The name of the custom post types
-define('PNTY_VERSION', '1.0.12');
+define('PNTY_VERSION', '1.0.13');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
