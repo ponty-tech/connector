@@ -22,7 +22,7 @@
             <h1>connector</h1>
         </div>
         <div class="page-wrapper">
-            <p>To get ads to a WordPress installation, this plugin - Ponty Connector, is a good choice. It's available <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.12.zip">here (37KB)</a> and does two things.</p>
+            <p>To get ads to a WordPress installation, this plugin - Ponty Connector, is a good choice. It's available <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.13.zip">here (37KB)</a> and does two things.</p>
             <ol>
                 <li>Declares two <a href="https://codex.wordpress.org/Post_Types#Custom_Post_Types">Custom Post Types</a> (<em>pnty_job, pnty_job_showcase</em>)</li>
                 <li>Receives data from a Ponty system on a dedicated URL</li>
@@ -84,7 +84,14 @@
     assignment_id="{assignment_id from Ponty}"
 ]</code></pre>
             <p>Both example_org and assignment_id is available from within Ponty where example_org is the subdomain the system is running from and assignment_id comes from the chosen assignment.</p>
-            <h2>Changelog</h2>
+            <h2>Changelog</h2>                        
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.13</h4>
+                    <div class="cdate">2023-10-27</div>
+                </div>
+                <p>Support for PHP 8.x. Widget <code>pnty_latest_jobs_widge</code> has been removed due to compatibility issues. Meta data for url to profile image from Ponty can be found in <code>_pnty_user_profile_image</code> if the profile has an uploaded image in Ponty.</p>
+            </div>  
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.12</h4>
