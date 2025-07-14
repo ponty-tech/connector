@@ -1,6 +1,8 @@
 <?php
     $pnty_api_key = get_option('pnty_api_key');
+    $remove_archive = (bool) (get_option('pnty_remove_archive') ?? false);
     $pnty_slug = get_option('pnty_slug');
+    $remove_showcase_archive = (bool) (get_option('pnty_remove_showcase_archive') ?? false);
     $pnty_slug_showcase = get_option('pnty_slug_showcase');
     $pnty_extcss = get_option('pnty_extcss');
     $pnty_ogtag = get_option('pnty_ogtag');
@@ -42,11 +44,29 @@
                     </tr>
                     <tr valign="top">
                         <th scope="row">
+                        <label for="remove_archive">Remove archive (<?php _e('overview page');?>)</label>
+                        </th>
+                        <td>
+                            <input type="checkbox" id="remove_archive" name="pnty_remove_archive" value="true" <?php echo ($remove_archive) ? 'checked="checked"': '';?> />
+                            <p class="description"><?php _e('Select if you like to use a custom <strong>page</strong> for the overview.', 'pnty'); ?></p>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
                         <label for="pnty_slug">URL slug (<?php _e('active ads');?>)</label>
                         </th>
                         <td>
                             <input type="text" id="pnty_slug" name="pnty_slug" value="<?php echo $pnty_slug;?>" />
                             <p class="description"><?php _e('What url slug should prefix the jobs. Default is <strong>jobs</strong>.', 'pnty'); ?></p>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label for="pnty_remove_showcase_archive"><?php _e('Remove showcase archive', 'pnty');?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" id="pnty_remove_showcase_archive" name="pnty_remove_showcase_archive" value="true" <?php echo ($remove_showcase_archive) ? 'checked="checked"': '';?> />
+                            <p class="description"><?php _e('Select if you like to use a custom <strong>page</strong> for the showcase overview.', 'pnty'); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
