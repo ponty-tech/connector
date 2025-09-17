@@ -26,8 +26,10 @@ class Pnty_Connector {
         delete_option('pnty_api_key');
         delete_option('pnty_remove_archive');
         delete_option('pnty_slug');
+        delete_option('pnty_show_ui');
         delete_option('pnty_remove_showcase_archive');
         delete_option('pnty_slug_showcase');
+        delete_option('pnty_show_terminated_ui');
         delete_option('pnty_extcss');
         delete_option('pnty_ogtag');
         delete_option('pnty_jsonld');
@@ -156,6 +158,8 @@ class Pnty_Connector {
     }
 
     function create_post_type() {
+        $show_ui = (bool) (get_option('pnty_show_ui') ?? false);
+
         $tag_labels = array(
             'name' => __('Ponty job tags', 'pnty')
         );
@@ -183,7 +187,7 @@ class Pnty_Connector {
             'show_in_rest' => true,
             'exclude_from_search' => false,
             'has_archive' => !$remove_archive,
-            'show_ui' => false,
+            'show_ui' => $show_ui,
             'rewrite' => array(
                 'slug' => 'jobs',
                 'with_front' => false
@@ -205,6 +209,7 @@ class Pnty_Connector {
     
     function create_post_type_showcase() {
         $remove_showcase_archive = (bool) (get_option('pnty_remove_showcase_archive') ?? false);
+        $show_terminated_ui = (bool) (get_option('pnty_show_terminated_ui') ?? false);
 
         $showcase_args = array(
             'description' => __('Terminated Ponty jobs', 'pnty'),
@@ -212,7 +217,7 @@ class Pnty_Connector {
             'publicly_queryable' => true,
             'exclude_from_search' => false,
             'has_archive' => !$remove_showcase_archive,
-            'show_ui' => false,
+            'show_ui' => $show_terminated_ui,
             'rewrite' => array(
                 'slug' => 'showcase-jobs',
                 'with_front' => false
@@ -771,10 +776,14 @@ function pnty_admin_init(){
     register_setting('pnty_options', 'pnty_remove_archive', 'pnty_slug_save');
     add_option('pnty_slug', 'jobs');
     register_setting('pnty_options', 'pnty_slug', 'pnty_slug_save');
+    add_option('pnty_show_ui', false);
+    register_setting('pnty_options', 'pnty_show_ui');
     add_option('pnty_remove_showcase_archive', false);
     register_setting('pnty_options', 'pnty_remove_showcase_archive', 'pnty_slug_save');
     add_option('pnty_slug_showcase', 'showcase-jobs');
     register_setting('pnty_options', 'pnty_slug_showcase', 'pnty_slug_save');
+    add_option('pnty_show_terminated_ui', false);
+    register_setting('pnty_options', 'pnty_show_terminated_ui');
     add_option('pnty_extcss', null);
     register_setting('pnty_options', 'pnty_extcss');
     add_option('pnty_ogtag', false);
