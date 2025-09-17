@@ -211,7 +211,7 @@ class Pnty_Connector {
             'public' => false,
             'publicly_queryable' => true,
             'exclude_from_search' => false,
-            'has_archive' => !$this->remove_showcase_archive,
+            'has_archive' => !$remove_showcase_archive,
             'show_ui' => false,
             'rewrite' => array(
                 'slug' => 'showcase-jobs',
