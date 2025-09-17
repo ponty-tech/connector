@@ -2,8 +2,10 @@
     $pnty_api_key = get_option('pnty_api_key');
     $remove_archive = (bool) (get_option('pnty_remove_archive') ?? false);
     $pnty_slug = get_option('pnty_slug');
+    $show_ui = (bool) (get_option('pnty_show_ui') ?? false);
     $remove_showcase_archive = (bool) (get_option('pnty_remove_showcase_archive') ?? false);
     $pnty_slug_showcase = get_option('pnty_slug_showcase');
+    $show_terminated_ui = (bool) (get_option('pnty_show_terminated_ui') ?? false);
     $pnty_extcss = get_option('pnty_extcss');
     $pnty_ogtag = get_option('pnty_ogtag');
     $pnty_jsonld = get_option('pnty_jsonld');
@@ -62,6 +64,15 @@
                     </tr>
                     <tr valign="top">
                         <th scope="row">
+                            <label for="pnty_show_ui"><?php _e('Show UI', 'pnty');?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" id="pnty_show_ui" name="pnty_show_ui" value="true" <?php echo ($show_ui) ? 'checked="checked"': '';?> />
+                            <p class="description"><?php _e('Show the ads on the WordPress admin dashboard.', 'pnty'); ?></p>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
                             <label for="pnty_remove_showcase_archive"><?php _e('Remove showcase archive', 'pnty');?></label>
                         </th>
                         <td>
@@ -76,6 +87,15 @@
                         <td>
                             <input type="text" id="pnty_slug_showcase" name="pnty_slug_showcase" value="<?php echo $pnty_slug_showcase;?>" />
                             <p class="description"><?php _e('What url slug should prefix the showcase jobs. Default is <strong>showcase-jobs</strong>.', 'pnty'); ?></p>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label for="pnty_show_terminated_ui"><?php _e('Show UI (Terminated)', 'pnty');?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" id="pnty_show_terminated_ui" name="pnty_show_terminated_ui" value="true" <?php echo ($show_terminated_ui) ? 'checked="checked"': '';?> />
+                            <p class="description"><?php _e('Show the terminated ads on the WordPress admin dashboard.', 'pnty'); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
