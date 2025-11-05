@@ -102,18 +102,20 @@ class Pnty_Connector {
             $logo = $metadata['_pnty_logo'][0] ?? null;
 
             if ( ! is_null($logo_attachment_id)) {
-                list($logo_url, $logo_width, $logo_height) =
-                    wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
-                $d = new DOMDocument();
-                $img = $d->createElement('img');
-                $img->setAttribute('class', 'pnty-logo');
-                $img->setAttribute('src', $logo_url);
-                $img->setAttribute('width', $logo_width);
-                # not working responsive? FIXME?
-                #$img->setAttribute('height', $logo_height);
-                $img->setAttribute('alt', __('Client logotype', 'pnty'));
-                $d->appendChild($img);
-                $content = $d->saveHTML() . $content;
+                $image_src = wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
+                if ($image_src !== false) {
+                    list($logo_url, $logo_width, $logo_height) = $image_src;
+                    $d = new DOMDocument();
+                    $img = $d->createElement('img');
+                    $img->setAttribute('class', 'pnty-logo');
+                    $img->setAttribute('src', $logo_url);
+                    $img->setAttribute('width', $logo_width);
+                    # not working responsive? FIXME?
+                    #$img->setAttribute('height', $logo_height);
+                    $img->setAttribute('alt', __('Client logotype', 'pnty'));
+                    $d->appendChild($img);
+                    $content = $d->saveHTML() . $content;
+                }
             } else if ( ! is_null($logo)) {
                 $d = new DOMDocument();
                 $img = $d->createElement('img');
