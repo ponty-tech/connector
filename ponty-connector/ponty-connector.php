@@ -571,10 +571,20 @@ class Pnty_Connector {
 
     function upload_url_image($post_id, $url) {
         try {
-            # Fetch the file data
-            $file_data = @file_get_contents($url);
-            if ($file_data === false) {
-                throw new Exception('Could not fetch file.');
+            # Fetch the file data using WordPress HTTP API with timeout
+            # This is more reliable than file_get_contents and allows timeout control
+            $response = wp_remote_get($url, array(
+                'timeout' => 10,
+                'sslverify' => false
+            ));
+
+            if (is_wp_error($response)) {
+                throw new Exception('Could not fetch file: ' . $response->get_error_message());
+            }
+
+            $file_data = wp_remote_retrieve_body($response);
+            if (empty($file_data)) {
+                throw new Exception('Could not fetch file: Empty response.');
             }
 
             $current_hash = sha1($file_data);
@@ -625,13 +635,27 @@ class Pnty_Connector {
                 'post_status'       => 'inherit'
             ), $upload_dir . '/' . $filename);
 
-            # Include WP image.php for next methods.
-            include_once(ABSPATH.'wp-admin/includes/image.php');
-            # Update meta data.
-            wp_update_attachment_metadata(
-                $attachment_id,
-                wp_generate_attachment_metadata($attachment_id, $upload_dir . '/' . $filename)
-            );
+            $filepath = $upload_dir . '/' . $filename;
+
+            # During webhook requests, defer thumbnail generation to avoid timeout
+            if ($this->is_webhook_request()) {
+                # Schedule thumbnail generation to run after response is sent
+                # This allows the webhook to return immediately
+                add_action('shutdown', function() use ($attachment_id, $filepath) {
+                    # Send response immediately if fastcgi_finish_request is available
+                    if (function_exists('fastcgi_finish_request')) {
+                        fastcgi_finish_request();
+                    }
+                    $this->generate_attachment_metadata_async($attachment_id, $filepath);
+                }, 999);
+            } else {
+                # Normal processing - generate thumbnails immediately
+                include_once(ABSPATH.'wp-admin/includes/image.php');
+                wp_update_attachment_metadata(
+                    $attachment_id,
+                    wp_generate_attachment_metadata($attachment_id, $filepath)
+                );
+            }
 
             update_post_meta($post_id, '_pnty_logo_attachment_id', $attachment_id);
 
@@ -699,16 +723,29 @@ class Pnty_Connector {
                 'post_status'       => 'inherit'
             ), $upload_dir . '/' . $filename);
 
-            # Include WP image.php for next methods.
-            include_once(ABSPATH.'wp-admin/includes/image.php');
-            # Update meta data.
-            wp_update_attachment_metadata(
-                $attachment_id,
-                wp_generate_attachment_metadata($attachment_id, $upload_dir . '/' . $filename)
-            );
+            $filepath = $upload_dir . '/' . $filename;
 
-            # Set as featured image
-            set_post_thumbnail($post_id, $attachment_id);
+            # During webhook requests, defer thumbnail generation to avoid timeout
+            if ($this->is_webhook_request()) {
+                # Schedule thumbnail generation to run after response is sent
+                # This allows the webhook to return immediately
+                add_action('shutdown', function() use ($attachment_id, $filepath, $post_id) {
+                    # Send response immediately if fastcgi_finish_request is available
+                    if (function_exists('fastcgi_finish_request')) {
+                        fastcgi_finish_request();
+                    }
+                    $this->generate_attachment_metadata_async($attachment_id, $filepath, $post_id, 'hero');
+                }, 999);
+            } else {
+                # Normal processing - generate thumbnails immediately
+                include_once(ABSPATH.'wp-admin/includes/image.php');
+                wp_update_attachment_metadata(
+                    $attachment_id,
+                    wp_generate_attachment_metadata($attachment_id, $filepath)
+                );
+                # Set as featured image
+                set_post_thumbnail($post_id, $attachment_id);
+            }
         } catch (Exception $e) {
             error_log($e);
         }
@@ -731,6 +768,31 @@ class Pnty_Connector {
 
     function add_pnty_image_size(){
         add_image_size('pnty_logo', 500, 500);
+    }
+
+    /**
+     * Check if we're currently processing a webhook request
+     */
+    function is_webhook_request() {
+        return isset($_SERVER['REQUEST_URI']) && 
+               strpos($_SERVER['REQUEST_URI'], 'pnty_jobs_api') !== false &&
+               $_SERVER['REQUEST_METHOD'] === 'POST';
+    }
+
+    /**
+     * Generate attachment metadata asynchronously
+     * This is called via WordPress shutdown hook to avoid blocking webhook responses
+     */
+    function generate_attachment_metadata_async($attachment_id, $filepath, $post_id = null, $type = 'logo') {
+        include_once(ABSPATH.'wp-admin/includes/image.php');
+        wp_update_attachment_metadata(
+            $attachment_id,
+            wp_generate_attachment_metadata($attachment_id, $filepath)
+        );
+        # If this is a hero image, set it as featured image
+        if ($type === 'hero' && $post_id) {
+            set_post_thumbnail($post_id, $attachment_id);
+        }
     }
 
 }
