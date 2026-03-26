@@ -22,7 +22,7 @@
             <h1>connector</h1>
         </div>
         <div class="page-wrapper">
-            <p>To get ads to a WordPress installation, this plugin - Ponty Connector, is a good choice. It's available <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.13.zip">here (37KB)</a> and does two things.</p>
+            <p>To get ads to a WordPress installation, this plugin - Ponty Connector, is a good choice. It's available <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.15.zip">here</a> and does two things.</p>
             <ol>
                 <li>Declares two <a href="https://codex.wordpress.org/Post_Types#Custom_Post_Types">Custom Post Types</a> (<em>pnty_job, pnty_job_showcase</em>)</li>
                 <li>Receives data from a Ponty system on a dedicated URL</li>
@@ -84,7 +84,15 @@
     assignment_id="{assignment_id from Ponty}"
 ]</code></pre>
             <p>Both example_org and assignment_id is available from within Ponty where example_org is the subdomain the system is running from and assignment_id comes from the chosen assignment.</p>
-            <h2>Changelog</h2>                        
+            <h2>Changelog</h2>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.15</h4>
+                    <div class="cdate">2026-03-26</div>
+                </div>
+                <p>Elementor support: post types <code>pnty_job</code> and <code>pnty_job_showcase</code> are now visible in Elementor. Dynamic Tags for <em>Ponty Logo</em>, <em>Ponty Profile Image</em> and all text-based meta fields (location, region, organization name, etc.) are available in Elementor Image and Text widgets.</p>
+                <p>REST API: all meta fields are exposed via the WP REST API (read-only). Tag separator in shortcodes changed from comma to pipe (<code>|</code>).</p>
+            </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.13</h4>
