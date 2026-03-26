@@ -3,11 +3,11 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site. With contributions from Andreas Lagerkvist and Pål Martin Bakken.
     Author: KO. Mattsson
-    Version: 1.0.13
+    Version: 1.0.15
     Author URI: https://ponty.se
 */
 # The name of the custom post types
-define('PNTY_VERSION', '1.0.13');
+define('PNTY_VERSION', '1.0.15');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
@@ -174,18 +174,20 @@ class Pnty_Connector {
 
         $job_args = array(
             'description' => __('Ponty jobs', 'pnty'),
-            'public' => false,
+            'public' => true,
             'publicly_queryable' => true,
             'exclude_from_search' => false,
             'has_archive' => true,
-            'show_ui' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'show_in_rest' => true,
             'rewrite' => array(
                 'slug' => 'jobs',
                 'with_front' => false
             ),
             'taxonomies' => array(PNTY_PTNAME.'_tag'),
             'labels' => $labels,
-            'supports' => array('thumbnail')
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields')
         );
 
         # is the slug set? in that case, overwrite default
@@ -200,11 +202,13 @@ class Pnty_Connector {
     function create_post_type_showcase() {
         $showcase_args = array(
             'description' => __('Terminated Ponty jobs', 'pnty'),
-            'public' => false,
+            'public' => true,
             'publicly_queryable' => true,
             'exclude_from_search' => false,
             'has_archive' => true,
-            'show_ui' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'show_in_rest' => true,
             'rewrite' => array(
                 'slug' => 'showcase-jobs',
                 'with_front' => false
@@ -213,7 +217,8 @@ class Pnty_Connector {
             'labels' => array(
                 'name' => __('Terminated Ponty jobs', 'pnty'),
                 'singular_name' => __('Terminated Ponty job', 'pnty')
-            )
+            ),
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields')
         );
         # is the slug set? in that case, overwrite default
         $pnty_slug_showcase = get_option('pnty_slug_showcase');
@@ -905,4 +910,34 @@ add_action('init', array($pnty_connector, 'localize'));
 add_action('init', array($pnty_connector, 'create_post_type'));
 add_action('init', array($pnty_connector, 'create_post_type_showcase'));
 add_action('init', array($pnty_connector, 'add_pnty_image_size'));
+
+# Elementor Dynamic Tags
+add_action('elementor/dynamic_tags/register', function($dynamic_tags) {
+    require_once plugin_dir_path(__FILE__) . 'elementor/class-pnty-logo-tag.php';
+    require_once plugin_dir_path(__FILE__) . 'elementor/class-pnty-profile-image-tag.php';
+    require_once plugin_dir_path(__FILE__) . 'elementor/class-pnty-meta-tag.php';
+
+    # Image tags
+    $dynamic_tags->register(new Pnty_Logo_Tag());
+    $dynamic_tags->register(new Pnty_Profile_Image_Tag());
+
+    # Text tags
+    $pnty_text_fields = array(
+        'pnty-location'          => array('Ponty Location',          '_pnty_location'),
+        'pnty-region'            => array('Ponty Region',            '_pnty_region'),
+        'pnty-organization-name' => array('Ponty Organization Name', '_pnty_organization_name'),
+        'pnty-contact-name'      => array('Ponty Contact Name',      '_pnty_name'),
+        'pnty-contact-title'     => array('Ponty Contact Title',     '_pnty_user_title'),
+        'pnty-phone'             => array('Ponty Phone',             '_pnty_phone'),
+        'pnty-email'             => array('Ponty Email',             '_pnty_email'),
+        'pnty-address'           => array('Ponty Address',           '_pnty_address'),
+        'pnty-withdrawal-date'   => array('Ponty Withdrawal Date',   '_pnty_withdrawal_date'),
+        'pnty-external-apply-url'=> array('Ponty External Apply URL','_pnty_external_apply_url'),
+        'pnty-language'          => array('Ponty Language',           '_pnty_language'),
+        'pnty-video-url'         => array('Ponty Video URL',         '_pnty_video_url'),
+    );
+    foreach ($pnty_text_fields as $tag_name => $config) {
+        $dynamic_tags->register(new Pnty_Meta_Tag([], null, $tag_name, $config[0], $config[1]));
+    }
+});
 
