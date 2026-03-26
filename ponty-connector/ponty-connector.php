@@ -201,29 +201,25 @@ class Pnty_Connector {
 
         register_post_type(PNTY_PTNAME, $job_args);
 
-        register_post_meta( PNTY_PTNAME, '_pnty_assignment_id', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_address', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_apply_btn', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_client_contact', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_email', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_hero_image', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_region', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_location', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_confidential', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_logo', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_name', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_organization_name', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_phone', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_system_slug', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_unique_id', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_user_title', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_withdrawal_date', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_external_apply_url', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_video_url', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_wp_old_slug', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_user_profile_image', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_meta_description', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME, '_pnty_assignment_id', array('single' => true, 'show_in_rest' => true));    
+        $rest_meta = array('single' => true, 'show_in_rest' => true, 'auth_callback' => '__return_false');
+        register_post_meta( PNTY_PTNAME, '_pnty_assignment_id', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_address', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_client_contact', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_email', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_hero_image', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_region', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_location', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_confidential', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_logo', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_name', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_organization_name', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_phone', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_user_title', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_withdrawal_date', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_external_apply_url', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_video_url', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_user_profile_image', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_meta_description', $rest_meta);
     }
 
     function create_post_type_showcase() {
@@ -256,29 +252,25 @@ class Pnty_Connector {
         }
         register_post_type(PNTY_PTNAME_SHOWCASE, $showcase_args);
 
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_assignment_id', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_address', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_apply_btn', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_client_contact', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_email', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_hero_image', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_region', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_location', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_confidential', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_logo', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_name', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_organization_name', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_phone', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_system_slug', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_unique_id', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_user_title', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_withdrawal_date', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_external_apply_url', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_video_url', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_wp_old_slug', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_user_profile_image', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_meta_description', array('single' => true, 'show_in_rest' => true));
-        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_assignment_id', array('single' => true, 'show_in_rest' => true));            
+        $rest_meta = array('single' => true, 'show_in_rest' => true, 'auth_callback' => '__return_false');
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_assignment_id', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_address', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_client_contact', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_email', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_hero_image', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_region', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_location', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_confidential', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_logo', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_name', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_organization_name', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_phone', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_user_title', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_withdrawal_date', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_external_apply_url', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_video_url', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_user_profile_image', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_meta_description', $rest_meta);
     }
 
     function api_auth() {
