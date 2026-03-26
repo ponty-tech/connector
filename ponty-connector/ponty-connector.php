@@ -3,11 +3,11 @@
     Plugin Name: Ponty Connector
     Description: Plugin used to connect Ponty Recruitment System with your site. With contributions from Andreas Lagerkvist and Pål Martin Bakken.
     Author: KO. Mattsson
-    Version: 1.0.13
+    Version: 1.0.15
     Author URI: https://ponty.se
 */
 # The name of the custom post types
-define('PNTY_VERSION', '1.0.13');
+define('PNTY_VERSION', '1.0.15');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
@@ -165,7 +165,8 @@ class Pnty_Connector {
             array(
                 'labels' => $tag_labels,
                 'hierarchical' => false,
-                'public' => false
+                'public' => false,
+                'show_in_rest' => true
             )
         );
 
@@ -176,18 +177,22 @@ class Pnty_Connector {
 
         $job_args = array(
             'description' => __('Ponty jobs', 'pnty'),
-            'public' => false,
+            'public' => true,
             'publicly_queryable' => true,
             'exclude_from_search' => false,
             'has_archive' => true,
-            'show_ui' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'show_in_rest' => true,
             'rewrite' => array(
                 'slug' => 'jobs',
                 'with_front' => false
             ),
             'taxonomies' => array(PNTY_PTNAME.'_tag'),
             'labels' => $labels,
-            'supports' => array('thumbnail')
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'excerpt'),
+            'rest_base'             => 'jobs',
+            'rest_controller_class' => 'WP_REST_Posts_Controller'
         );
 
         # is the slug set? in that case, overwrite default
@@ -197,16 +202,38 @@ class Pnty_Connector {
         }
 
         register_post_type(PNTY_PTNAME, $job_args);
+
+        $rest_meta = array('single' => true, 'show_in_rest' => true, 'auth_callback' => '__return_false');
+        register_post_meta( PNTY_PTNAME, '_pnty_assignment_id', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_address', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_client_contact', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_email', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_hero_image', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_region', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_location', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_confidential', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_logo', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_name', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_organization_name', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_phone', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_user_title', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_withdrawal_date', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_external_apply_url', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_video_url', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_user_profile_image', $rest_meta);
+        register_post_meta( PNTY_PTNAME, '_pnty_meta_description', $rest_meta);
     }
 
     function create_post_type_showcase() {
         $showcase_args = array(
             'description' => __('Terminated Ponty jobs', 'pnty'),
-            'public' => false,
+            'public' => true,
             'publicly_queryable' => true,
             'exclude_from_search' => false,
             'has_archive' => true,
-            'show_ui' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'show_in_rest' => true,
             'rewrite' => array(
                 'slug' => 'showcase-jobs',
                 'with_front' => false
@@ -215,7 +242,10 @@ class Pnty_Connector {
             'labels' => array(
                 'name' => __('Terminated Ponty jobs', 'pnty'),
                 'singular_name' => __('Terminated Ponty job', 'pnty')
-            )
+            ),
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'excerpt'),
+            'rest_base'             => 'showcase-jobs',
+            'rest_controller_class' => 'WP_REST_Posts_Controller'
         );
         # is the slug set? in that case, overwrite default
         $pnty_slug_showcase = get_option('pnty_slug_showcase');
@@ -223,6 +253,26 @@ class Pnty_Connector {
             $showcase_args['rewrite']['slug'] = $pnty_slug_showcase;
         }
         register_post_type(PNTY_PTNAME_SHOWCASE, $showcase_args);
+
+        $rest_meta = array('single' => true, 'show_in_rest' => true, 'auth_callback' => '__return_false');
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_assignment_id', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_address', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_client_contact', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_email', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_hero_image', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_region', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_location', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_confidential', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_logo', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_name', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_organization_name', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_phone', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_user_title', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_withdrawal_date', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_external_apply_url', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_video_url', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_user_profile_image', $rest_meta);
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_meta_description', $rest_meta);
     }
 
     function api_auth() {
@@ -284,7 +334,12 @@ class Pnty_Connector {
                     $assignment_id = get_post_meta($post->ID,'_pnty_assignment_id', true);
                     if($assignment_id){
                         $unique_id = get_post_meta($post->ID,'_pnty_unique_id', true);
-                        $res[$post->post_type] = ['assignmentId' => $assignment_id, 'uniqueId' => $unique_id, 'postModified' => $post->post_modified];
+                        $res[] = [
+                            'postType' => $post->post_type,
+                            'assignmentId' => $assignment_id, 
+                            'uniqueId' => $unique_id, 
+                            'postModified' => $post->post_modified
+                        ];
                     }
                 }                    
             }
@@ -448,7 +503,7 @@ class Pnty_Connector {
             if (isset($data->video_url))
                 update_post_meta($post_id, '_pnty_video_url', $data->video_url);
             if (isset($data->user_profile_image))
-                update_post_meta($post_id, '_pnty_user_profile_image', $data->user_profile_image);
+                update_post_meta($post_id, '_pnty_user_profile_image', $data->user_profile_image);          
             if (isset($data->address))
                 update_post_meta(
                     $post_id,
@@ -461,8 +516,14 @@ class Pnty_Connector {
                     '_pnty_client_contact',
                     json_encode($data->client_contact, JSON_UNESCAPED_UNICODE)
                 );
-            if ( ! is_null($data->apply_btn))
-                update_post_meta($post_id, '_pnty_apply_btn', $data->apply_btn);
+            if ( ! is_null($data->apply_btn)) {
+                // Use $wpdb directly to bypass WordPress sanitization that strips <script> tags
+                global $wpdb;
+                $wpdb->insert(
+                    $wpdb->postmeta,
+                    array('post_id' => $post_id, 'meta_key' => '_pnty_apply_btn', 'meta_value' => $data->apply_btn)
+                );
+            }
 
             # special case for logo
             if (isset($data->logo)) {
@@ -907,4 +968,34 @@ add_action('init', array($pnty_connector, 'localize'));
 add_action('init', array($pnty_connector, 'create_post_type'));
 add_action('init', array($pnty_connector, 'create_post_type_showcase'));
 add_action('init', array($pnty_connector, 'add_pnty_image_size'));
+
+# Elementor Dynamic Tags
+add_action('elementor/dynamic_tags/register', function($dynamic_tags) {
+    require_once plugin_dir_path(__FILE__) . 'elementor/class-pnty-logo-tag.php';
+    require_once plugin_dir_path(__FILE__) . 'elementor/class-pnty-profile-image-tag.php';
+    require_once plugin_dir_path(__FILE__) . 'elementor/class-pnty-meta-tag.php';
+
+    # Image tags
+    $dynamic_tags->register(new Pnty_Logo_Tag());
+    $dynamic_tags->register(new Pnty_Profile_Image_Tag());
+
+    # Text tags
+    $pnty_text_fields = array(
+        'pnty-location'          => array('Ponty Location',          '_pnty_location'),
+        'pnty-region'            => array('Ponty Region',            '_pnty_region'),
+        'pnty-organization-name' => array('Ponty Organization Name', '_pnty_organization_name'),
+        'pnty-contact-name'      => array('Ponty Contact Name',      '_pnty_name'),
+        'pnty-contact-title'     => array('Ponty Contact Title',     '_pnty_user_title'),
+        'pnty-phone'             => array('Ponty Phone',             '_pnty_phone'),
+        'pnty-email'             => array('Ponty Email',             '_pnty_email'),
+        'pnty-address'           => array('Ponty Address',           '_pnty_address'),
+        'pnty-withdrawal-date'   => array('Ponty Withdrawal Date',   '_pnty_withdrawal_date'),
+        'pnty-external-apply-url'=> array('Ponty External Apply URL','_pnty_external_apply_url'),
+        'pnty-language'          => array('Ponty Language',           '_pnty_language'),
+        'pnty-video-url'         => array('Ponty Video URL',         '_pnty_video_url'),
+    );
+    foreach ($pnty_text_fields as $tag_name => $config) {
+        $dynamic_tags->register(new Pnty_Meta_Tag([], null, $tag_name, $config[0], $config[1]));
+    }
+});
 

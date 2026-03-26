@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-16 13:18+0200\n"
+"POT-Creation-Date: 2025-03-26 13:07+0100\n"
 "PO-Revision-Date: 2014-04-15 17:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,11 +25,11 @@ msgstr "API-nyckel"
 msgid "Add JSON-LD metadata (JobPosting) to ads."
 msgstr "Lägg till JSON-LD-metadata (JobPosting) för annonser."
 
-#: docs-page.php:114
+#: docs-page.php:142
 msgid "Adds a read more link with attribute value as text."
 msgstr "Lägger till en läs-mer-länk med attributets värde som text."
 
-#: docs-page.php:71
+#: docs-page.php:90
 msgid "Adds the excerpt as a title attribute to all &lt;tr&gt; tags."
 msgstr "Lägger till utdraget som title attribut till &lt;tr&gt;-taggen."
 
@@ -45,11 +45,11 @@ msgstr "En url till en cssfil som kan nås över webben."
 msgid "Apply button position"
 msgstr "Plats för ansökningsknapp"
 
-#: ponty-connector.php:826
+#: ponty-connector.php:937
 msgid "Apply here"
 msgstr "Ansök här"
 
-#: docs-page.php:6 docs-page.php:79
+#: docs-page.php:9 docs-page.php:103
 msgid "Attribute"
 msgstr "Attribut"
 
@@ -73,19 +73,16 @@ msgstr "Både och"
 msgid "Bottom only"
 msgstr "Bara längst ner"
 
-#: docs-page.php:65
+#: docs-page.php:83
 msgid "CSS class for the &lt;table&gt;."
 msgstr "CSS-klass för &lt;table&gt;."
 
-#: docs-page.php:132
+#: docs-page.php:165
 msgid "CSS class for the &lt;ul&gt;."
 msgstr "CSS-klass för &lt;ul&gt;."
 
-#: snippets/pnty-list.php:22 snippets/pnty-list-showcase.php:21
-msgid "Client logo"
-msgstr "Kundlogotyp"
-
-#: ponty-connector.php:113 ponty-connector.php:122
+#: snippets/pnty-list.php:40 snippets/pnty-list-showcase.php:35
+#: ponty-connector.php:114 ponty-connector.php:122
 msgid "Client logotype"
 msgstr "Kundlogotyp"
 
@@ -93,11 +90,11 @@ msgstr "Kundlogotyp"
 msgid "Comma separated urls that gets triggered when a new ad is published."
 msgstr "Komma-separerade url:er som triggas när en annons publiceras."
 
-#: docs-page.php:7 docs-page.php:80
+#: docs-page.php:10 docs-page.php:104
 msgid "Default value"
 msgstr "Standardvärde"
 
-#: docs-page.php:9 docs-page.php:82
+#: docs-page.php:12 docs-page.php:106
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -110,7 +107,7 @@ msgstr "Visa inte"
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: docs-page.php:8 docs-page.php:81
+#: docs-page.php:11 docs-page.php:105
 msgid "Example"
 msgstr "Exempel"
 
@@ -118,60 +115,48 @@ msgstr "Exempel"
 msgid "External css file"
 msgstr "Extern cssfil"
 
-#: docs-page.php:136
+#: docs-page.php:169
 msgid "Extra meta data associated with every post"
 msgstr "Extra meta-data associerad till varje post"
 
-#: widgets/pnty-latest-jobs.php:104
-msgid "Has tag"
-msgstr "Har tagg"
-
-#: docs-page.php:47 docs-page.php:120
+#: docs-page.php:59 docs-page.php:150
 msgid "How many items to show."
 msgstr "Hur många objekt som visas."
 
-#: widgets/pnty-latest-jobs.php:8
-msgid "Latest Ponty jobs"
-msgstr "Senaste Ponty-jobben"
-
 # @ pnty
-#: snippets/pnty-table-showcase.php:24 snippets/pnty-table.php:24
+#: snippets/pnty-table.php:28 snippets/pnty-table-showcase.php:24
 msgid "Location"
 msgstr "Plats"
 
-#: docs-page.php:108
+#: docs-page.php:135
 msgid "Logo image width."
 msgstr "Bredd på logotyp-bild."
 
-#: docs-page.php:53
+#: docs-page.php:66
 msgid "Make all table cell data linked."
 msgstr "Gör alla tabellers cell-data länkad."
 
 # @ pnty
-#: ponty-connector.php:759 ponty-connector.php:779 ponty-connector.php:797
-#: ponty-connector.php:815
+#: ponty-connector.php:868 ponty-connector.php:888 ponty-connector.php:907
+#: ponty-connector.php:926
 msgid "No published jobs."
 msgstr "Inga publicerade jobb."
 
-#: widgets/pnty-latest-jobs.php:101
-msgid "Number to show"
-msgstr "Antal att visa"
-
-#: docs-page.php:53 docs-page.php:114
+#: docs-page.php:68 docs-page.php:144
 msgid "Only for active ads"
 msgstr "Endast för aktiva annonser"
 
-#: docs-page.php:59 docs-page.php:126
-msgid "Only show items that has this tag (slug). Separate with commas."
-msgstr "Visa bara objekt som har den här taggen (slug). Separera med komma."
+#: docs-page.php:75 docs-page.php:157
+msgid "Only show items that has this tag (slug). Separate with pipe sign(|)."
+msgstr "Visa bara objekt som har den här taggen (slug). Separera med pipe tecknet(|)."
 
 # @ pnty
-#: snippets/pnty-table-showcase.php:21 snippets/pnty-table.php:21
+#: snippets/pnty-table.php:25 snippets/pnty-table-showcase.php:21
 msgid "Organization"
 msgstr "Organisation"
 
 # @ pnty
-#: snippets/pnty-table.php:38 snippets/pnty-list.php:20
+#: snippets/pnty-table.php:42 snippets/pnty-list.php:38
 msgid "Permalink for"
 msgstr "Permalänk för"
 
@@ -179,7 +164,7 @@ msgstr "Permalänk för"
 msgid "Ponty Connector settings"
 msgstr "Inställningar Ponty Connector"
 
-#: ponty-connector.php:172
+#: ponty-connector.php:173
 msgid "Ponty job"
 msgstr "Pontyjobb"
 
@@ -187,18 +172,17 @@ msgstr "Pontyjobb"
 msgid "Ponty job tags"
 msgstr "Pontyjobb-taggar"
 
-#: widgets/pnty-latest-jobs.php:10 ponty-connector.php:171
-#: ponty-connector.php:176
+#: ponty-connector.php:172 ponty-connector.php:177
 msgid "Ponty jobs"
 msgstr "Pontyjobb"
 
 # @ pnty
-#: snippets/pnty-table-showcase.php:18 snippets/pnty-table.php:18
+#: snippets/pnty-table.php:22 snippets/pnty-table-showcase.php:18
 msgid "Publish date"
 msgstr "Publiceringsdatum"
 
 # @ pnty
-#: snippets/pnty-table-showcase.php:27 snippets/pnty-table.php:27
+#: snippets/pnty-table.php:31 snippets/pnty-table-showcase.php:27
 msgid "Region"
 msgstr "Region"
 
@@ -210,87 +194,68 @@ msgstr ""
 "En POST-förfrågan med content-type application/json skickas. JSON-nycklarna "
 "är value1 för annonstitel och value2 för annons-url."
 
-#: ponty-connector.php:836
+#: ponty-connector.php:947
 msgid "Shortcode not setup correctly."
 msgstr "Shortcoden är inte inställd korrekt."
-
-#: widgets/pnty-latest-jobs.php:66
-#, php-format
-msgid "Show all (%d)"
-msgstr "Visa alla (%d)"
 
 #: settings-page.php:110
 msgid "Show excerpt above the ad in single view"
 msgstr "Visa utdrag ovanför annons vid singel-visning"
 
-#: docs-page.php:96
+#: docs-page.php:121
 msgid "Show excerpt as part of the &lt;li&gt; tag."
 msgstr "Visa utdrag som en del av &lt;li&gt;-taggen."
-
-# @ pnty
-#: widgets/pnty-latest-jobs.php:126
-msgid "Show organization name"
-msgstr "Visa organisationsnamn"
 
 #: settings-page.php:118
 msgid "Show social media share buttons"
 msgstr "Visa delningsknappar för sociala medier"
 
 # @ pnty
-#: docs-page.php:90
+#: docs-page.php:114
 msgid "Show the organization name."
 msgstr "Visa organisationsnamn."
 
-#: widgets/pnty-latest-jobs.php:119
-msgid "Show total jobs count"
-msgstr "Visa totalt antal"
-
-#: docs-page.php:41
+#: docs-page.php:51
 msgid "Shows the location as a table column."
 msgstr "Visa plats som en tabellkolumn."
 
 # @ pnty
-#: docs-page.php:29
+#: docs-page.php:36
 msgid "Shows the organization name as a table column."
 msgstr "Visa organisationsnamn som en tabellkolumn."
 
-#: docs-page.php:23
+#: docs-page.php:27
 msgid "Shows the publish date as a table column."
 msgstr "Visa publiceringsdatum som en tabellkolumn."
 
-#: docs-page.php:35
+#: docs-page.php:44
 msgid "Shows the region as a table column."
 msgstr "Visa region som en tabellkolumn."
 
-#: ponty-connector.php:215
+#: ponty-connector.php:243
 msgid "Terminated Ponty job"
 msgstr "Avslutat Ponty-jobb"
 
-#: ponty-connector.php:202 ponty-connector.php:214
+#: ponty-connector.php:230 ponty-connector.php:242
 msgid "Terminated Ponty jobs"
 msgstr "Avslutade Ponty-jobb"
 
-#: docs-page.php:17
+#: docs-page.php:20
 msgid "The column name for the ad title."
 msgstr "Kolumnnamn för annonstitel."
 
 # @ pnty
-#: widgets/pnty-latest-jobs.php:95 docs-page.php:15 ponty-connector.php:749
-#: ponty-connector.php:769
+#: ponty-connector.php:858 ponty-connector.php:878 docs-page.php:18
 msgid "Title"
 msgstr "Titel"
 
-#: docs-page.php:102
+#: docs-page.php:129
 msgid "To show the client logo."
 msgstr "Visa kundlogotyp."
 
 #: settings-page.php:68
 msgid "Top only"
 msgstr "Bara längst upp"
-
-#: widgets/pnty-latest-jobs.php:98
-msgid "Url to all jobs"
-msgstr "Url till alla jobb"
 
 #: settings-page.php:97
 msgid "Use only if no other OG plugin is present."
@@ -326,12 +291,12 @@ msgstr "Du hittar nyckeln när du är inloggad i vårt system."
 msgid "active ads"
 msgstr "aktiva annonser"
 
-#: docs-page.php:27 docs-page.php:33 docs-page.php:39 docs-page.php:51
-#: docs-page.php:69 docs-page.php:88 docs-page.php:94
+#: docs-page.php:33 docs-page.php:42 docs-page.php:48 docs-page.php:63
+#: docs-page.php:87 docs-page.php:112 docs-page.php:118
 msgid "false"
 msgstr "false"
 
-#: docs-page.php:2 docs-page.php:75
+#: docs-page.php:3 docs-page.php:97
 msgid "or"
 msgstr "eller"
 
@@ -339,15 +304,41 @@ msgstr "eller"
 msgid "showcase ads"
 msgstr "referens-annonser"
 
-#: docs-page.php:21
+#: docs-page.php:24
 msgid "true"
 msgstr "true"
+
+#~ msgid "Client logo"
+#~ msgstr "Kundlogotyp"
 
 #~ msgid "English"
 #~ msgstr "Engelska"
 
+#~ msgid "Has tag"
+#~ msgstr "Har tagg"
+
 #~ msgid "Language"
 #~ msgstr "Språk"
 
+#~ msgid "Latest Ponty jobs"
+#~ msgstr "Senaste Ponty-jobben"
+
+#~ msgid "Number to show"
+#~ msgstr "Antal att visa"
+
+#, php-format
+#~ msgid "Show all (%d)"
+#~ msgstr "Visa alla (%d)"
+
+# @ pnty
+#~ msgid "Show organization name"
+#~ msgstr "Visa organisationsnamn"
+
+#~ msgid "Show total jobs count"
+#~ msgstr "Visa totalt antal"
+
 #~ msgid "Swedish"
 #~ msgstr "Svenska"
+
+#~ msgid "Url to all jobs"
+#~ msgstr "Url till alla jobb"
