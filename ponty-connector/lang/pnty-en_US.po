@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ponty Connector 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-16 13:18+0200\n"
+"POT-Creation-Date: 2025-03-26 13:07+0100\n"
 "PO-Revision-Date: 2014-04-15 17:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,11 +25,11 @@ msgstr "API key"
 msgid "Add JSON-LD metadata (JobPosting) to ads."
 msgstr "Add JSON-LD metadata (JobPosting) to ads."
 
-#: docs-page.php:114
+#: docs-page.php:142
 msgid "Adds a read more link with attribute value as text."
 msgstr "Adds a read more link with attribute value as text."
 
-#: docs-page.php:71
+#: docs-page.php:90
 msgid "Adds the excerpt as a title attribute to all &lt;tr&gt; tags."
 msgstr "Adds the excerpt as a title attribute to all &lt;tr&gt; tags."
 
@@ -45,11 +45,11 @@ msgstr "An URL to a web reachable css file."
 msgid "Apply button position"
 msgstr "Apply button position"
 
-#: ponty-connector.php:826
+#: ponty-connector.php:937
 msgid "Apply here"
 msgstr "Apply here"
 
-#: docs-page.php:6 docs-page.php:79
+#: docs-page.php:9 docs-page.php:103
 msgid "Attribute"
 msgstr "Attribute"
 
@@ -73,19 +73,16 @@ msgstr "Both"
 msgid "Bottom only"
 msgstr "Bottom only"
 
-#: docs-page.php:65
+#: docs-page.php:83
 msgid "CSS class for the &lt;table&gt;."
 msgstr "CSS class for the &lt;table&gt;."
 
-#: docs-page.php:132
+#: docs-page.php:165
 msgid "CSS class for the &lt;ul&gt;."
 msgstr "CSS class for the &lt;ul&gt;."
 
-#: snippets/pnty-list.php:22 snippets/pnty-list-showcase.php:21
-msgid "Client logo"
-msgstr "Client logo"
-
-#: ponty-connector.php:113 ponty-connector.php:122
+#: snippets/pnty-list.php:40 snippets/pnty-list-showcase.php:35
+#: ponty-connector.php:114 ponty-connector.php:122
 msgid "Client logotype"
 msgstr "Client logotype"
 
@@ -93,11 +90,11 @@ msgstr "Client logotype"
 msgid "Comma separated urls that gets triggered when a new ad is published."
 msgstr "Comma separated urls that gets triggered when a new ad is published."
 
-#: docs-page.php:7 docs-page.php:80
+#: docs-page.php:10 docs-page.php:104
 msgid "Default value"
 msgstr "Default value"
 
-#: docs-page.php:9 docs-page.php:82
+#: docs-page.php:12 docs-page.php:106
 msgid "Description"
 msgstr "Description"
 
@@ -109,7 +106,7 @@ msgstr "Do not show"
 msgid "Documentation"
 msgstr "Documentation"
 
-#: docs-page.php:8 docs-page.php:81
+#: docs-page.php:11 docs-page.php:105
 msgid "Example"
 msgstr "Example"
 
@@ -117,56 +114,44 @@ msgstr "Example"
 msgid "External css file"
 msgstr "External css file"
 
-#: docs-page.php:136
+#: docs-page.php:169
 msgid "Extra meta data associated with every post"
 msgstr "Extra meta data associated with every post"
 
-#: widgets/pnty-latest-jobs.php:104
-msgid "Has tag"
-msgstr "Has tag"
-
-#: docs-page.php:47 docs-page.php:120
+#: docs-page.php:59 docs-page.php:150
 msgid "How many items to show."
 msgstr "How many items to show."
 
-#: widgets/pnty-latest-jobs.php:8
-msgid "Latest Ponty jobs"
-msgstr "Latest Ponty jobs"
-
-#: snippets/pnty-table-showcase.php:24 snippets/pnty-table.php:24
+#: snippets/pnty-table.php:28 snippets/pnty-table-showcase.php:24
 msgid "Location"
 msgstr "Location"
 
-#: docs-page.php:108
+#: docs-page.php:135
 msgid "Logo image width."
 msgstr "Logo image width."
 
-#: docs-page.php:53
+#: docs-page.php:66
 msgid "Make all table cell data linked."
 msgstr "Make all table cell data linked."
 
-#: ponty-connector.php:759 ponty-connector.php:779 ponty-connector.php:797
-#: ponty-connector.php:815
+#: ponty-connector.php:868 ponty-connector.php:888 ponty-connector.php:907
+#: ponty-connector.php:926
 msgid "No published jobs."
 msgstr "No published jobs."
 
-#: widgets/pnty-latest-jobs.php:101
-msgid "Number to show"
-msgstr "Number to show"
-
-#: docs-page.php:53 docs-page.php:114
+#: docs-page.php:68 docs-page.php:144
 msgid "Only for active ads"
 msgstr "Only for active ads"
 
-#: docs-page.php:59 docs-page.php:126
-msgid "Only show items that has this tag (slug). Separate with commas."
-msgstr "Only show items that has this tag (slug). Separate with commas."
+#: docs-page.php:75 docs-page.php:157
+msgid "Only show items that has this tag (slug). Separate with pipe sign(|)."
+msgstr "Only show items that has this tag (slug). Separate with pipe sign(|)."
 
-#: snippets/pnty-table-showcase.php:21 snippets/pnty-table.php:21
+#: snippets/pnty-table.php:25 snippets/pnty-table-showcase.php:21
 msgid "Organization"
 msgstr "Organization"
 
-#: snippets/pnty-table.php:38 snippets/pnty-list.php:20
+#: snippets/pnty-table.php:42 snippets/pnty-list.php:38
 msgid "Permalink for"
 msgstr "Permalink for"
 
@@ -174,7 +159,7 @@ msgstr "Permalink for"
 msgid "Ponty Connector settings"
 msgstr "Ponty Connector settings"
 
-#: ponty-connector.php:172
+#: ponty-connector.php:173
 msgid "Ponty job"
 msgstr "Ponty job"
 
@@ -182,16 +167,15 @@ msgstr "Ponty job"
 msgid "Ponty job tags"
 msgstr "Ponty job tags"
 
-#: widgets/pnty-latest-jobs.php:10 ponty-connector.php:171
-#: ponty-connector.php:176
+#: ponty-connector.php:172 ponty-connector.php:177
 msgid "Ponty jobs"
 msgstr "Ponty jobs"
 
-#: snippets/pnty-table-showcase.php:18 snippets/pnty-table.php:18
+#: snippets/pnty-table.php:22 snippets/pnty-table-showcase.php:18
 msgid "Publish date"
 msgstr "Publish date"
 
-#: snippets/pnty-table-showcase.php:27 snippets/pnty-table.php:27
+#: snippets/pnty-table.php:31 snippets/pnty-table-showcase.php:27
 msgid "Region"
 msgstr "Region"
 
@@ -203,83 +187,65 @@ msgstr ""
 "Request that gets sent is a POST request with content-type application/json. "
 "JSON keys are value1 for ad title and value2 for ad url."
 
-#: ponty-connector.php:836
+#: ponty-connector.php:947
 msgid "Shortcode not setup correctly."
 msgstr "Shortcode not setup correctly."
-
-#: widgets/pnty-latest-jobs.php:66
-#, php-format
-msgid "Show all (%d)"
-msgstr "Show all (%d)"
 
 #: settings-page.php:110
 msgid "Show excerpt above the ad in single view"
 msgstr "Show excerpt above the ad in single view"
 
-#: docs-page.php:96
+#: docs-page.php:121
 msgid "Show excerpt as part of the &lt;li&gt; tag."
 msgstr "Show excerpt as part of the &lt;li&gt; tag."
-
-#: widgets/pnty-latest-jobs.php:126
-msgid "Show organization name"
-msgstr "Show organization name"
 
 #: settings-page.php:118
 msgid "Show social media share buttons"
 msgstr "Show social media share buttons"
 
-#: docs-page.php:90
+#: docs-page.php:114
 msgid "Show the organization name."
 msgstr "Show the organization name."
 
-#: widgets/pnty-latest-jobs.php:119
-msgid "Show total jobs count"
-msgstr "Show total jobs count"
-
-#: docs-page.php:41
+#: docs-page.php:51
 msgid "Shows the location as a table column."
 msgstr "Shows the location as a table column."
 
-#: docs-page.php:29
+#: docs-page.php:36
 msgid "Shows the organization name as a table column."
 msgstr "Shows the organization name as a table column."
 
-#: docs-page.php:23
+#: docs-page.php:27
 msgid "Shows the publish date as a table column."
 msgstr "Shows the publish date as a table column."
 
-#: docs-page.php:35
+#: docs-page.php:44
 msgid "Shows the region as a table column."
 msgstr "Shows the region as a table column."
 
-#: ponty-connector.php:215
+#: ponty-connector.php:243
 msgid "Terminated Ponty job"
 msgstr "Terminated Ponty job"
 
-#: ponty-connector.php:202 ponty-connector.php:214
+#: ponty-connector.php:230 ponty-connector.php:242
 msgid "Terminated Ponty jobs"
 msgstr "Terminated Ponty jobs"
 
-#: docs-page.php:17
+#: docs-page.php:20
 msgid "The column name for the ad title."
 msgstr "The column name for the ad title."
 
-#: widgets/pnty-latest-jobs.php:95 docs-page.php:15 ponty-connector.php:749
-#: ponty-connector.php:769
+#: ponty-connector.php:858 ponty-connector.php:878 docs-page.php:18
 msgid "Title"
 msgstr "Title"
 
-#: docs-page.php:102
+#: docs-page.php:129
 msgid "To show the client logo."
 msgstr "To show the client logo."
 
 #: settings-page.php:68
 msgid "Top only"
 msgstr "Top only"
-
-#: widgets/pnty-latest-jobs.php:98
-msgid "Url to all jobs"
-msgstr "Url to all jobs"
 
 #: settings-page.php:97
 msgid "Use only if no other OG plugin is present."
@@ -314,12 +280,12 @@ msgstr "You find the key while logged in to our system."
 msgid "active ads"
 msgstr "active ads"
 
-#: docs-page.php:27 docs-page.php:33 docs-page.php:39 docs-page.php:51
-#: docs-page.php:69 docs-page.php:88 docs-page.php:94
+#: docs-page.php:33 docs-page.php:42 docs-page.php:48 docs-page.php:63
+#: docs-page.php:87 docs-page.php:112 docs-page.php:118
 msgid "false"
 msgstr "false"
 
-#: docs-page.php:2 docs-page.php:75
+#: docs-page.php:3 docs-page.php:97
 msgid "or"
 msgstr "or"
 
@@ -327,15 +293,40 @@ msgstr "or"
 msgid "showcase ads"
 msgstr "showcase ads"
 
-#: docs-page.php:21
+#: docs-page.php:24
 msgid "true"
 msgstr "true"
+
+#~ msgid "Client logo"
+#~ msgstr "Client logo"
 
 #~ msgid "English"
 #~ msgstr "English"
 
+#~ msgid "Has tag"
+#~ msgstr "Has tag"
+
 #~ msgid "Language"
 #~ msgstr "Language"
 
+#~ msgid "Latest Ponty jobs"
+#~ msgstr "Latest Ponty jobs"
+
+#~ msgid "Number to show"
+#~ msgstr "Number to show"
+
+#, php-format
+#~ msgid "Show all (%d)"
+#~ msgstr "Show all (%d)"
+
+#~ msgid "Show organization name"
+#~ msgstr "Show organization name"
+
+#~ msgid "Show total jobs count"
+#~ msgstr "Show total jobs count"
+
 #~ msgid "Swedish"
 #~ msgstr "Swedish"
+
+#~ msgid "Url to all jobs"
+#~ msgstr "Url to all jobs"

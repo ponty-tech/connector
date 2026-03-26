@@ -163,7 +163,8 @@ class Pnty_Connector {
             array(
                 'labels' => $tag_labels,
                 'hierarchical' => false,
-                'public' => false
+                'public' => false,
+                'show_in_rest' => true
             )
         );
 
@@ -187,7 +188,9 @@ class Pnty_Connector {
             ),
             'taxonomies' => array(PNTY_PTNAME.'_tag'),
             'labels' => $labels,
-            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields')
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'excerpt'),
+            'rest_base'             => 'jobs',
+            'rest_controller_class' => 'WP_REST_Posts_Controller'
         );
 
         # is the slug set? in that case, overwrite default
@@ -197,6 +200,30 @@ class Pnty_Connector {
         }
 
         register_post_type(PNTY_PTNAME, $job_args);
+
+        register_post_meta( PNTY_PTNAME, '_pnty_assignment_id', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_address', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_apply_btn', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_client_contact', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_email', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_hero_image', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_region', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_location', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_confidential', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_logo', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_name', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_organization_name', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_phone', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_system_slug', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_unique_id', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_user_title', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_withdrawal_date', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_external_apply_url', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_video_url', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_wp_old_slug', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_user_profile_image', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_meta_description', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME, '_pnty_assignment_id', array('single' => true, 'show_in_rest' => true));    
     }
 
     function create_post_type_showcase() {
@@ -218,7 +245,9 @@ class Pnty_Connector {
                 'name' => __('Terminated Ponty jobs', 'pnty'),
                 'singular_name' => __('Terminated Ponty job', 'pnty')
             ),
-            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields')
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'excerpt'),
+            'rest_base'             => 'showcase-jobs',
+            'rest_controller_class' => 'WP_REST_Posts_Controller'
         );
         # is the slug set? in that case, overwrite default
         $pnty_slug_showcase = get_option('pnty_slug_showcase');
@@ -226,6 +255,30 @@ class Pnty_Connector {
             $showcase_args['rewrite']['slug'] = $pnty_slug_showcase;
         }
         register_post_type(PNTY_PTNAME_SHOWCASE, $showcase_args);
+
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_assignment_id', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_address', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_apply_btn', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_client_contact', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_email', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_hero_image', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_region', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_location', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_confidential', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_logo', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_name', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_organization_name', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_phone', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_system_slug', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_unique_id', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_user_title', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_withdrawal_date', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_external_apply_url', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_video_url', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_wp_old_slug', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_user_profile_image', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_meta_description', array('single' => true, 'show_in_rest' => true));
+        register_post_meta( PNTY_PTNAME_SHOWCASE, '_pnty_assignment_id', array('single' => true, 'show_in_rest' => true));            
     }
 
     function api_auth() {
@@ -287,7 +340,12 @@ class Pnty_Connector {
                     $assignment_id = get_post_meta($post->ID,'_pnty_assignment_id', true);
                     if($assignment_id){
                         $unique_id = get_post_meta($post->ID,'_pnty_unique_id', true);
-                        $res[$post->post_type] = ['assignmentId' => $assignment_id, 'uniqueId' => $unique_id, 'postModified' => $post->post_modified];
+                        $res[] = [
+                            'postType' => $post->post_type,
+                            'assignmentId' => $assignment_id, 
+                            'uniqueId' => $unique_id, 
+                            'postModified' => $post->post_modified
+                        ];
                     }
                 }                    
             }
@@ -451,7 +509,7 @@ class Pnty_Connector {
             if (isset($data->video_url))
                 update_post_meta($post_id, '_pnty_video_url', $data->video_url);
             if (isset($data->user_profile_image))
-                update_post_meta($post_id, '_pnty_user_profile_image', $data->user_profile_image);
+                update_post_meta($post_id, '_pnty_user_profile_image', $data->user_profile_image);          
             if (isset($data->address))
                 update_post_meta(
                     $post_id,
@@ -464,8 +522,14 @@ class Pnty_Connector {
                     '_pnty_client_contact',
                     json_encode($data->client_contact, JSON_UNESCAPED_UNICODE)
                 );
-            if ( ! is_null($data->apply_btn))
-                update_post_meta($post_id, '_pnty_apply_btn', $data->apply_btn);
+            if ( ! is_null($data->apply_btn)) {
+                // Use $wpdb directly to bypass WordPress sanitization that strips <script> tags
+                global $wpdb;
+                $wpdb->insert(
+                    $wpdb->postmeta,
+                    array('post_id' => $post_id, 'meta_key' => '_pnty_apply_btn', 'meta_value' => $data->apply_btn)
+                );
+            }
 
             # special case for logo
             if (isset($data->logo)) {
