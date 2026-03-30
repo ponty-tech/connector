@@ -198,6 +198,18 @@ msgstr ""
 msgid "Shortcode not setup correctly."
 msgstr "Shortcoden är inte inställd korrekt."
 
+#: settings-page.php:65
+msgid "Ponty Fields"
+msgstr "Ponty-fält"
+
+msgid "Show client logo in ad"
+msgstr "Visa kundlogotyp i annons"
+
+#: settings-page.php:71
+msgid "Show client logo if available in the ad content."
+msgstr "Visa kundlogotyp om den finns i annonstexten."
+
+
 #: settings-page.php:110
 msgid "Show excerpt above the ad in single view"
 msgstr "Visa utdrag ovanför annons vid singel-visning"

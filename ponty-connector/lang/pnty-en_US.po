@@ -191,6 +191,18 @@ msgstr ""
 msgid "Shortcode not setup correctly."
 msgstr "Shortcode not setup correctly."
 
+#: settings-page.php:65
+msgid "Ponty Fields"
+msgstr "Ponty Fields"
+
+msgid "Show client logo in ad"
+msgstr "Show client logo in ad"
+
+#: settings-page.php:71
+msgid "Show client logo if available in the ad content."
+msgstr "Show client logo if available in the ad content."
+
+
 #: settings-page.php:110
 msgid "Show excerpt above the ad in single view"
 msgstr "Show excerpt above the ad in single view"

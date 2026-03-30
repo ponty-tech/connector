@@ -8,6 +8,7 @@
     $pnty_show_excerpt = get_option('pnty_show_excerpt');
     $pnty_share = get_option('pnty_share');
     $pnty_webhook_urls = get_option('pnty_webhook_urls');
+    $pnty_show_logo = get_option('pnty_show_logo');
     $pnty_applybtn_position = get_option('pnty_applybtn_position');
     # for tabbed nav
     $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'base_settings';
@@ -56,6 +57,15 @@
                         <td>
                             <input type="text" id="pnty_slug_showcase" name="pnty_slug_showcase" value="<?php echo $pnty_slug_showcase;?>" />
                             <p class="description"><?php _e('What url slug should prefix the showcase jobs. Default is <strong>showcase-jobs</strong>.', 'pnty'); ?></p>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label for="pnty_show_logo"><?php _e('Show client logo in ad', 'pnty');?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" id="pnty_show_logo" name="pnty_show_logo" value="true" <?php echo ($pnty_show_logo) ? 'checked="checked"': '';?> />
+                            <p class="description"><?php _e('Show client logo if available in the ad content.', 'pnty');?></p>
                         </td>
                     </tr>
                     <tr valign="top">

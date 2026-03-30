@@ -31,6 +31,7 @@ class Pnty_Connector {
         delete_option('pnty_jsonld');
         delete_option('pnty_show_excerpt');
         delete_option('pnty_share');
+        delete_option('pnty_show_logo');
         delete_option('pnty_webhook_urls');
         flush_rewrite_rules();
     }
@@ -98,9 +99,11 @@ class Pnty_Connector {
             # Get post metadata
             $metadata = get_post_custom($post->ID);
             # assign the values we need
+            $pnty_show_logo = get_option('pnty_show_logo');
             $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0] ?? null;
             $logo = $metadata['_pnty_logo'][0] ?? null;
 
+            if ($pnty_show_logo) {
             if ( ! is_null($logo_attachment_id)) {
                 $image_src = wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
                 if ($image_src !== false) {
@@ -124,6 +127,7 @@ class Pnty_Connector {
                 $img->setAttribute('alt', __('Client logotype', 'pnty'));
                 $d->appendChild($img);
                 $content = $d->saveHTML() . $content;
+            }
             }
             $apply_btn = $metadata['_pnty_apply_btn'][0] ?? '';
             if ($apply_btn !== '') {
@@ -326,7 +330,8 @@ class Pnty_Connector {
         } elseif (strpos($_SERVER['REQUEST_URI'], 'pnty_ads') !== false) {
             header('content-type:application/json');
             $posts = get_posts([
-                'post_type' => ['pnty_job', 'pnty_job_showcase']
+                'post_type' => ['pnty_job', 'pnty_job_showcase'],
+                'numberposts' => -1
             ]);
             $res = [];
             if($posts) {
@@ -836,6 +841,8 @@ function pnty_admin_init(){
     register_setting('pnty_options', 'pnty_show_excerpt');
     add_option('pnty_share', false);
     register_setting('pnty_options', 'pnty_share');
+    add_option('pnty_show_logo', true);
+    register_setting('pnty_options', 'pnty_show_logo');
     add_option('pnty_applybtn_position', '01');
     register_setting('pnty_options', 'pnty_applybtn_position');
     add_option('pnty_webhook_urls', '');
@@ -970,6 +977,7 @@ add_action('init', array($pnty_connector, 'create_post_type_showcase'));
 add_action('init', array($pnty_connector, 'add_pnty_image_size'));
 
 # Elementor Dynamic Tags
+if (did_action('elementor/loaded')) {
 add_action('elementor/dynamic_tags/register', function($dynamic_tags) {
     require_once plugin_dir_path(__FILE__) . 'elementor/class-pnty-logo-tag.php';
     require_once plugin_dir_path(__FILE__) . 'elementor/class-pnty-profile-image-tag.php';
@@ -997,5 +1005,71 @@ add_action('elementor/dynamic_tags/register', function($dynamic_tags) {
     foreach ($pnty_text_fields as $tag_name => $config) {
         $dynamic_tags->register(new Pnty_Meta_Tag([], null, $tag_name, $config[0], $config[1]));
     }
+});
+}
+
+# Gutenberg Block Bindings (WordPress 6.5+)
+add_action('init', function() {
+    if ( ! function_exists('register_block_bindings_source')) {
+        return;
+    }
+
+    $pnty_allowed_keys = array(
+        '_pnty_location',
+        '_pnty_region',
+        '_pnty_organization_name',
+        '_pnty_name',
+        '_pnty_user_title',
+        '_pnty_phone',
+        '_pnty_email',
+        '_pnty_address',
+        '_pnty_withdrawal_date',
+        '_pnty_external_apply_url',
+        '_pnty_language',
+        '_pnty_video_url',
+        '_pnty_logo',
+        '_pnty_user_profile_image',
+    );
+
+    register_block_bindings_source('pnty/fields', array(
+        'label'              => __('Ponty Fields', 'pnty'),
+        'uses_context'       => array('postId', 'postType'),
+        'get_value_callback' => function($source_args, $block_instance, $attribute_name) use ($pnty_allowed_keys) {
+            $post_id = $block_instance->context['postId'] ?? get_the_ID();
+            if ( ! $post_id) {
+                return null;
+            }
+
+            $key = $source_args['key'] ?? '';
+            if ( ! in_array($key, $pnty_allowed_keys)) {
+                return null;
+            }
+
+            # Image blocks: return attachment or meta URL
+            if ($attribute_name === 'url') {
+                if ($key === '_pnty_logo') {
+                    $attachment_id = get_post_meta($post_id, '_pnty_logo_attachment_id', true);
+                    if ($attachment_id) {
+                        $image_src = wp_get_attachment_image_src($attachment_id, 'pnty_logo');
+                        if ($image_src) {
+                            return $image_src[0];
+                        }
+                    }
+                }
+                return get_post_meta($post_id, $key, true);
+            }
+
+            # Image blocks: provide alt text
+            if ($attribute_name === 'alt') {
+                if ($key === '_pnty_logo') {
+                    return __('Client logotype', 'pnty');
+                }
+                $name = get_post_meta($post_id, '_pnty_name', true);
+                return $name ?: '';
+            }
+
+            return get_post_meta($post_id, $key, true);
+        }
+    ));
 });
 
