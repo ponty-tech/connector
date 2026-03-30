@@ -4,9 +4,15 @@
         <meta charset='UTF-8'>
         <meta name="robots" content="noindex">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Ponty Connector</title>
+        <title>Ponty Connector – WordPress plugin</title>
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,900" rel="stylesheet">
         <link rel="stylesheet" href="build/style.css">
+        <style>
+            table { width: 100%; border-collapse: collapse; margin: 0 0 2rem; }
+            th, td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid #ddd; }
+            th { border-bottom: 2px solid #999; font-weight: 900; }
+            td code { background: #f0f0f0; padding: .1em .4em; border-radius: 3px; font-size: .9em; }
+        </style>
 
         <link rel="apple-touch-icon" sizes="180x180" href="build/fav/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="build/fav/favicon-32x32.png">
@@ -22,22 +28,193 @@
             <h1>connector</h1>
         </div>
         <div class="page-wrapper">
-            <p>To get ads to a WordPress installation, this plugin - Ponty Connector, is a good choice. It's available <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.15.zip">here</a> and does two things.</p>
+            <p class="info">Letar du efter en <a href="index.html">svensk version</a>?</p>
+
+            <p>Ponty Connector is a WordPress plugin that connects the <strong>Ponty Recruitment System</strong> to your WordPress site. Ads published in Ponty are automatically sent to WordPress where they can be displayed and customized.</p>
+            <p><a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.15.zip"><strong>Download the latest version (1.0.15)</strong></a></p>
+
+            <h2>How it works</h2>
+            <p>The plugin does three things:</p>
             <ol>
-                <li>Declares two <a href="https://codex.wordpress.org/Post_Types#Custom_Post_Types">Custom Post Types</a> (<em>pnty_job, pnty_job_showcase</em>)</li>
-                <li>Receives data from a Ponty system on a dedicated URL</li>
+                <li>Creates two <a href="https://developer.wordpress.org/plugins/post-types/">Custom Post Types</a>: <code>pnty_job</code> (active ads) and <code>pnty_job_showcase</code> (showcase/terminated ads)</li>
+                <li>Receives ad data from Ponty via an authenticated API</li>
+                <li>Exposes metadata via WordPress REST API, Elementor Dynamic Tags and Gutenberg Block Bindings</li>
             </ol>
-            <p>Which means that ads, when they <em>have been sent from a Ponty system</em> to the WordPress installation, are available as native WordPress content.</p>
-            <h2>Using the plugin</h2>
-            <p>The plugin comes with a few <a href="https://codex.wordpress.org/Shortcode">shortcodes</a> which can be used to get basic functionality in place. Available attributes to control certain aspects of the shortcodes is documented on the settings page for the plugin. So is the meta data that comes with every ad.</p>
-            <h2>FAQ</h2>
+            <p>The plugin <strong>never fetches data</strong>. Ads are pushed from the Ponty system to your WordPress installation. Once they exist in WordPress, they are handled as regular WordPress content.</p>
+
+            <h2>Installation</h2>
+            <ol>
+                <li>Download the zip file above</li>
+                <li>In WordPress: <em>Plugins &rarr; Add New &rarr; Upload Plugin</em></li>
+                <li>Activate the plugin</li>
+                <li>Go to <em>Settings &rarr; Ponty Connector</em> and enter your API key (found in the Ponty system)</li>
+                <li>Go to <em>Settings &rarr; Permalinks</em> and click <em>Save</em> (required for the URL slugs to work)</li>
+                <li>Publish an ad in Ponty &mdash; it will appear in WordPress automatically</li>
+            </ol>
+
+            <h2>Settings</h2>
+            <p>Found under <em>Settings &rarr; Ponty Connector</em>.</p>
+            <h3>Base settings</h3>
             <dl>
-                <dt>I've applied the API key but can't see any ads?</dt>
-                <dd>The plugin <em>never fetches anything</em>. It only <em>enables receiving ads</em>. A Ponty system must send ads before anything exists in the WordPress installation.</dd>
+                <dt>API key</dt>
+                <dd>Authentication key matching the one in the Ponty system.</dd>
+                <dt>URL slug (active ads)</dt>
+                <dd>Controls the URL structure, e.g. <code>/jobs/my-job</code>. Default: <code>jobs</code></dd>
+                <dt>URL slug (showcase ads)</dt>
+                <dd>Same for showcase ads. Default: <code>showcase-jobs</code></dd>
+                <dt>Show client logo in ad</dt>
+                <dd>Displays the organization logo above the ad content (if available). Turn off if you display the logo via Elementor or Gutenberg instead.</dd>
+                <dt>Apply button position</dt>
+                <dd>Where the apply button appears in the ad: bottom, top, both, or hidden.</dd>
             </dl>
-            <h2>Common customizations</h2>
-            <p>The most common customization to make ad presentation look good is to create a new file in the template folder with the name <em>single-pnty_job.php</em>. That file is then responsible for the rendering/presentation of a single ad. A most basic example is shown below.</p>
-            <!-- gist 1 -->
+            <h3>Advanced settings</h3>
+            <dl>
+                <dt>External CSS file</dt>
+                <dd>URL to an external CSS file loaded on ad pages.</dd>
+                <dt>Open Graph tags</dt>
+                <dd>Auto-generates OG meta tags. Only use if no other OG plugin is present.</dd>
+                <dt>JSON-LD (JobPosting)</dt>
+                <dd>Adds structured data in <a href="https://schema.org/JobPosting">JobPosting format</a> for search engines.</dd>
+                <dt>Show excerpt</dt>
+                <dd>Displays the ad excerpt above the ad content.</dd>
+                <dt>Share buttons</dt>
+                <dd>Shows sharing buttons for Facebook, LinkedIn and X (Twitter).</dd>
+                <dt>Webhook URLs</dt>
+                <dd>Comma-separated URLs triggered with a POST request when a new ad is published. JSON payload with <code>value1</code> (title) and <code>value2</code> (URL).</dd>
+            </dl>
+
+            <h2>Displaying ads</h2>
+            <p>There are four ways to display ad data. Choose what fits your site best.</p>
+
+            <h3>1. Shortcodes</h3>
+            <p>The simplest approach. Works in all themes and page builders. Place a shortcode on any page.</p>
+            <ul>
+                <li><code>[pnty_jobs_table]</code> — table of active ads</li>
+                <li><code>[pnty_jobs_list]</code> — list of active ads</li>
+                <li><code>[pnty_showcase_table]</code> — table of showcase ads</li>
+                <li><code>[pnty_showcase_list]</code> — list of showcase ads</li>
+            </ul>
+
+            <p><strong>Common attributes</strong> (all shortcodes):</p>
+            <table>
+                <thead><tr><th>Attribute</th><th>Description</th><th>Default</th></tr></thead>
+                <tbody>
+                    <tr><td><code>tag</code></td><td>Filter by tag(s), separated with <code>|</code></td><td></td></tr>
+                    <tr><td><code>numberposts</code></td><td>Max number of ads</td><td><code>-1</code> (all)</td></tr>
+                    <tr><td><code>organization_name</code></td><td>Show organization name</td><td><code>0</code></td></tr>
+                    <tr><td><code>location</code></td><td>Show location</td><td><code>0</code></td></tr>
+                    <tr><td><code>region</code></td><td>Show region</td><td><code>0</code></td></tr>
+                    <tr><td><code>empty_msg</code></td><td>Message when no ads exist</td><td></td></tr>
+                    <tr><td><code>class</code></td><td>CSS class for the wrapper element</td><td></td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Table attributes</strong> (<code>pnty_jobs_table</code>, <code>pnty_showcase_table</code>):</p>
+            <table>
+                <thead><tr><th>Attribute</th><th>Description</th><th>Default</th></tr></thead>
+                <tbody>
+                    <tr><td><code>title_column_name</code></td><td>Header for the title column</td><td><code>Title</code></td></tr>
+                    <tr><td><code>publish_date</code></td><td>Show publish date</td><td><code>1</code></td></tr>
+                    <tr><td><code>link_all</code></td><td>Make all cells clickable</td><td><code>0</code></td></tr>
+                    <tr><td><code>excerpt_title</code></td><td>Show excerpt as tooltip on hover</td><td><code>0</code></td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>List attributes</strong> (<code>pnty_jobs_list</code>, <code>pnty_showcase_list</code>):</p>
+            <table>
+                <thead><tr><th>Attribute</th><th>Description</th><th>Default</th></tr></thead>
+                <tbody>
+                    <tr><td><code>logo</code></td><td>Show organization logo</td><td><code>0</code></td></tr>
+                    <tr><td><code>logo_width</code></td><td>Logo width in pixels</td><td></td></tr>
+                    <tr><td><code>excerpt</code></td><td>Show excerpt</td><td><code>0</code></td></tr>
+                    <tr><td><code>readmore</code></td><td>Show a read more link with given text</td><td></td></tr>
+                </tbody>
+            </table>
+
+            <h3>2. Elementor Dynamic Tags</h3>
+            <p>If your site uses <strong>Elementor</strong>, you can build a fully custom ad template. The plugin registers Dynamic Tags that can be bound to Elementor widgets.</p>
+            <p><strong>How to:</strong></p>
+            <ol>
+                <li>Go to <em>Templates &rarr; Theme Builder</em> in Elementor</li>
+                <li>Create a new <em>Single Post</em> template</li>
+                <li>Set it to apply to post type <code>pnty_job</code></li>
+                <li>Add widgets (Text, Image, etc.) and click the <strong>wrench icon</strong> (Dynamic Tags) to bind them to Ponty fields</li>
+            </ol>
+            <p><strong>Image tags</strong> (for Image widgets):</p>
+            <table>
+                <thead><tr><th>Dynamic Tag</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>Ponty Logo</td><td>Organization logo</td></tr>
+                    <tr><td>Ponty Profile Image</td><td>Contact person's profile photo</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Text tags</strong> (for Text Editor, Heading, etc.):</p>
+            <table>
+                <thead><tr><th>Dynamic Tag</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>Ponty Location</td><td>Work location</td></tr>
+                    <tr><td>Ponty Region</td><td>Region</td></tr>
+                    <tr><td>Ponty Organization Name</td><td>Organization name</td></tr>
+                    <tr><td>Ponty Contact Name</td><td>Contact person's name</td></tr>
+                    <tr><td>Ponty Contact Title</td><td>Contact person's title</td></tr>
+                    <tr><td>Ponty Phone</td><td>Phone number</td></tr>
+                    <tr><td>Ponty Email</td><td>Email address</td></tr>
+                    <tr><td>Ponty Withdrawal Date</td><td>Withdrawal date (when the ad is unpublished)</td></tr>
+                    <tr><td>Ponty External Apply URL</td><td>External application link</td></tr>
+                    <tr><td>Ponty Video URL</td><td>Video URL</td></tr>
+                    <tr><td>Ponty Language</td><td>Ad language</td></tr>
+                </tbody>
+            </table>
+            <p><strong>Tip:</strong> If you build a custom Elementor template, turn off <em>"Show client logo in ad"</em> and set the apply button to <em>"Do not show"</em> in the plugin settings to avoid duplicates.</p>
+
+            <h3>3. Gutenberg Block Bindings</h3>
+            <p>From <strong>WordPress 6.5+</strong> with a block theme, you can build ad templates directly in the <em>Site Editor</em> without Elementor.</p>
+            <p><strong>How to:</strong></p>
+            <ol>
+                <li>Go to <em>Appearance &rarr; Editor &rarr; Templates</em></li>
+                <li>Create a new template for post type <code>pnty_job</code></li>
+                <li>Add blocks (Paragraph, Image, Button, etc.)</li>
+                <li>Bind block attributes to Ponty fields via Block Bindings with source <code>pnty/fields</code></li>
+            </ol>
+            <p><strong>Example:</strong> A paragraph showing the work location:</p>
+<pre><code class="line-numbers language-php">&lt;!-- wp:paragraph {
+    "metadata":{
+        "bindings":{
+            "content":{
+                "source":"pnty/fields",
+                "args":{"key":"_pnty_location"}
+            }
+        }
+    }
+} --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;!-- /wp:paragraph --&gt;</code></pre>
+            <p><strong>Example:</strong> An image showing the organization logo:</p>
+<pre><code class="line-numbers language-php">&lt;!-- wp:image {
+    "metadata":{
+        "bindings":{
+            "url":{
+                "source":"pnty/fields",
+                "args":{"key":"_pnty_logo"}
+            },
+            "alt":{
+                "source":"pnty/fields",
+                "args":{"key":"_pnty_logo"}
+            }
+        }
+    }
+} --&gt;
+&lt;figure class="wp-block-image"&gt;
+    &lt;img src="" alt=""/&gt;
+&lt;/figure&gt;
+&lt;!-- /wp:image --&gt;</code></pre>
+            <p>Available keys &mdash; see <em>Meta fields</em> below.</p>
+            <p><strong>Tip:</strong> Same as with Elementor &mdash; turn off logo and apply button in settings if you display them via block bindings.</p>
+
+            <h3>4. PHP template</h3>
+            <p>Most control. Create the file <code>single-pnty_job.php</code> in your theme folder (or <code>single-pnty_job_showcase.php</code> for showcase ads). WordPress will use it automatically.</p>
+            <p><strong>Basic example:</strong></p>
 <pre><code class="line-numbers language-php">&lt;?php get_header(); ?&gt;
 &lt;?php if (have_posts()): while(have_posts()): the_post();?&gt;
     &lt;div class="pnty-job"&gt;
@@ -46,8 +223,29 @@
     &lt;/div&gt;
 &lt;?php endwhile; endif;?&gt;
 &lt;?php get_footer(); ?&gt;</code></pre>
-            <p>Other commen customizations is to write your own methods for the listing of all or a subset of the ads. Below is an example of listing ads that has a specific tag.</p>
-            <!-- gist 2 -->
+            <p><strong>Example with metadata:</strong></p>
+<pre><code class="line-numbers language-php">&lt;?php get_header(); ?&gt;
+&lt;?php if (have_posts()): while(have_posts()): the_post();
+    $location = get_post_meta(get_the_ID(), '_pnty_location', true);
+    $org      = get_post_meta(get_the_ID(), '_pnty_organization_name', true);
+    $logo_id  = get_post_meta(get_the_ID(), '_pnty_logo_attachment_id', true);
+?&gt;
+    &lt;div class="pnty-job"&gt;
+        &lt;?php if ($logo_id): ?&gt;
+            &lt;?php echo wp_get_attachment_image($logo_id, 'pnty_logo'); ?&gt;
+        &lt;?php endif; ?&gt;
+        &lt;h1&gt;&lt;?php the_title();?&gt;&lt;/h1&gt;
+        &lt;?php if ($org): ?&gt;
+            &lt;p class="org"&gt;&lt;?php echo esc_html($org); ?&gt;&lt;/p&gt;
+        &lt;?php endif; ?&gt;
+        &lt;?php if ($location): ?&gt;
+            &lt;p class="location"&gt;&lt;?php echo esc_html($location); ?&gt;&lt;/p&gt;
+        &lt;?php endif; ?&gt;
+        &lt;?php the_content();?&gt;
+    &lt;/div&gt;
+&lt;?php endwhile; endif;?&gt;
+&lt;?php get_footer(); ?&gt;</code></pre>
+            <p><strong>Fetch ads with a specific tag:</strong></p>
 <pre><code class="line-numbers language-php">&lt;?php
     $jobs = get_posts([
         'post_type' =&gt; 'pnty_job',
@@ -61,14 +259,11 @@
     ]);
 ?&gt;
 &lt;?php if (count($jobs) &gt; 0):?&gt;
-    &lt;ul class="exempel"&gt;
+    &lt;ul&gt;
         &lt;?php foreach($jobs as $job):?&gt;
             &lt;li&gt;
-                &lt;a
-                   href="&lt;?php echo get_permalink($job-&gt;ID);?&gt;"
-                   title="Permallink for &lt;?php echo $job-&gt;post_title;?&gt;"
-                &gt;
-                  &lt;?php echo $job-&gt;post_title;?&gt;
+                &lt;a href="&lt;?php echo get_permalink($job-&gt;ID);?&gt;"&gt;
+                    &lt;?php echo esc_html($job-&gt;post_title);?&gt;
                 &lt;/a&gt;
             &lt;/li&gt;
         &lt;?php endforeach;?&gt;
@@ -76,77 +271,138 @@
 &lt;?php else:?&gt;
     &lt;p&gt;No published ads at the moment.&lt;/p&gt;
 &lt;?php endif;?&gt;</code></pre>
+
             <h2>Open application</h2>
-            <p>If you want the plugin to render an application button for open applications the following shortcode can be used.</p>
+            <p>The <code>[pnty_apply_btn]</code> shortcode renders an application button for open applications or a specific assignment.</p>
 <pre><code class="language-php">[pnty_apply_btn
-    org="{example_org}"
-    color="{hexadecimal color code}"
-    assignment_id="{assignment_id from Ponty}"
+    org="exampleorg"
+    assignment_id="12345"
+    title="Apply here"
+    color="#e3304c"
+    lang="en"
 ]</code></pre>
-            <p>Both example_org and assignment_id is available from within Ponty where example_org is the subdomain the system is running from and assignment_id comes from the chosen assignment.</p>
+            <dl>
+                <dt><code>org</code> (required)</dt>
+                <dd>The subdomain for the Ponty system, e.g. <code>mycompany</code></dd>
+                <dt><code>assignment_id</code> (required)</dt>
+                <dd>The assignment ID in Ponty</dd>
+                <dt><code>title</code></dt>
+                <dd>Button text. Default: "Apply here"</dd>
+                <dt><code>color</code></dt>
+                <dd>Hexadecimal color code for the button</dd>
+                <dt><code>lang</code></dt>
+                <dd>Language code, e.g. <code>sv</code> or <code>en</code></dd>
+            </dl>
+
+            <h2>Meta fields</h2>
+            <p>Every ad has the following metadata, available in templates, block bindings and Elementor. All are accessible via <code>get_post_meta()</code> and the REST API.</p>
+            <table>
+                <thead>
+                    <tr><th>Key</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>_pnty_assignment_id</code></td><td>Unique ID from Ponty</td></tr>
+                    <tr><td><code>_pnty_organization_name</code></td><td>Organization name</td></tr>
+                    <tr><td><code>_pnty_location</code></td><td>Work location</td></tr>
+                    <tr><td><code>_pnty_region</code></td><td>Region</td></tr>
+                    <tr><td><code>_pnty_name</code></td><td>Contact person's name</td></tr>
+                    <tr><td><code>_pnty_user_title</code></td><td>Contact person's title</td></tr>
+                    <tr><td><code>_pnty_email</code></td><td>Contact person's email</td></tr>
+                    <tr><td><code>_pnty_phone</code></td><td>Contact person's phone</td></tr>
+                    <tr><td><code>_pnty_user_profile_image</code></td><td>URL to contact person's profile photo</td></tr>
+                    <tr><td><code>_pnty_logo</code></td><td>URL to organization logo</td></tr>
+                    <tr><td><code>_pnty_logo_attachment_id</code></td><td>WordPress attachment ID for the logo</td></tr>
+                    <tr><td><code>_pnty_withdrawal_date</code></td><td>Withdrawal date (when the ad is unpublished)</td></tr>
+                    <tr><td><code>_pnty_external_apply_url</code></td><td>External application link</td></tr>
+                    <tr><td><code>_pnty_video_url</code></td><td>Video URL</td></tr>
+                    <tr><td><code>_pnty_language</code></td><td>Ad language</td></tr>
+                    <tr><td><code>_pnty_confidential</code></td><td>Whether the ad is confidential</td></tr>
+                    <tr><td><code>_pnty_address</code></td><td>Address (JSON)</td></tr>
+                    <tr><td><code>_pnty_client_contact</code></td><td>Client contact details (JSON)</td></tr>
+                    <tr><td><code>_pnty_meta_description</code></td><td>SEO description</td></tr>
+                </tbody>
+            </table>
+
+            <h2>REST API</h2>
+            <p>All ads and metadata are exposed via the WordPress REST API:</p>
+<pre><code class="language-php">GET /wp-json/wp/v2/jobs
+GET /wp-json/wp/v2/jobs/{id}
+GET /wp-json/wp/v2/showcase-jobs
+GET /wp-json/wp/v2/showcase-jobs/{id}</code></pre>
+            <p>The meta fields above are included in the <code>meta</code> object in the response. Reading requires no authentication.</p>
+
+            <h2>Action hooks</h2>
+            <p>Two hooks are available for custom processing:</p>
+            <dl>
+                <dt><code>pnty_action_post_job</code></dt>
+                <dd>Runs after an ad is created or updated. Argument: the data object from Ponty.</dd>
+                <dt><code>pnty_action_delete_job</code></dt>
+                <dd>Runs after an ad is deleted. Argument: assignment_id.</dd>
+            </dl>
+
+            <h2>FAQ</h2>
+            <dl>
+                <dt>I've entered the API key but can't see any ads?</dt>
+                <dd>The plugin never fetches data &mdash; it only receives. Publish an ad in the Ponty system and it will be sent automatically.</dd>
+                <dt>The logo appears twice?</dt>
+                <dd>This happens if you display the logo both via a custom template (Elementor/Gutenberg) and via the plugin's built-in content filter. Turn off <em>"Show client logo in ad"</em> in settings.</dd>
+                <dt>Can I use the plugin without Elementor?</dt>
+                <dd>Yes. Shortcodes work in all themes. With WordPress 6.5+ and a block theme you can use Gutenberg Block Bindings. You can also write a custom PHP template.</dd>
+                <dt>How do I filter ads by tag?</dt>
+                <dd>In shortcodes: <code>tag="my-tag"</code>. In PHP: use <code>tax_query</code> with taxonomy <code>pnty_job_tag</code>.</dd>
+                <dt>Where do I find the shortcode attribute documentation?</dt>
+                <dd>Under <em>Settings &rarr; Ponty Connector &rarr; Documentation</em> in WordPress admin.</dd>
+            </dl>
+
             <h2>Changelog</h2>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.15</h4>
                     <div class="cdate">2026-03-26</div>
                 </div>
-                <p>Elementor support with Dynamic Tags for all meta fields. REST API exposure of meta fields (read-only). Tag separator in shortcodes changed from comma to pipe (<code>|</code>).</p>
+                <p>Elementor Dynamic Tags and Gutenberg Block Bindings (WordPress 6.5+) support. New setting to show/hide client logo in ad content. REST API exposure of meta fields. Tag separator in shortcodes changed to pipe (<code>|</code>). Fix: <code>pnty_ads</code> endpoint now returns all ads. Elementor tags only registered when Elementor is active. Google+ share button removed.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.13</h4>
                     <div class="cdate">2023-10-27</div>
                 </div>
-                <p>Support for PHP 8.x. Widget <code>pnty_latest_jobs_widget</code> has been removed due to compatibility issues. Meta data for url to profile image from Ponty can be found in <code>_pnty_user_profile_image</code> if the profile has an uploaded image in Ponty.</p>
-            </div>  
+                <p>PHP 8.x support. Widget <code>pnty_latest_jobs_widget</code> removed. Meta field <code>_pnty_user_profile_image</code> added.</p>
+            </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.12</h4>
                     <div class="cdate">2021-09-22</div>
                 </div>
-                <p>Added location as attribute to <code>pnty_jobs_list</code> and <code>pnty_showcase_list</code>.</p>
+                <p>Added <code>location</code> attribute to <code>pnty_jobs_list</code> and <code>pnty_showcase_list</code>.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.11</h4>
                     <div class="cdate">2021-02-25</div>
                 </div>
-                <p>Added two action hooks <code>pnty_action_post_job</code> and <code>pnty_action_delete_job</code>. For further processing should it be necessary.</p>
+                <p>Action hooks <code>pnty_action_post_job</code> and <code>pnty_action_delete_job</code> added.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.10</h4>
                     <div class="cdate">2019-12-09</div>
                 </div>
-                <p>The plugin can now receive a video URL that is available with meta key <code>_pnty_video_url</code>.</p>
+                <p>Meta field <code>_pnty_video_url</code> added.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.9</h4>
                     <div class="cdate">2019-10-31</div>
                 </div>
-                <p>The plugin can now receive a password which enable single ads to be protected. The reason is to be able to "preview" an ad. Please be aware that any custom method that fetches ads should have <code>'has_password' =&gt; false</code>.</p>
+                <p>Password-protected ads support (preview). Note: custom methods should use <code>'has_password' =&gt; false</code>.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.8</h4>
                     <div class="cdate">2019-03-05</div>
                 </div>
-                <p>The dependency on create_function has been removed for >= PHP 7.2 compatibility.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.7</h4>
-                    <div class="cdate">2018-12-13</div>
-                </div>
-                <p>Bugfix. The shortcode attribute logo_width was overwritten.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.6</h4>
-                    <div class="cdate">2018-10-03</div>
-                </div>
-                <p>The meta data <em>_pnty_language</em> is now available.</p>
+                <p>PHP 7.2+ compatibility (<code>create_function</code> removed).</p>
             </div>
         </div>
         <script src="build/main.js"></script>

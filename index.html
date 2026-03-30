@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='sv'>
     <head>
         <meta charset='UTF-8'>
         <meta name="robots" content="noindex">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Ponty Connector</title>
+        <title>Ponty Connector – WordPress plugin</title>
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,900" rel="stylesheet">
         <link rel="stylesheet" href="build/style.css">
+        <style>
+            table { width: 100%; border-collapse: collapse; margin: 0 0 2rem; }
+            th, td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid #ddd; }
+            th { border-bottom: 2px solid #999; font-weight: 900; }
+            td code { background: #f0f0f0; padding: .1em .4em; border-radius: 3px; font-size: .9em; }
+        </style>
 
         <link rel="apple-touch-icon" sizes="180x180" href="build/fav/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="build/fav/favicon-32x32.png">
@@ -23,23 +29,192 @@
         </div>
         <div class="page-wrapper">
             <p class="info">Looking for an <a href="index-en.html">english version</a>?</p>
-            <p>För annonspublicering i en WordPress-installation används vårt plugin Ponty Connector som kan <a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.15.zip">hämtas här</a>.</p>
-            <p>Vårt plugin gör i korthet två saker:</p>
+
+            <p>Ponty Connector är ett WordPress-plugin som kopplar samman <strong>Ponty Recruitment System</strong> med din WordPress-sajt. Annonser som publiceras i Ponty skickas automatiskt till WordPress där de kan visas och anpassas.</p>
+            <p><a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.15.zip"><strong>Ladda ner senaste versionen (1.0.15)</strong></a></p>
+
+            <h2>Hur det fungerar</h2>
+            <p>Pluginet gör tre saker:</p>
             <ol>
-                <li>Deklarerar två så kallade <a href="https://codex.wordpress.org/Post_Types#Custom_Post_Types">Custom Post Types</a> (<em>pnty_job, pnty_job_showcase</em>)</li>
-                <li>Tar emot data från vårt system på en särskild url</li>
+                <li>Skapar två <a href="https://developer.wordpress.org/plugins/post-types/">Custom Post Types</a>: <code>pnty_job</code> (aktiva annonser) och <code>pnty_job_showcase</code> (referensannonser/avslutade)</li>
+                <li>Tar emot annonsdata från Ponty via ett autentiserat API</li>
+                <li>Exponerar metadata via WordPress REST API, Elementor Dynamic Tags och Gutenberg Block Bindings</li>
             </ol>
-            <p>Följden av detta är att annonsdata, när det väl <em>skickats från vårt system</em> till WordPress-installationen, därefter kan hanteras som vilket WordPress-innehåll som helst.</p>
-            <h2>Använda pluginet</h2>
-            <p>Till pluginet finns ett par <a href="https://codex.wordpress.org/Shortcode">shortcodes</a> som kan användas för att få en grundläggande funktionalitet på plats. Tillgängliga attribut för att styra vissa av shortcodens egenskaper finns dokumenterat på pluginets inställningssida. Även den meta-data som också finns tillgänglig för varje annons dokumenteras där.</p>
-            <h2>FAQ</h2>
+            <p>Pluginet <strong>hämtar aldrig data</strong>. Annonserna skickas från Ponty-systemet till din WordPress-installation. När de väl finns i WordPress hanteras de som vanligt WordPress-innehåll.</p>
+
+            <h2>Installation</h2>
+            <ol>
+                <li>Ladda ner zip-filen ovan</li>
+                <li>I WordPress: <em>Plugins → Lägg till → Ladda upp plugin</em></li>
+                <li>Aktivera pluginet</li>
+                <li>Gå till <em>Inställningar → Ponty Connector</em> och mata in din API-nyckel (finns i Ponty-systemet)</li>
+                <li>Gå till <em>Inställningar → Permalänkar</em> och klicka <em>Spara</em> (behövs för att URL-sluggarna ska fungera)</li>
+                <li>Publicera en annons i Ponty – den dyker upp i WordPress automatiskt</li>
+            </ol>
+
+            <h2>Inställningar</h2>
+            <p>Under <em>Inställningar → Ponty Connector</em> finns följande:</p>
+            <h3>Grundinställningar</h3>
             <dl>
-                <dt>Jag har matat in API-nyckeln men ser inga annonser?</dt>
-                <dd>Pluginet hämtar aldrig data utan möjliggör bara mottagande. Ett Ponty-system måste skicka annonsdata för att det skall dyka upp i WordPress-installationen.</dd>
+                <dt>API-nyckel</dt>
+                <dd>Autentiseringsnyckel som matchar den i Ponty-systemet.</dd>
+                <dt>URL-slug (aktiva annonser)</dt>
+                <dd>Styr URL-strukturen, t.ex. <code>/jobs/mitt-jobb</code>. Standard: <code>jobs</code></dd>
+                <dt>URL-slug (referensannonser)</dt>
+                <dd>Motsvarande för referensannonser. Standard: <code>showcase-jobs</code></dd>
+                <dt>Visa kundlogotyp i annons</dt>
+                <dd>Visar organisationens logotyp ovanför annonstexten (om en logotyp finns). Stäng av om du visar logotypen via Elementor eller Gutenberg istället.</dd>
+                <dt>Plats för ansökningsknapp</dt>
+                <dd>Styr var ansökningsknappen visas i annonstexten: längst ner, längst upp, båda, eller inte alls.</dd>
             </dl>
-            <h2>Vanliga ändringar</h2>
-            <p>Den absolut vanligaste ändringen som görs för att få annonsvisningen att se bra ut är att skapa en ny fil i tema-mappen som heter <em>single-pnty_job.php</em>. Den filen ansvarar då för hur enskilda annonser visas på sajten. Ett väldigt grundläggande exempel visas nedan.</p>
-            <!-- gist 1 -->
+            <h3>Avancerade inställningar</h3>
+            <dl>
+                <dt>Extern CSS-fil</dt>
+                <dd>URL till en extern CSS-fil som laddas på annonssidor.</dd>
+                <dt>Open Graph-taggar</dt>
+                <dd>Genererar OG-meta-taggar automatiskt. Använd bara om inget annat OG-plugin finns.</dd>
+                <dt>JSON-LD (JobPosting)</dt>
+                <dd>Lägger till strukturerad data i <a href="https://schema.org/JobPosting">JobPosting-format</a> för sökmotorer.</dd>
+                <dt>Visa utdrag</dt>
+                <dd>Visar annonsens utdrag/excerpt ovanför annonstexten.</dd>
+                <dt>Delningsknappar</dt>
+                <dd>Visar knappar för delning på Facebook, LinkedIn och X (Twitter).</dd>
+                <dt>Webhook-URL:er</dt>
+                <dd>Kommaseparerade URL:er som triggas med en POST-förfrågan när en ny annons publiceras. JSON med <code>value1</code> (titel) och <code>value2</code> (URL).</dd>
+            </dl>
+
+            <h2>Visa annonser</h2>
+            <p>Det finns fyra sätt att visa annonsdata. Välj det som passar din sajt bäst.</p>
+
+            <h3>1. Shortcodes</h3>
+            <p>Enklaste sättet. Fungerar i alla teman och sidbyggare. Lägg in en shortcode på valfri sida.</p>
+            <ul>
+                <li><code>[pnty_jobs_table]</code> — tabell med aktiva annonser</li>
+                <li><code>[pnty_jobs_list]</code> — lista med aktiva annonser</li>
+                <li><code>[pnty_showcase_table]</code> — tabell med referensannonser</li>
+                <li><code>[pnty_showcase_list]</code> — lista med referensannonser</li>
+            </ul>
+
+            <p><strong>Gemensamma attribut</strong> (alla shortcodes):</p>
+            <table>
+                <thead><tr><th>Attribut</th><th>Beskrivning</th><th>Standard</th></tr></thead>
+                <tbody>
+                    <tr><td><code>tag</code></td><td>Filtrera på tagg(ar), separerade med <code>|</code></td><td></td></tr>
+                    <tr><td><code>numberposts</code></td><td>Max antal annonser</td><td><code>-1</code> (alla)</td></tr>
+                    <tr><td><code>organization_name</code></td><td>Visa organisationsnamn</td><td><code>0</code></td></tr>
+                    <tr><td><code>location</code></td><td>Visa plats</td><td><code>0</code></td></tr>
+                    <tr><td><code>region</code></td><td>Visa region</td><td><code>0</code></td></tr>
+                    <tr><td><code>empty_msg</code></td><td>Meddelande när inga annonser finns</td><td></td></tr>
+                    <tr><td><code>class</code></td><td>CSS-klass för wrapper-elementet</td><td></td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Tabell-attribut</strong> (<code>pnty_jobs_table</code>, <code>pnty_showcase_table</code>):</p>
+            <table>
+                <thead><tr><th>Attribut</th><th>Beskrivning</th><th>Standard</th></tr></thead>
+                <tbody>
+                    <tr><td><code>title_column_name</code></td><td>Rubrik för titelkolumnen</td><td><code>Title</code></td></tr>
+                    <tr><td><code>publish_date</code></td><td>Visa publiceringsdatum</td><td><code>1</code></td></tr>
+                    <tr><td><code>link_all</code></td><td>Gör alla celler klickbara</td><td><code>0</code></td></tr>
+                    <tr><td><code>excerpt_title</code></td><td>Visa utdrag som tooltip vid hover</td><td><code>0</code></td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>List-attribut</strong> (<code>pnty_jobs_list</code>, <code>pnty_showcase_list</code>):</p>
+            <table>
+                <thead><tr><th>Attribut</th><th>Beskrivning</th><th>Standard</th></tr></thead>
+                <tbody>
+                    <tr><td><code>logo</code></td><td>Visa organisationslogotyp</td><td><code>0</code></td></tr>
+                    <tr><td><code>logo_width</code></td><td>Logotypbredd i pixlar</td><td></td></tr>
+                    <tr><td><code>excerpt</code></td><td>Visa utdrag</td><td><code>0</code></td></tr>
+                    <tr><td><code>readmore</code></td><td>Visa en läs-mer-länk med angiven text</td><td></td></tr>
+                </tbody>
+            </table>
+
+            <h3>2. Elementor Dynamic Tags</h3>
+            <p>Om sajten använder <strong>Elementor</strong> kan du bygga en helt egen annonsmall. Pluginet registrerar Dynamic Tags som kan bindas till Elementor-widgets.</p>
+            <p><strong>Så här gör du:</strong></p>
+            <ol>
+                <li>Gå till <em>Templates → Theme Builder</em> i Elementor</li>
+                <li>Skapa en ny <em>Single Post</em>-template</li>
+                <li>Välj att den ska gälla för posttypen <code>pnty_job</code></li>
+                <li>Dra in widgets (Text, Image, etc.) och klicka på <strong>skiftnyckel-ikonen</strong> (Dynamic Tags) för att binda dem till Ponty-fält</li>
+            </ol>
+            <p><strong>Bild-taggar</strong> (för Image-widgets):</p>
+            <table>
+                <thead><tr><th>Dynamic Tag</th><th>Beskrivning</th></tr></thead>
+                <tbody>
+                    <tr><td>Ponty Logo</td><td>Organisationens logotyp</td></tr>
+                    <tr><td>Ponty Profile Image</td><td>Kontaktpersonens profilbild</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Text-taggar</strong> (för Text Editor, Heading, etc.):</p>
+            <table>
+                <thead><tr><th>Dynamic Tag</th><th>Beskrivning</th></tr></thead>
+                <tbody>
+                    <tr><td>Ponty Location</td><td>Arbetsort</td></tr>
+                    <tr><td>Ponty Region</td><td>Region</td></tr>
+                    <tr><td>Ponty Organization Name</td><td>Organisationsnamn</td></tr>
+                    <tr><td>Ponty Contact Name</td><td>Kontaktpersonens namn</td></tr>
+                    <tr><td>Ponty Contact Title</td><td>Kontaktpersonens titel</td></tr>
+                    <tr><td>Ponty Phone</td><td>Telefonnummer</td></tr>
+                    <tr><td>Ponty Email</td><td>E-postadress</td></tr>
+                    <tr><td>Ponty Withdrawal Date</td><td>Avpubliceringsdatum</td></tr>
+                    <tr><td>Ponty External Apply URL</td><td>Extern ansökningslänk</td></tr>
+                    <tr><td>Ponty Video URL</td><td>Video-URL</td></tr>
+                    <tr><td>Ponty Language</td><td>Annonsens språk</td></tr>
+                </tbody>
+            </table>
+            <p><strong>Tips:</strong> Om du bygger en egen Elementor-template bör du stänga av <em>"Visa kundlogotyp i annons"</em> och sätta ansökningsknappen till <em>"Visa inte"</em> i pluginets inställningar, annars visas de dubbelt.</p>
+
+            <h3>3. Gutenberg Block Bindings</h3>
+            <p>Från <strong>WordPress 6.5+</strong> med ett block-tema kan du bygga annonsmallar direkt i <em>Site Editor</em> utan Elementor.</p>
+            <p><strong>Så här gör du:</strong></p>
+            <ol>
+                <li>Gå till <em>Utseende → Redigerare → Mallar</em></li>
+                <li>Skapa en ny mall för posttypen <code>pnty_job</code></li>
+                <li>Lägg in block (Paragraph, Image, Button, etc.)</li>
+                <li>Bind block-attribut till Ponty-fält via Block Bindings med källan <code>pnty/fields</code></li>
+            </ol>
+            <p><strong>Exempel:</strong> Ett stycke som visar arbetsort:</p>
+<pre><code class="line-numbers language-php">&lt;!-- wp:paragraph {
+    "metadata":{
+        "bindings":{
+            "content":{
+                "source":"pnty/fields",
+                "args":{"key":"_pnty_location"}
+            }
+        }
+    }
+} --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;!-- /wp:paragraph --&gt;</code></pre>
+            <p><strong>Exempel:</strong> En bild som visar organisationens logotyp:</p>
+<pre><code class="line-numbers language-php">&lt;!-- wp:image {
+    "metadata":{
+        "bindings":{
+            "url":{
+                "source":"pnty/fields",
+                "args":{"key":"_pnty_logo"}
+            },
+            "alt":{
+                "source":"pnty/fields",
+                "args":{"key":"_pnty_logo"}
+            }
+        }
+    }
+} --&gt;
+&lt;figure class="wp-block-image"&gt;
+    &lt;img src="" alt=""/&gt;
+&lt;/figure&gt;
+&lt;!-- /wp:image --&gt;</code></pre>
+            <p>Tillgängliga nycklar — se <em>Metafält</em> nedan.</p>
+            <p><strong>Tips:</strong> Samma som för Elementor — stäng av logotyp och ansökningsknapp i inställningarna om du visar dem via block bindings.</p>
+
+            <h3>4. PHP-template</h3>
+            <p>Mest kontroll. Skapa filen <code>single-pnty_job.php</code> i din temamapp (eller <code>single-pnty_job_showcase.php</code> för referensannonser). WordPress använder den automatiskt.</p>
+            <p><strong>Grundläggande exempel:</strong></p>
 <pre><code class="line-numbers language-php">&lt;?php get_header(); ?&gt;
 &lt;?php if (have_posts()): while(have_posts()): the_post();?&gt;
     &lt;div class="pnty-job"&gt;
@@ -48,8 +223,29 @@
     &lt;/div&gt;
 &lt;?php endwhile; endif;?&gt;
 &lt;?php get_footer(); ?&gt;</code></pre>
-            <p>Andra vanliga ändringar är att skriva egna metoder för visningen av alla eller utvalda annonser. Ett exempel följer nedan för visning av annonser som har en viss tagg.</p>
-            <!-- gist 2 -->
+            <p><strong>Exempel med metadata:</strong></p>
+<pre><code class="line-numbers language-php">&lt;?php get_header(); ?&gt;
+&lt;?php if (have_posts()): while(have_posts()): the_post();
+    $location = get_post_meta(get_the_ID(), '_pnty_location', true);
+    $org      = get_post_meta(get_the_ID(), '_pnty_organization_name', true);
+    $logo_id  = get_post_meta(get_the_ID(), '_pnty_logo_attachment_id', true);
+?&gt;
+    &lt;div class="pnty-job"&gt;
+        &lt;?php if ($logo_id): ?&gt;
+            &lt;?php echo wp_get_attachment_image($logo_id, 'pnty_logo'); ?&gt;
+        &lt;?php endif; ?&gt;
+        &lt;h1&gt;&lt;?php the_title();?&gt;&lt;/h1&gt;
+        &lt;?php if ($org): ?&gt;
+            &lt;p class="org"&gt;&lt;?php echo esc_html($org); ?&gt;&lt;/p&gt;
+        &lt;?php endif; ?&gt;
+        &lt;?php if ($location): ?&gt;
+            &lt;p class="location"&gt;&lt;?php echo esc_html($location); ?&gt;&lt;/p&gt;
+        &lt;?php endif; ?&gt;
+        &lt;?php the_content();?&gt;
+    &lt;/div&gt;
+&lt;?php endwhile; endif;?&gt;
+&lt;?php get_footer(); ?&gt;</code></pre>
+            <p><strong>Hämta annonser med viss tagg:</strong></p>
 <pre><code class="line-numbers language-php">&lt;?php
     $jobs = get_posts([
         'post_type' =&gt; 'pnty_job',
@@ -63,14 +259,11 @@
     ]);
 ?&gt;
 &lt;?php if (count($jobs) &gt; 0):?&gt;
-    &lt;ul class="exempel"&gt;
+    &lt;ul&gt;
         &lt;?php foreach($jobs as $job):?&gt;
             &lt;li&gt;
-                &lt;a
-                   href="&lt;?php echo get_permalink($job-&gt;ID);?&gt;"
-                   title="Permalänk till &lt;?php echo $job-&gt;post_title;?&gt;"
-                &gt;
-                  &lt;?php echo $job-&gt;post_title;?&gt;
+                &lt;a href="&lt;?php echo get_permalink($job-&gt;ID);?&gt;"&gt;
+                    &lt;?php echo esc_html($job-&gt;post_title);?&gt;
                 &lt;/a&gt;
             &lt;/li&gt;
         &lt;?php endforeach;?&gt;
@@ -78,14 +271,88 @@
 &lt;?php else:?&gt;
     &lt;p&gt;Det finns inga publicerade annonser just nu.&lt;/p&gt;
 &lt;?php endif;?&gt;</code></pre>
-            <h2>Spontanansökningsknapp</h2>
-            <p>Om man vill låta Ponty Connector rendera en spontanansökningsknapp kan man använda följande shortcode.</p>
+
+            <h2>Spontanansökan</h2>
+            <p>Shortcoden <code>[pnty_apply_btn]</code> renderar en ansökningsknapp som kan användas för spontanansökningar eller kopplas till ett specifikt uppdrag.</p>
 <pre><code class="language-php">[pnty_apply_btn
-    org="{exempelorg}"
-    color="{hexadecimal färgkod}"
-    assignment_id="{uppdragsid från Ponty}"
+    org="exempelorg"
+    assignment_id="12345"
+    title="Ansök här"
+    color="#e3304c"
+    lang="sv"
 ]</code></pre>
-            <p>Både exempelorg och uppdragsid fås genom Ponty-systemet där exempelorg är den underdomän som aktuellt system körs på och uppdragsid hämtas från önskat uppdrag.</p>
+            <dl>
+                <dt><code>org</code> (obligatorisk)</dt>
+                <dd>Underdomänen för Ponty-systemet, t.ex. <code>mittforetag</code></dd>
+                <dt><code>assignment_id</code> (obligatorisk)</dt>
+                <dd>Uppdragets ID i Ponty</dd>
+                <dt><code>title</code></dt>
+                <dd>Knapptext. Standard: "Ansök här"</dd>
+                <dt><code>color</code></dt>
+                <dd>Hexadecimal färgkod för knappen</dd>
+                <dt><code>lang</code></dt>
+                <dd>Språkkod, t.ex. <code>sv</code> eller <code>en</code></dd>
+            </dl>
+
+            <h2>Metafält</h2>
+            <p>Varje annons har följande metadata som kan användas i templates, block bindings och Elementor. Alla är tillgängliga via <code>get_post_meta()</code> och via REST API:et.</p>
+            <table>
+                <thead>
+                    <tr><th>Nyckel</th><th>Beskrivning</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>_pnty_assignment_id</code></td><td>Unikt ID från Ponty</td></tr>
+                    <tr><td><code>_pnty_organization_name</code></td><td>Organisationsnamn</td></tr>
+                    <tr><td><code>_pnty_location</code></td><td>Arbetsort</td></tr>
+                    <tr><td><code>_pnty_region</code></td><td>Region</td></tr>
+                    <tr><td><code>_pnty_name</code></td><td>Kontaktpersonens namn</td></tr>
+                    <tr><td><code>_pnty_user_title</code></td><td>Kontaktpersonens titel</td></tr>
+                    <tr><td><code>_pnty_email</code></td><td>Kontaktpersonens e-post</td></tr>
+                    <tr><td><code>_pnty_phone</code></td><td>Kontaktpersonens telefon</td></tr>
+                    <tr><td><code>_pnty_user_profile_image</code></td><td>URL till kontaktpersonens profilbild</td></tr>
+                    <tr><td><code>_pnty_logo</code></td><td>URL till organisationens logotyp</td></tr>
+                    <tr><td><code>_pnty_logo_attachment_id</code></td><td>WordPress attachment-ID för logotypen</td></tr>
+                    <tr><td><code>_pnty_withdrawal_date</code></td><td>Avpubliceringsdatum</td></tr>
+                    <tr><td><code>_pnty_external_apply_url</code></td><td>Extern ansökningslänk</td></tr>
+                    <tr><td><code>_pnty_video_url</code></td><td>Video-URL</td></tr>
+                    <tr><td><code>_pnty_language</code></td><td>Annonsens språk</td></tr>
+                    <tr><td><code>_pnty_confidential</code></td><td>Om annonsen är konfidentiell</td></tr>
+                    <tr><td><code>_pnty_address</code></td><td>Adress (JSON)</td></tr>
+                    <tr><td><code>_pnty_client_contact</code></td><td>Kontaktuppgifter slutkund (JSON)</td></tr>
+                    <tr><td><code>_pnty_meta_description</code></td><td>SEO-beskrivning</td></tr>
+                </tbody>
+            </table>
+
+            <h2>REST API</h2>
+            <p>Alla annonser och metadata exponeras via WordPress REST API:</p>
+<pre><code class="language-php">GET /wp-json/wp/v2/jobs
+GET /wp-json/wp/v2/jobs/{id}
+GET /wp-json/wp/v2/showcase-jobs
+GET /wp-json/wp/v2/showcase-jobs/{id}</code></pre>
+            <p>Metafälten ovan finns i <code>meta</code>-objektet i svaret. Läsning kräver ingen autentisering.</p>
+
+            <h2>Action hooks</h2>
+            <p>Två hooks finns för egen vidare bearbetning:</p>
+            <dl>
+                <dt><code>pnty_action_post_job</code></dt>
+                <dd>Körs efter att en annons skapats eller uppdaterats. Argument: dataobjektet från Ponty.</dd>
+                <dt><code>pnty_action_delete_job</code></dt>
+                <dd>Körs efter att en annons raderats. Argument: assignment_id.</dd>
+            </dl>
+
+            <h2>FAQ</h2>
+            <dl>
+                <dt>Jag har matat in API-nyckeln men ser inga annonser?</dt>
+                <dd>Pluginet hämtar aldrig data — det tar bara emot. Publicera en annons i Ponty-systemet så skickas den automatiskt.</dd>
+                <dt>Logotypen visas dubbelt?</dt>
+                <dd>Det händer om du visar logotypen både via en egen template (Elementor/Gutenberg) och via pluginets inbyggda content-filter. Stäng av <em>"Visa kundlogotyp i annons"</em> i inställningarna.</dd>
+                <dt>Kan jag använda pluginet utan Elementor?</dt>
+                <dd>Ja. Shortcodes fungerar i alla teman. Med WordPress 6.5+ och ett block-tema kan du använda Gutenberg Block Bindings. Du kan också skriva en egen PHP-template.</dd>
+                <dt>Hur filtrerar jag annonser på tagg?</dt>
+                <dd>I shortcodes: <code>tag="min-tagg"</code>. I PHP: använd <code>tax_query</code> med taxonomin <code>pnty_job_tag</code>.</dd>
+                <dt>Var hittar jag attribut-dokumentationen för shortcodes?</dt>
+                <dd>Under <em>Inställningar → Ponty Connector → Dokumentation</em> i WordPress-admin.</dd>
+            </dl>
 
             <h2>Changelog</h2>
             <div class="change">
@@ -93,222 +360,49 @@
                     <h4>1.0.15</h4>
                     <div class="cdate">2026-03-26</div>
                 </div>
-                <p>Stöd för Elementor med Dynamic Tags för alla metafält. REST API-exponering av metafält (skrivskyddade). Tagg-separator i shortcodes ändrad från komma till pipe (<code>|</code>).</p>
+                <p>Stöd för Elementor Dynamic Tags och Gutenberg Block Bindings (WordPress 6.5+). Ny inställning för att visa/dölja kundlogotyp i annonstext. REST API-exponering av metafält. Tagg-separator i shortcodes ändrad till pipe (<code>|</code>). Buggfix: <code>pnty_ads</code>-endpoint returnerar nu alla annonser. Elementor-taggar registreras bara om Elementor är aktivt. Google+-delningsknapp borttagen.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.13</h4>
                     <div class="cdate">2023-10-27</div>
                 </div>
-                <p>Stöd för PHP 8.x. Widget <code>pnty_latest_jobs_widget</code> är borttagen pga kompatibilitetsproblem. Meta-data för url till profilbild från Ponty finns i <code>_pnty_user_profile_image</code> om profilen har en uppladdad bild i Ponty.</p>
-            </div>            
+                <p>Stöd för PHP 8.x. Widget <code>pnty_latest_jobs_widget</code> borttagen. Metadata <code>_pnty_user_profile_image</code> tillagd.</p>
+            </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.12</h4>
                     <div class="cdate">2021-09-22</div>
                 </div>
-                <p>Attributet location kan nu användas för shortcode <code>pnty_jobs_list</code> och <code>pnty_showcase_list</code>.</p>
+                <p>Attributet <code>location</code> tillagt för <code>pnty_jobs_list</code> och <code>pnty_showcase_list</code>.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.11</h4>
                     <div class="cdate">2021-02-25</div>
                 </div>
-                <p>Två action hooks <code>pnty_action_post_job</code> och <code>pnty_action_delete_job</code> finns nu tillgängliga. Används om vidare processering utanför pluginet önskas.</p>
+                <p>Action hooks <code>pnty_action_post_job</code> och <code>pnty_action_delete_job</code> tillagda.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.10</h4>
                     <div class="cdate">2019-12-09</div>
                 </div>
-                <p>Pluginet kan nu ta emot en video-URL som finns tillgänglig som metadata med nyckel <code>_pnty_video_url</code>.</code></p>
+                <p>Metadata <code>_pnty_video_url</code> tillagd.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.9</h4>
                     <div class="cdate">2019-10-31</div>
                 </div>
-                <p>Pluginet kan nu ta emot ett lösenord vilket gör att enskilda annonser kan skyddas. Syftet är att kunna "förhandsgranska" en annons. Tänk på att alla eget skrivna metoder som hämtar data bör ha <code>'has_password' =&gt; false</code>.</p>
+                <p>Stöd för lösenordsskyddade annonser (förhandsgranskning). OBS: egna metoder bör använda <code>'has_password' =&gt; false</code>.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.8</h4>
                     <div class="cdate">2019-03-05</div>
                 </div>
-                <p>Beroendet på create_function har tagits bort för kompatibilitet med >= PHP 7.2.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.7</h4>
-                    <div class="cdate">2018-12-13</div>
-                </div>
-                <p>Buggfix. Shortcode-attributet logo_width skrevs felaktigt över.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.6</h4>
-                    <div class="cdate">2018-10-03</div>
-                </div>
-                <p>Metadatan <em>_pnty_language</em> finns nu tillgänglig.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.5</h4>
-                    <div class="cdate">2018-01-31</div>
-                </div>
-                <p>Buggfix för loggor som visades felaktigt i list-shortcode. Ett dokumentationsfel har också åtgärdats.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.4</h4>
-                    <div class="cdate">2017-09-25</div>
-                </div>
-                <p>Metadatan <em>_pnty_confidential </em>och <em>_pnty_external_apply_url </em>finns nu tillgänglig i egna fält. Den inbyggda list-shortcoden använder också lokalt uppladdade loggor i de fall sådana finns.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.3</h4>
-                    <div class="cdate">2017-06-16</div>
-                </div>
-                <p>Buggfix. Villkorssatsen för 1.0.2 skulle ha negerats.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.2</h4>
-                    <div class="cdate">2017-05-29</div>
-                </div>
-                <p>Förfrågningar mot webhooks-url:er sker bara när nya annonser publiceras. Referensannonser (pnty_jobs_showcase) undantas nu.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.1</h4>
-                    <div class="cdate">2017-05-22</div>
-                </div>
-                <p>Buggfix. En felsökningssträng för test av bakåtkompatibilitet låg kvar i koden.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>1.0.0</h4>
-                    <div class="cdate">2017-05-16</div>
-                </div>
-                <ul>
-                    <li>Refaktorerad autentisering.</li>
-                    <li>Loggor sparas nu som media-filer direkt i WP.</li>
-                    <li>Thumbnail-storleken <em>pnty_logo</em> finns att tillgå.</li>
-                    <li>Hero-bilder sparas nu som media-filer direkt i WP.</li>
-                    <li>Möjlighet att exponera <a href="http://schema.org/JobPosting">metadata</a> i JSON-LD-format.</li>
-                </ul>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.11</h4>
-                    <div class="cdate">2017-04-11</div>
-                </div>
-                <p>Möjlighet att ange url:er för webhooks som triggas när ny annons publiceras.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.10</h4>
-                    <div class="cdate">2017-03-09</div>
-                </div>
-                <p>Uppdatering av annons rensar nu tidigare kopplade taggar.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.9</h4>
-                    <div class="cdate">2017-03-02</div>
-                </div>
-                <p>Buggfix. Meta-data för kontakt och adress lagrades inte konsekvent och som de JSON-strängar dokumentation hänvisar till.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.8</h4>
-                    <div class="cdate">2017-02-19</div>
-                </div>
-                <p>Möjlighet att ta emot en base64-kodad hero-bild. Om den skickas lagras den som meta-data till annonsen under nyckeln <em>_pnty_hero_image</em>.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.7</h4>
-                    <div class="cdate">2017-01-30</div>
-                </div>
-                <p><em>_pnty_withdrawal_date</em> finns nu som meta-data till varje annons. Avser det datum som annonsen avpubliceras.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.6</h4>
-                    <div class="cdate">2016-12-13</div>
-                </div>
-                <p>Lagt till <code>wp_reset_postdata();</code> efter varje get_posts-loop så att eventuella senare tema-funktioner beroende av globala variabler fungerar som de skall.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.5</h4>
-                    <div class="cdate">2016-12-06</div>
-                </div>
-                <p>Möjlighet att styra vilket meddelande som visas när inga annonser finns. Gäller för samtliga shortcodes genom attributet <em>empty_msg</em>.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.4</h4>
-                    <div class="cdate">2016-09-26</div>
-                </div>
-                <p>Löste en bugg som gjorde att rensning av tidigare skapad meta-data hindrade annonser från att publiceras.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.3</h4>
-                    <div class="cdate">2016-09-19</div>
-                </div>
-                <p>Städning/borttagning av annons-metadata tar inte längre bort data som ej skapats av vårt plugin.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.2</h4>
-                    <div class="cdate">2016-06-16</div>
-                </div>
-                <p>Möjlighet att via shortcode-attribut styra kolumnnamn för annonstitel-kolumn.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.4.1</h4>
-                    <div class="cdate">2016-06-12</div>
-                </div>
-                <p>Möjlighet att ta emot annonsdata som referenscase. Inkl nya shortcodes för att visa dem. Även dokumentationsförtydliganden på inställningssidan.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.3.27</h4>
-                    <div class="cdate">2016-03-16</div>
-                </div>
-                <p>Meta-data för kontaktuppgifter till ”slutkund” tillagt.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.3.26</h4>
-                    <div class="cdate">2016-02-18</div>
-                </div>
-                <p>Möjlighet att visa delningsknappar för sociala medier genom inställning.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.3.25</h4>
-                    <div class="cdate">2016-01-18</div>
-                </div>
-                <p>En widget för att visa jobb i lista i sidebar eller motsvarande har lagts till.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.3.24</h4>
-                    <div class="cdate">2015-12-22</div>
-                </div>
-                <p>Shortcoden <em>pnty_jobs_table</em> har nu stöd för attributet <em>excerpt_title</em> som kan ha värdet 1 eller 0. Används 1 kommer varje rad (&lt;tr&gt;) att få ett title-attribut med annonsens utdrag/excerpt.</p>
-            </div>
-            <div class="change">
-                <div class="change__meta">
-                    <h4>0.3.23</h4>
-                </div>
-                <p>Första publika versionen</p>
+                <p>Kompatibilitet med PHP 7.2+ (<code>create_function</code> borttagen).</p>
             </div>
         </div>
         <script src="build/main.js"></script>
