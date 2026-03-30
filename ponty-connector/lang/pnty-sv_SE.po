@@ -320,6 +320,30 @@ msgstr "referens-annonser"
 msgid "true"
 msgstr "true"
 
+msgid "Fallback logo"
+msgstr "Reservlogotyp"
+
+msgid "Select image"
+msgstr "Välj bild"
+
+msgid "Remove"
+msgstr "Ta bort"
+
+msgid "Used instead of the client logo when an ad is marked as confidential."
+msgstr "Används istället för kundlogotypen när en annons är markerad som konfidentiell."
+
+msgid "Single Ponty Job"
+msgstr "Enstaka Ponty-jobb"
+
+msgid "Default template for Ponty job postings"
+msgstr "Standardmall för Ponty-jobbannonser"
+
+msgid "Single Ponty Showcase Job"
+msgstr "Enstaka Ponty referensjobb"
+
+msgid "Default template for Ponty showcase job postings"
+msgstr "Standardmall för Ponty referensjobbannonser"
+
 #~ msgid "Client logo"
 #~ msgstr "Kundlogotyp"
 

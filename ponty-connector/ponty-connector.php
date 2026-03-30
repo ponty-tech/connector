@@ -11,6 +11,40 @@ define('PNTY_VERSION', '1.0.15');
 define('PNTY_PTNAME', 'pnty_job');
 define('PNTY_PTNAME_SHOWCASE', 'pnty_job_showcase');
 
+/**
+ * Get the logo URL and attachment ID for a job post.
+ * Returns fallback logo only for confidential ads.
+ */
+function pnty_get_logo($post_id) {
+    $confidential = get_post_meta($post_id, '_pnty_confidential', true);
+
+    if ($confidential) {
+        $fallback_id = get_option('pnty_fallback_logo');
+        if ($fallback_id) {
+            $url = wp_get_attachment_url($fallback_id);
+            if ($url) {
+                return array('url' => $url, 'id' => (int) $fallback_id);
+            }
+        }
+        return array('url' => '', 'id' => 0);
+    }
+
+    $attachment_id = get_post_meta($post_id, '_pnty_logo_attachment_id', true);
+    if ($attachment_id) {
+        $url = wp_get_attachment_url($attachment_id);
+        if ($url) {
+            return array('url' => $url, 'id' => (int) $attachment_id);
+        }
+    }
+
+    $logo_url = get_post_meta($post_id, '_pnty_logo', true);
+    if ($logo_url) {
+        return array('url' => $logo_url, 'id' => 0);
+    }
+
+    return array('url' => '', 'id' => 0);
+}
+
 class Pnty_Connector {
 
     function activate() {
@@ -33,6 +67,7 @@ class Pnty_Connector {
         delete_option('pnty_share');
         delete_option('pnty_show_logo');
         delete_option('pnty_webhook_urls');
+        delete_option('pnty_fallback_logo');
         flush_rewrite_rules();
     }
 
@@ -98,37 +133,27 @@ class Pnty_Connector {
 
             # Get post metadata
             $metadata = get_post_custom($post->ID);
-            # assign the values we need
-            $pnty_show_logo = get_option('pnty_show_logo');
-            $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0] ?? null;
-            $logo = $metadata['_pnty_logo'][0] ?? null;
 
+            $pnty_show_logo = get_option('pnty_show_logo');
             if ($pnty_show_logo) {
-            if ( ! is_null($logo_attachment_id)) {
-                $image_src = wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
-                if ($image_src !== false) {
-                    [$logo_url, $logo_width, $logo_height] = $image_src;
+                $logo = pnty_get_logo($post->ID);
+                if ($logo['url']) {
                     $d = new DOMDocument();
                     $img = $d->createElement('img');
                     $img->setAttribute('class', 'pnty-logo');
-                    $img->setAttribute('src', $logo_url);
-                    $img->setAttribute('width', $logo_width);
-                    # not working responsive? FIXME?
-                    #$img->setAttribute('height', $logo_height);
+                    $img->setAttribute('src', $logo['url']);
+                    if ($logo['id']) {
+                        $image_src = wp_get_attachment_image_src($logo['id'], 'pnty_logo');
+                        if ($image_src) {
+                            $img->setAttribute('width', $image_src[1]);
+                        }
+                    }
                     $img->setAttribute('alt', __('Client logotype', 'pnty'));
                     $d->appendChild($img);
                     $content = $d->saveHTML() . $content;
                 }
-            } else if ( ! is_null($logo)) {
-                $d = new DOMDocument();
-                $img = $d->createElement('img');
-                $img->setAttribute('class', 'pnty-logo');
-                $img->setAttribute('src', $logo);
-                $img->setAttribute('alt', __('Client logotype', 'pnty'));
-                $d->appendChild($img);
-                $content = $d->saveHTML() . $content;
             }
-            }
+
             $apply_btn = $metadata['_pnty_apply_btn'][0] ?? '';
             if ($apply_btn !== '') {
                 if (in_array($pnty_applybtn_position, array('01', ''))) {
@@ -847,6 +872,8 @@ function pnty_admin_init(){
     register_setting('pnty_options', 'pnty_applybtn_position');
     add_option('pnty_webhook_urls', '');
     register_setting('pnty_options', 'pnty_webhook_urls');
+    add_option('pnty_fallback_logo', '');
+    register_setting('pnty_options', 'pnty_fallback_logo', 'absint');
 }
 function pnty_slug_save($input) {
     set_transient('pnty_slug_saved', 'saved');
@@ -864,8 +891,23 @@ function pnty_menu() {
     );
 }
 function pnty_connector_opts_page() {
+    wp_enqueue_media();
     include(plugin_dir_path(__FILE__).'/settings-page.php');
 }
+
+# Block bindings editor UI (WordPress 6.7+)
+add_action('enqueue_block_editor_assets', function() {
+    if ( ! function_exists('register_block_bindings_source')) {
+        return;
+    }
+    wp_enqueue_script(
+        'pnty-block-bindings',
+        plugin_dir_url(__FILE__) . 'assets/block-bindings.js',
+        array('wp-blocks'),
+        PNTY_VERSION,
+        true
+    );
+});
 
 add_shortcode('pnty_jobs_table', function($atts) {
     $a = shortcode_atts(array(
@@ -1048,13 +1090,8 @@ add_action('init', function() {
             # Image blocks: return attachment or meta URL
             if ($attribute_name === 'url') {
                 if ($key === '_pnty_logo') {
-                    $attachment_id = get_post_meta($post_id, '_pnty_logo_attachment_id', true);
-                    if ($attachment_id) {
-                        $image_src = wp_get_attachment_image_src($attachment_id, 'pnty_logo');
-                        if ($image_src) {
-                            return $image_src[0];
-                        }
-                    }
+                    $logo = pnty_get_logo($post_id);
+                    return $logo['url'] ?: null;
                 }
                 return get_post_meta($post_id, $key, true);
             }
@@ -1068,8 +1105,62 @@ add_action('init', function() {
                 return $name ?: '';
             }
 
-            return get_post_meta($post_id, $key, true);
+            $value = get_post_meta($post_id, $key, true);
+            return apply_filters('pnty_field_value', $value, $key, $post_id);
         }
     ));
+
+    # Block Patterns
+    register_block_pattern_category('ponty', array(
+        'label' => __('Ponty', 'pnty'),
+    ));
+
+    $pattern_dir = plugin_dir_path(__FILE__) . 'patterns/';
+    foreach (glob($pattern_dir . '*.php') as $file) {
+        $headers = get_file_data($file, array(
+            'title'         => 'Title',
+            'slug'          => 'Slug',
+            'description'   => 'Description',
+            'categories'    => 'Categories',
+            'postTypes'     => 'Post Types',
+            'templateTypes' => 'Template Types',
+        ));
+
+        ob_start();
+        include $file;
+        $content = ob_get_clean();
+
+        $args = array(
+            'title'       => __($headers['title'], 'pnty'),
+            'description' => __($headers['description'], 'pnty'),
+            'categories'  => array_map('trim', explode(',', $headers['categories'])),
+            'postTypes'   => array_map('trim', explode(',', $headers['postTypes'])),
+            'content'     => $content,
+        );
+        if ( ! empty($headers['templateTypes'])) {
+            $args['templateTypes'] = array_map('trim', explode(',', $headers['templateTypes']));
+        }
+
+        register_block_pattern($headers['slug'], $args);
+    }
+
+    # Default Block Template (WordPress 6.7+)
+    if (function_exists('register_block_template')) {
+        ob_start();
+        include $pattern_dir . 'job-page.php';
+        $template_content = ob_get_clean();
+
+        register_block_template('pnty//single-pnty_job', array(
+            'title'       => __('Single Ponty Job', 'pnty'),
+            'description' => __('Default template for Ponty job postings', 'pnty'),
+            'content'     => $template_content,
+        ));
+
+        register_block_template('pnty//single-pnty_job_showcase', array(
+            'title'       => __('Single Ponty Showcase Job', 'pnty'),
+            'description' => __('Default template for Ponty showcase job postings', 'pnty'),
+            'content'     => $template_content,
+        ));
+    }
 });
 

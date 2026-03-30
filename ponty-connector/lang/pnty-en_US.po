@@ -309,6 +309,30 @@ msgstr "showcase ads"
 msgid "true"
 msgstr "true"
 
+msgid "Fallback logo"
+msgstr "Fallback logo"
+
+msgid "Select image"
+msgstr "Select image"
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "Used instead of the client logo when an ad is marked as confidential."
+msgstr "Used instead of the client logo when an ad is marked as confidential."
+
+msgid "Single Ponty Job"
+msgstr "Single Ponty Job"
+
+msgid "Default template for Ponty job postings"
+msgstr "Default template for Ponty job postings"
+
+msgid "Single Ponty Showcase Job"
+msgstr "Single Ponty Showcase Job"
+
+msgid "Default template for Ponty showcase job postings"
+msgstr "Default template for Ponty showcase job postings"
+
 #~ msgid "Client logo"
 #~ msgstr "Client logo"
 

@@ -17,18 +17,9 @@
     <ul class="pnty-list<?php echo ($a['class'])?' '.$a['class']:'';?>">
         <?php global $post; foreach($jobs as $post): setup_postdata($post);?>
             <?php
-                # Get post metadata
                 $metadata = get_post_custom($post->ID);
-                $logo_attachment_id = $metadata['_pnty_logo_attachment_id'][0] ?? null;
-                $logo_old = $metadata['_pnty_logo'][0] ?? null;
-                $logo_url = false;
-
-                if ( ! is_null($logo_attachment_id)) {
-                    [$logo_url, $logo_attachment_width, $logo_attachment_height] =
-                        wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
-                } else if ( ! is_null($logo_old)) {
-                    $logo_url = $logo_old;
-                }
+                $logo = pnty_get_logo($post->ID);
+                $logo_url = $logo['url'];
             ?>
             <li><?php echo $post->post_title;?>
                 <?php if ($logo_url && $a['logo']): ?>

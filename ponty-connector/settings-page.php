@@ -9,6 +9,8 @@
     $pnty_share = get_option('pnty_share');
     $pnty_webhook_urls = get_option('pnty_webhook_urls');
     $pnty_show_logo = get_option('pnty_show_logo');
+    $pnty_fallback_logo = get_option('pnty_fallback_logo');
+    $pnty_fallback_logo_url = $pnty_fallback_logo ? wp_get_attachment_url($pnty_fallback_logo) : '';
     $pnty_applybtn_position = get_option('pnty_applybtn_position');
     # for tabbed nav
     $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'base_settings';
@@ -66,6 +68,47 @@
                         <td>
                             <input type="checkbox" id="pnty_show_logo" name="pnty_show_logo" value="true" <?php echo ($pnty_show_logo) ? 'checked="checked"': '';?> />
                             <p class="description"><?php _e('Show client logo if available in the ad content.', 'pnty');?></p>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label for="pnty_fallback_logo"><?php _e('Fallback logo', 'pnty');?></label>
+                        </th>
+                        <td>
+                            <div>
+                                <?php if ($pnty_fallback_logo_url): ?>
+                                    <img id="pnty-fallback-logo-preview" src="<?php echo esc_url($pnty_fallback_logo_url); ?>" style="max-width:200px;display:block;margin-bottom:10px;" />
+                                <?php else: ?>
+                                    <img id="pnty-fallback-logo-preview" src="" style="max-width:200px;display:none;margin-bottom:10px;" />
+                                <?php endif; ?>
+                                <input type="hidden" id="pnty_fallback_logo" name="pnty_fallback_logo" value="<?php echo esc_attr($pnty_fallback_logo); ?>" />
+                                <button type="button" class="button" id="pnty-fallback-logo-btn"><?php _e('Select image', 'pnty'); ?></button>
+                                <button type="button" class="button" id="pnty-fallback-logo-remove" <?php echo $pnty_fallback_logo ? '' : 'style="display:none;"'; ?>><?php _e('Remove', 'pnty'); ?></button>
+                            </div>
+                            <p class="description"><?php _e('Used instead of the client logo when an ad is marked as confidential.', 'pnty');?></p>
+                            <script>
+                            jQuery(function($){
+                                var frame;
+                                $('#pnty-fallback-logo-btn').on('click', function(e){
+                                    e.preventDefault();
+                                    if (frame) { frame.open(); return; }
+                                    frame = wp.media({ multiple: false, library: { type: 'image' } });
+                                    frame.on('select', function(){
+                                        var attachment = frame.state().get('selection').first().toJSON();
+                                        $('#pnty_fallback_logo').val(attachment.id);
+                                        $('#pnty-fallback-logo-preview').attr('src', attachment.url).show();
+                                        $('#pnty-fallback-logo-remove').show();
+                                    });
+                                    frame.open();
+                                });
+                                $('#pnty-fallback-logo-remove').on('click', function(e){
+                                    e.preventDefault();
+                                    $('#pnty_fallback_logo').val('');
+                                    $('#pnty-fallback-logo-preview').hide();
+                                    $(this).hide();
+                                });
+                            });
+                            </script>
                         </td>
                     </tr>
                     <tr valign="top">
