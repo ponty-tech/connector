@@ -107,7 +107,7 @@ class Pnty_Connector {
             if ( ! is_null($logo_attachment_id)) {
                 $image_src = wp_get_attachment_image_src($logo_attachment_id, 'pnty_logo');
                 if ($image_src !== false) {
-                    list($logo_url, $logo_width, $logo_height) = $image_src;
+                    [$logo_url, $logo_width, $logo_height] = $image_src;
                     $d = new DOMDocument();
                     $img = $d->createElement('img');
                     $img->setAttribute('class', 'pnty-logo');
@@ -287,7 +287,7 @@ class Pnty_Connector {
 
         $jwt_str = str_replace('Bearer ', '', $_SERVER['HTTP_X_PNTY_AUTH_2']);
 
-        list($jwt_header, $jwt_payload, $jwt_sig) = explode('.', $jwt_str);
+        [$jwt_header, $jwt_payload, $jwt_sig] = explode('.', $jwt_str);
 
         $header_and_payload = $jwt_header.'.'.$jwt_payload;
         $almost_real_sig = base64_encode(
@@ -385,7 +385,7 @@ class Pnty_Connector {
             if (isset($data->ad_password) && $data->ad_password) {
                 $post['post_password'] = $data->ad_password;
             } else {
-                $post['post_password'] = null;
+                $post['post_password'] = '';
             }
 
             # does the job exist?
@@ -473,7 +473,7 @@ class Pnty_Connector {
                 }
                 wp_set_post_terms($post_id, $clean_tags, PNTY_PTNAME.'_tag');
             } else {
-                wp_set_post_terms($post_id, NULL, PNTY_PTNAME.'_tag');
+                wp_set_post_terms($post_id, array(), PNTY_PTNAME.'_tag');
             }
 
             update_post_meta($post_id, '_pnty_assignment_id', $data->assignment_id);
@@ -783,7 +783,7 @@ class Pnty_Connector {
     function pnty_post_type_link($permalink, $post, $leavename) {
         $pnty_slug = get_option('pnty_slug');
         $pnty_slug_showcase = get_option('pnty_slug_showcase');
-        if ( ! gettype($post) == 'post') {
+        if ( ! $post instanceof WP_Post) {
             return $permalink;
         }
         if ($post->post_type === PNTY_PTNAME && $pnty_slug === '') {
@@ -868,7 +868,7 @@ function pnty_connector_opts_page() {
 }
 
 add_shortcode('pnty_jobs_table', function($atts) {
-    extract(shortcode_atts(array(
+    $a = shortcode_atts(array(
         'title_column_name' => __('Title', 'pnty'),
         'organization_name' => false,
         'publish_date' => true,
@@ -880,7 +880,7 @@ add_shortcode('pnty_jobs_table', function($atts) {
         'class' => false,
         'excerpt_title' => false,
         'empty_msg' => __('No published jobs.', 'pnty')
-    ), $atts));
+    ), $atts);
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
     include(plugin_dir_path(__FILE__).'snippets/pnty-table.php');
@@ -888,7 +888,7 @@ add_shortcode('pnty_jobs_table', function($atts) {
 });
 
 add_shortcode('pnty_showcase_table', function($atts) {
-    extract(shortcode_atts(array(
+    $a = shortcode_atts(array(
         'title_column_name' => __('Title', 'pnty'),
         'organization_name' => false,
         'publish_date' => true,
@@ -900,7 +900,7 @@ add_shortcode('pnty_showcase_table', function($atts) {
         'class' => false,
         'excerpt_title' => false,
         'empty_msg' => __('No published jobs.', 'pnty')
-    ), $atts));
+    ), $atts);
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
     include(plugin_dir_path(__FILE__).'snippets/pnty-table-showcase.php');
@@ -908,7 +908,7 @@ add_shortcode('pnty_showcase_table', function($atts) {
 });
 
 add_shortcode('pnty_jobs_list', function($atts) {
-    extract(shortcode_atts(array(
+    $a = shortcode_atts(array(
         'organization_name' => false,
         'excerpt' => false,
         'logo' => false,
@@ -919,7 +919,7 @@ add_shortcode('pnty_jobs_list', function($atts) {
         'class' => false,
         'location' => false,
         'empty_msg' => __('No published jobs.', 'pnty')
-    ), $atts));
+    ), $atts);
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
     include(plugin_dir_path(__FILE__).'snippets/pnty-list.php');
@@ -927,7 +927,7 @@ add_shortcode('pnty_jobs_list', function($atts) {
 });
 
 add_shortcode('pnty_showcase_list', function($atts) {
-    extract(shortcode_atts(array(
+    $a = shortcode_atts(array(
         'organization_name' => false,
         'excerpt' => false,
         'logo' => false,
@@ -938,7 +938,7 @@ add_shortcode('pnty_showcase_list', function($atts) {
         'class' => false,
         'location' => false,
         'empty_msg' => __('No published jobs.', 'pnty')
-    ), $atts));
+    ), $atts);
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
     ob_start();
     include(plugin_dir_path(__FILE__).'snippets/pnty-list-showcase.php');
@@ -946,7 +946,7 @@ add_shortcode('pnty_showcase_list', function($atts) {
 });
 
 add_shortcode('pnty_apply_btn', function($atts){
-    extract(shortcode_atts(array(
+    $a = shortcode_atts(array(
         'assignment_id' => false,
         'title' => __('Apply here', 'pnty'),
         'org' => false,
@@ -956,8 +956,8 @@ add_shortcode('pnty_apply_btn', function($atts){
         'require_role' => false,
         'require_gender' => false,
         'require_birthyear' => false
-    ), $atts, 'pnty_apply_btn'));
-    if ( ! $org or ! $assignment_id) {
+    ), $atts, 'pnty_apply_btn');
+    if ( ! $a['org'] or ! $a['assignment_id']) {
         return __('Shortcode not setup correctly.', 'pnty');
     }
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
