@@ -1030,23 +1030,18 @@ add_action('elementor/dynamic_tags/register', function($dynamic_tags) {
     $dynamic_tags->register(new Pnty_Profile_Image_Tag());
 
     # Text tags
-    $pnty_text_fields = array(
-        'pnty-location'          => array('Ponty Location',          '_pnty_location'),
-        'pnty-region'            => array('Ponty Region',            '_pnty_region'),
-        'pnty-organization-name' => array('Ponty Organization Name', '_pnty_organization_name'),
-        'pnty-contact-name'      => array('Ponty Contact Name',      '_pnty_name'),
-        'pnty-contact-title'     => array('Ponty Contact Title',     '_pnty_user_title'),
-        'pnty-phone'             => array('Ponty Phone',             '_pnty_phone'),
-        'pnty-email'             => array('Ponty Email',             '_pnty_email'),
-        'pnty-address'           => array('Ponty Address',           '_pnty_address'),
-        'pnty-withdrawal-date'   => array('Ponty Withdrawal Date',   '_pnty_withdrawal_date'),
-        'pnty-external-apply-url'=> array('Ponty External Apply URL','_pnty_external_apply_url'),
-        'pnty-language'          => array('Ponty Language',           '_pnty_language'),
-        'pnty-video-url'         => array('Ponty Video URL',         '_pnty_video_url'),
-    );
-    foreach ($pnty_text_fields as $tag_name => $config) {
-        $dynamic_tags->register(new Pnty_Meta_Tag([], null, $tag_name, $config[0], $config[1]));
-    }
+    $dynamic_tags->register(new Pnty_Location_Tag());
+    $dynamic_tags->register(new Pnty_Region_Tag());
+    $dynamic_tags->register(new Pnty_Organization_Name_Tag());
+    $dynamic_tags->register(new Pnty_Contact_Name_Tag());
+    $dynamic_tags->register(new Pnty_Contact_Title_Tag());
+    $dynamic_tags->register(new Pnty_Phone_Tag());
+    $dynamic_tags->register(new Pnty_Email_Tag());
+    $dynamic_tags->register(new Pnty_Address_Tag());
+    $dynamic_tags->register(new Pnty_Withdrawal_Date_Tag());
+    $dynamic_tags->register(new Pnty_External_Apply_Url_Tag());
+    $dynamic_tags->register(new Pnty_Language_Tag());
+    $dynamic_tags->register(new Pnty_Video_Url_Tag());
 });
 }
 
