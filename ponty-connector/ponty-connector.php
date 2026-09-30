@@ -1140,10 +1140,20 @@ add_action('init', function() {
     }
 
     # Default Block Template (WordPress 6.7+)
-    if (function_exists('register_block_template')) {
+    # Only block themes: a classic theme that opts into block-templates would
+    # otherwise have its single.php replaced by a page without its header/footer.
+    if (function_exists('register_block_template') && wp_is_block_theme()) {
         ob_start();
         include $pattern_dir . 'job-page.php';
-        $template_content = ob_get_clean();
+        $job_page = ob_get_clean();
+
+        # A template renders the whole page, so it must pull in the theme's
+        # header and footer parts itself.
+        $template_content = '<!-- wp:template-part {"slug":"header","tagName":"header"} /-->' . PHP_EOL
+            . '<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->' . PHP_EOL
+            . '<main class="wp-block-group">' . $job_page . '</main>' . PHP_EOL
+            . '<!-- /wp:group -->' . PHP_EOL
+            . '<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->';
 
         register_block_template('pnty//single-pnty_job', array(
             'title'       => __('Single Ponty Job', 'pnty'),
