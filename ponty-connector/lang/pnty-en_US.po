@@ -366,3 +366,9 @@ msgstr "Default template for Ponty showcase job postings"
 
 #~ msgid "Url to all jobs"
 #~ msgstr "Url to all jobs"
+
+msgid "Show the ad's hero image (the post's featured image) with the CSS class pnty-list-hero."
+msgstr "Show the ad's hero image (the post's featured image) with the CSS class pnty-list-hero."
+
+msgid "WordPress image size for the hero image, e.g. thumbnail, medium, medium_large, large or full."
+msgstr "WordPress image size for the hero image, e.g. thumbnail, medium, medium_large, large or full."

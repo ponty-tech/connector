@@ -12,6 +12,12 @@
         ]];
     }
     $jobs = get_posts($q);
+    if ($a['hero'] && $jobs) {
+        // Load all featured images in one query instead of one per item
+        $thumb_query = new WP_Query();
+        $thumb_query->posts = $jobs;
+        update_post_thumbnail_cache($thumb_query);
+    }
     $pnty_extcss = get_option('pnty_extcss');
 ?>
 <?php if (count($jobs) > 0):?>
@@ -26,6 +32,9 @@
                 $logo_url = $logo['url'];
             ?>
             <li>
+                <?php if ($a['hero'] && has_post_thumbnail($post->ID)): ?>
+                <a class="pnty-list-hero" href="<?php echo get_permalink($post->ID);?>" tabindex="-1" aria-hidden="true"><?php echo get_the_post_thumbnail($post->ID, $a['hero_size'], array('class' => 'pnty-list-hero-img'));?></a>
+                <?php endif; ?>
                 <a class="pnty-list-title" title="<?php _e('Permalink for', 'pnty');?> <?php echo $post->post_title;?>" href="<?php echo get_permalink($post->ID);?>"><?php echo $post->post_title;?></a>
                 <?php if ($logo_url && $a['logo']): ?>
                 <img class="pnty-list-logo" src="<?php echo $logo_url;?>" width="<?php echo $a['logo_width'];?>" alt="<?php _e('Client logotype', 'pnty');?>" />

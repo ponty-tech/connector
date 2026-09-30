@@ -378,3 +378,9 @@ msgstr "Standardmall för Ponty referensjobbannonser"
 
 #~ msgid "Url to all jobs"
 #~ msgstr "Url till alla jobb"
+
+msgid "Show the ad's hero image (the post's featured image) with the CSS class pnty-list-hero."
+msgstr "Visa annonsens hero-bild (inläggets utvalda bild) med CSS-klassen pnty-list-hero."
+
+msgid "WordPress image size for the hero image, e.g. thumbnail, medium, medium_large, large or full."
+msgstr "WordPress-bildstorlek för hero-bilden, t.ex. thumbnail, medium, medium_large, large eller full."

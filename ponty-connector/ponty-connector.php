@@ -960,6 +960,8 @@ add_shortcode('pnty_jobs_list', function($atts) {
         'tag' => false,
         'class' => false,
         'location' => false,
+        'hero' => false,
+        'hero_size' => 'medium_large',
         'empty_msg' => __('No published jobs.', 'pnty')
     ), $atts);
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
@@ -979,6 +981,8 @@ add_shortcode('pnty_showcase_list', function($atts) {
         'tag' => false,
         'class' => false,
         'location' => false,
+        'hero' => false,
+        'hero_size' => 'medium_large',
         'empty_msg' => __('No published jobs.', 'pnty')
     ), $atts);
     load_plugin_textdomain('pnty', false, plugin_dir_path(__FILE__) . 'lang');
