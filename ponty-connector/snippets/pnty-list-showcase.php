@@ -8,6 +8,12 @@
         ));
     }
     $jobs = get_posts($q);
+    if ($a['hero'] && $jobs) {
+        // Load all featured images in one query instead of one per item
+        $thumb_query = new WP_Query();
+        $thumb_query->posts = $jobs;
+        update_post_thumbnail_cache($thumb_query);
+    }
     $pnty_extcss = get_option('pnty_extcss');
 ?>
 <?php if (count($jobs) > 0):?>
