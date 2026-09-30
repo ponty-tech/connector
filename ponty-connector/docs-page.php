@@ -135,6 +135,24 @@
             <td><?php _e("Logo image width.", "pnty"); ?></td>
         </tr>
         <tr>
+            <td>hero</td>
+            <td><?php _e("false", "pnty"); ?></td>
+            <td><code>[... hero="1"]</code></td>
+            <td><?php _e(
+                "Show the ad's hero image (the post's featured image) with the CSS class pnty-list-hero.",
+                "pnty"
+            ); ?></td>
+        </tr>
+        <tr>
+            <td>hero_size</td>
+            <td>medium_large</td>
+            <td><code>[... hero_size="large"]</code></td>
+            <td><?php _e(
+                "WordPress image size for the hero image, e.g. thumbnail, medium, medium_large, large or full.",
+                "pnty"
+            ); ?></td>
+        </tr>
+        <tr>
             <td>readmore</td>
             <td></td>
             <td><code>[... readmore="Read more"]</code></td>

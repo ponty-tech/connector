@@ -26,6 +26,9 @@
                 $logo_url = $logo['url'];
             ?>
             <li>
+                <?php if ($a['hero'] && has_post_thumbnail($post->ID)): ?>
+                <a class="pnty-list-hero" href="<?php echo get_permalink($post->ID);?>" tabindex="-1" aria-hidden="true"><?php echo get_the_post_thumbnail($post->ID, $a['hero_size'], array('class' => 'pnty-list-hero-img'));?></a>
+                <?php endif; ?>
                 <a class="pnty-list-title" title="<?php _e('Permalink for', 'pnty');?> <?php echo $post->post_title;?>" href="<?php echo get_permalink($post->ID);?>"><?php echo $post->post_title;?></a>
                 <?php if ($logo_url && $a['logo']): ?>
                 <img class="pnty-list-logo" src="<?php echo $logo_url;?>" width="<?php echo $a['logo_width'];?>" alt="<?php _e('Client logotype', 'pnty');?>" />

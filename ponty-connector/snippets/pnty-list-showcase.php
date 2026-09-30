@@ -21,7 +21,11 @@
                 $logo = pnty_get_logo($post->ID);
                 $logo_url = $logo['url'];
             ?>
-            <li><?php echo $post->post_title;?>
+            <li>
+                <?php if ($a['hero'] && has_post_thumbnail($post->ID)): ?>
+                <span class="pnty-list-hero"><?php echo get_the_post_thumbnail($post->ID, $a['hero_size'], array('class' => 'pnty-list-hero-img'));?></span>
+                <?php endif; ?>
+                <?php echo $post->post_title;?>
                 <?php if ($logo_url && $a['logo']): ?>
                 <img class="pnty-list-logo" src="<?php echo $logo_url;?>" width="<?php echo $a['logo_width'];?>" alt="<?php _e('Client logotype', 'pnty');?>" />
                 <?php endif; ?>
