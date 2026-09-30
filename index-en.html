@@ -31,7 +31,7 @@
             <p class="info">Letar du efter en <a href="index.html">svensk version</a>?</p>
 
             <p>Ponty Connector is a WordPress plugin that connects the <strong>Ponty Recruitment System</strong> to your WordPress site. Ads published in Ponty are automatically sent to WordPress where they can be displayed and customized.</p>
-            <p><a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.15.zip"><strong>Download the latest version (1.0.15)</strong></a></p>
+            <p><a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.16.zip"><strong>Download the latest version (1.0.16)</strong></a></p>
 
             <h2>How it works</h2>
             <p>The plugin does three things:</p>
@@ -170,6 +170,7 @@
 
             <h3>3. Gutenberg Block Bindings</h3>
             <p>From <strong>WordPress 6.5+</strong> with a block theme, you can build ad templates directly in the <em>Site Editor</em> without Elementor.</p>
+            <p>In block themes, the plugin adds a default job page template (<em>Single Ponty Job</em>) with the theme's header and footer. You can customize or replace it in the <em>Site Editor</em>. Classic themes use the theme's own <code>single.php</code>.</p>
             <p><strong>How to:</strong></p>
             <ol>
                 <li>Go to <em>Appearance &rarr; Editor &rarr; Templates</em></li>
@@ -355,6 +356,13 @@ GET /wp-json/wp/v2/showcase-jobs/{id}</code></pre>
             </dl>
 
             <h2>Changelog</h2>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.16</h4>
+                    <div class="cdate">2026-09-30</div>
+                </div>
+                <p>Fix: job pages keep the theme's header and footer. The default job page template is now used only in block themes and includes the theme's header and footer. Classic themes use their own template again.</p>
+            </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.15</h4>

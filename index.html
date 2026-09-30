@@ -31,7 +31,7 @@
             <p class="info">Looking for an <a href="index-en.html">english version</a>?</p>
 
             <p>Ponty Connector är ett WordPress-plugin som kopplar samman <strong>Ponty Recruitment System</strong> med din WordPress-sajt. Annonser som publiceras i Ponty skickas automatiskt till WordPress där de kan visas och anpassas.</p>
-            <p><a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.15.zip"><strong>Ladda ner senaste versionen (1.0.15)</strong></a></p>
+            <p><a href="https://github.com/ponty-tech/connector/raw/master/release/ponty-connector-1.0.16.zip"><strong>Ladda ner senaste versionen (1.0.16)</strong></a></p>
 
             <h2>Hur det fungerar</h2>
             <p>Pluginet gör tre saker:</p>
@@ -170,6 +170,7 @@
 
             <h3>3. Gutenberg Block Bindings</h3>
             <p>Från <strong>WordPress 6.5+</strong> med ett block-tema kan du bygga annonsmallar direkt i <em>Site Editor</em> utan Elementor.</p>
+            <p>I block-teman lägger pluginet till en standardmall för jobbsidor (<em>Single Ponty Job</em>) med temats sidhuvud och sidfot. Den kan anpassas eller ersättas i <em>Site Editor</em>. Klassiska teman använder temats egen <code>single.php</code>.</p>
             <p><strong>Så här gör du:</strong></p>
             <ol>
                 <li>Gå till <em>Utseende → Redigerare → Mallar</em></li>
@@ -355,6 +356,13 @@ GET /wp-json/wp/v2/showcase-jobs/{id}</code></pre>
             </dl>
 
             <h2>Changelog</h2>
+            <div class="change">
+                <div class="change__meta">
+                    <h4>1.0.16</h4>
+                    <div class="cdate">2026-09-30</div>
+                </div>
+                <p>Buggfix: jobbsidorna behåller temats sidhuvud och sidfot. Standardmallen för jobbsidor används nu bara i block-teman och inkluderar temats sidhuvud och sidfot. Klassiska teman använder sin egen mall igen.</p>
+            </div>
             <div class="change">
                 <div class="change__meta">
                     <h4>1.0.15</h4>
