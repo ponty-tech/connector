@@ -128,6 +128,8 @@
                     <tr><td><code>logo_width</code></td><td>Logotypbredd i pixlar</td><td></td></tr>
                     <tr><td><code>excerpt</code></td><td>Visa utdrag</td><td><code>0</code></td></tr>
                     <tr><td><code>readmore</code></td><td>Visa en läs-mer-länk med angiven text</td><td></td></tr>
+                    <tr><td><code>hero</code></td><td>Visa annonsens hero-bild (inläggets utvalda bild) i ett element med klassen <code>pnty-list-hero</code></td><td><code>0</code></td></tr>
+                    <tr><td><code>hero_size</code></td><td>WordPress-bildstorlek för hero-bilden, t.ex. <code>medium</code>, <code>large</code> eller <code>full</code></td><td><code>medium_large</code></td></tr>
                 </tbody>
             </table>
 
@@ -361,7 +363,7 @@ GET /wp-json/wp/v2/showcase-jobs/{id}</code></pre>
                     <h4>1.0.16</h4>
                     <div class="cdate">2026-09-30</div>
                 </div>
-                <p>Buggfix: jobbsidorna behåller temats sidhuvud och sidfot. Standardmallen för jobbsidor används nu bara i block-teman och inkluderar temats sidhuvud och sidfot. Klassiska teman använder sin egen mall igen.</p>
+                <p>Buggfix: jobbsidorna behåller temats sidhuvud och sidfot. Standardmallen för jobbsidor används nu bara i block-teman och inkluderar temats sidhuvud och sidfot. Klassiska teman använder sin egen mall igen. Nya attribut <code>hero</code> och <code>hero_size</code> för <code>pnty_jobs_list</code> och <code>pnty_showcase_list</code> som visar annonsens hero-bild i listan.</p>
             </div>
             <div class="change">
                 <div class="change__meta">
