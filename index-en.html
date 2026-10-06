@@ -52,6 +52,88 @@
                 <li>Publish an ad in Ponty &mdash; it will appear in WordPress automatically</li>
             </ol>
 
+            <h2>Server requirements</h2>
+            <p>Ponty sends ads to your WordPress site using ordinary HTTP requests. The web server, any firewall and any bot protection must let them through. If publishing fails, the cause is almost always one of the points below. Go through them with whoever runs the site.</p>
+
+            <h3>Requests that must reach WordPress</h3>
+            <table>
+                <thead><tr><th>Request</th><th>Used for</th></tr></thead>
+                <tbody>
+                    <tr><td><code>POST /pnty_jobs_api</code></td><td>Publish and update an ad (JSON)</td></tr>
+                    <tr><td><code>DELETE /pnty_jobs_api/{assignment_id}</code></td><td>Unpublish an ad</td></tr>
+                    <tr><td><code>GET /?pnty_version=1</code></td><td>Show the installed plugin version</td></tr>
+                    <tr><td><code>GET /pnty_ads</code></td><td>List the ads on the site</td></tr>
+                </tbody>
+            </table>
+            <ul>
+                <li>The <code>POST</code> and <code>DELETE</code> methods must not be blocked by a firewall, security plugin or hosting provider.</li>
+                <li>These addresses are not real pages. The web server must pass them on to WordPress, which requires permalinks to be enabled.</li>
+                <li>The <code>x-pnty-auth-2</code> (authentication) and <code>x-pnty-slug</code> headers must arrive. Some proxies and firewalls strip unknown headers.</li>
+            </ul>
+
+            <h3>Size limit</h3>
+            <p>The ad's hero image is included in the request, so an ad can be several MB. The server must accept requests of <strong>at least 10 MB</strong> to <code>/pnty_jobs_api</code>, also when the body is JSON. Check every layer the request passes through:</p>
+            <ul>
+                <li>Apache: <code>LimitRequestBody</code> (including in <code>.htaccess</code>)</li>
+                <li>ModSecurity: <code>SecRequestBodyLimit</code> and <code>SecRequestBodyNoFilesLimit</code> (the latter applies to JSON and is often set low)</li>
+                <li>nginx: <code>client_max_body_size</code></li>
+                <li>PHP: <code>post_max_size</code></li>
+            </ul>
+
+            <h3>Response time and redirects</h3>
+            <ul>
+                <li>Ponty waits at most 20 seconds for a publish and 10 seconds for an unpublish. Images are saved and WordPress generates its image sizes during publishing, so the server must manage that in time.</li>
+                <li>Redirects are not followed. The address entered in Ponty must be the site's final address, with the right <code>https</code> and with or without <code>www</code>.</li>
+                <li>Enter only the site's base address in Ponty, e.g. <code>https://your-site.com</code>. Every address entered receives its own copy of the ad.</li>
+                <li>The HTTPS certificate must be valid.</li>
+            </ul>
+
+            <h3>Server clock</h3>
+            <p>Authentication is only accepted if the request was created within the last 60 seconds. The server clock must therefore be correct and synchronised automatically (NTP). If the clock is wrong, every request is rejected with <em>"Not authenticated to WordPress instance"</em> even though the API key is correct.</p>
+
+            <h3>PHP and storage</h3>
+            <ul>
+                <li>The WordPress uploads folder must be writable. The hero image and client logo are saved in the media library.</li>
+                <li>PHP needs enough memory to resize large images. 256 MB in <code>memory_limit</code> is a good guideline.</li>
+                <li>The server fetches the logo from Ponty's storage at <code>s3-eu-west-1.amazonaws.com</code>. This requires <code>allow_url_fopen</code> to be enabled and the server to be allowed outbound HTTPS requests. Otherwise the logo is missing.</li>
+                <li>The response from <code>/pnty_jobs_api</code> must be plain JSON. PHP warnings or output from other plugins in the response prevent Ponty from reading it.</li>
+            </ul>
+
+            <h3>Cache</h3>
+            <p>Page caches (e.g. Breeze, WP Rocket, Varnish or Cloudflare) must not cache <code>/pnty_jobs_api</code>, <code>/pnty_ads</code> or <code>?pnty_version=1</code>. Also make sure list pages and ad pages are refreshed when ads are published and unpublished.</p>
+
+            <h3>Bot protection</h3>
+            <p>The requests come from PontyBot, Ponty's automated agent. If the site is protected by Cloudflare or another bot protection service, PontyBot must be let through. Every request carries a User-Agent starting with <code>PontyBot/1.0</code>, e.g. <code>PontyBot/1.0 (+https://ponty-system.se/bot; &lt;service&gt;; pcore/&lt;version&gt;)</code>. Only the <code>PontyBot/1.0</code> prefix is stable, so match on that. <a href="https://ponty-system.se/bot">ponty-system.se/bot</a> also describes how requests can be verified by signature (Web Bot Auth) and which IP address can be allowlisted. A signature or IP address is more reliable than the User-Agent, since a User-Agent can be spoofed.</p>
+
+            <h3>Test it yourself</h3>
+            <p>With the test below, whoever runs the site can check that the server accepts a large request. It sends 2 MB of test data to the plugin without credentials, and nothing is saved on the site. Replace the address with the site's address and run it in a terminal on Mac or Linux:</p>
+<pre><code class="language-bash">{ printf '{"test":"'; head -c 2000000 /dev/zero | tr '\0' a; printf '"}'; } &gt; ponty-test.json
+curl -s -o /dev/null -w "%{http_code}\n" -X POST -H "Content-Type: application/json" \
+     --data-binary @ponty-test.json https://your-site.com/pnty_jobs_api</code></pre>
+            <table>
+                <thead><tr><th>Response</th><th>Meaning</th></tr></thead>
+                <tbody>
+                    <tr><td><code>200</code></td><td>The request reaches the plugin. The plugin replies that authentication is missing, which is expected in the test.</td></tr>
+                    <tr><td><code>413</code></td><td>The server's size limit is too low. See <em>Size limit</em> above.</td></tr>
+                    <tr><td><code>403</code></td><td>A firewall or bot protection is blocking the request. See <em>Bot protection</em> above.</td></tr>
+                    <tr><td><code>301</code>, <code>302</code></td><td>The site redirects. Use the final address in Ponty.</td></tr>
+                    <tr><td><code>404</code></td><td>The plugin is not activated, or the permalinks need to be saved again.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Error messages in Ponty</h3>
+            <table>
+                <thead><tr><th>Message</th><th>Likely cause</th></tr></thead>
+                <tbody>
+                    <tr><td>Not authenticated to WordPress instance. Please check API keys.</td><td>The API key differs between Ponty and the plugin, the <code>x-pnty-auth-2</code> header is stripped on the way, or the server clock is wrong.</td></tr>
+                    <tr><td>WordPress connection error … followed by <em>413 Request Entity Too Large</em></td><td>The server's size limit is too low.</td></tr>
+                    <tr><td>WordPress connection error … followed by an HTML page</td><td>Something other than the plugin is responding, e.g. an error page, login page or firewall.</td></tr>
+                    <tr><td>The WordPress site is behind Cloudflare and its bot protection is blocking us …</td><td>Cloudflare is stopping the request. See <em>Bot protection</em> above.</td></tr>
+                    <tr><td>WordPress site too slow …</td><td>The server did not respond within the time limit.</td></tr>
+                    <tr><td>WordPress connection was interrupted …</td><td>The connection broke during the request. Check on the site whether the ad was published anyway.</td></tr>
+                </tbody>
+            </table>
+
             <h2>Settings</h2>
             <p>Found under <em>Settings &rarr; Ponty Connector</em>.</p>
             <h3>Base settings</h3>
@@ -103,9 +185,8 @@
                     <tr><td><code>numberposts</code></td><td>Max number of ads</td><td><code>-1</code> (all)</td></tr>
                     <tr><td><code>organization_name</code></td><td>Show organization name</td><td><code>0</code></td></tr>
                     <tr><td><code>location</code></td><td>Show location</td><td><code>0</code></td></tr>
-                    <tr><td><code>region</code></td><td>Show region</td><td><code>0</code></td></tr>
                     <tr><td><code>empty_msg</code></td><td>Message when no ads exist</td><td></td></tr>
-                    <tr><td><code>class</code></td><td>CSS class for the wrapper element</td><td></td></tr>
+                    <tr><td><code>class</code></td><td>CSS class for the table or the list (<code>&lt;ul&gt;</code>)</td><td></td></tr>
                 </tbody>
             </table>
 
@@ -114,6 +195,7 @@
                 <thead><tr><th>Attribute</th><th>Description</th><th>Default</th></tr></thead>
                 <tbody>
                     <tr><td><code>title_column_name</code></td><td>Header for the title column</td><td><code>Title</code></td></tr>
+                    <tr><td><code>region</code></td><td>Show region</td><td><code>0</code></td></tr>
                     <tr><td><code>publish_date</code></td><td>Show publish date</td><td><code>1</code></td></tr>
                     <tr><td><code>link_all</code></td><td>Make all cells clickable</td><td><code>0</code></td></tr>
                     <tr><td><code>excerpt_title</code></td><td>Show excerpt as tooltip on hover</td><td><code>0</code></td></tr>
@@ -125,7 +207,7 @@
                 <thead><tr><th>Attribute</th><th>Description</th><th>Default</th></tr></thead>
                 <tbody>
                     <tr><td><code>logo</code></td><td>Show organization logo</td><td><code>0</code></td></tr>
-                    <tr><td><code>logo_width</code></td><td>Logo width in pixels</td><td></td></tr>
+                    <tr><td><code>logo_width</code></td><td>Logo width in pixels</td><td><code>150</code></td></tr>
                     <tr><td><code>excerpt</code></td><td>Show excerpt</td><td><code>0</code></td></tr>
                     <tr><td><code>readmore</code></td><td>Show a read more link with given text</td><td></td></tr>
                     <tr><td><code>hero</code></td><td>Show the ad's hero image (the post's featured image) in an element with the class <code>pnty-list-hero</code></td><td><code>0</code></td></tr>
@@ -353,6 +435,12 @@ GET /wp-json/wp/v2/showcase-jobs/{id}</code></pre>
                 <dd>Yes. Shortcodes work in all themes. With WordPress 6.5+ and a block theme you can use Gutenberg Block Bindings. You can also write a custom PHP template.</dd>
                 <dt>How do I filter ads by tag?</dt>
                 <dd>In shortcodes: <code>tag="my-tag"</code>. In PHP: use <code>tax_query</code> with taxonomy <code>pnty_job_tag</code>.</dd>
+                <dt>Publishing from Ponty fails. Where do I start?</dt>
+                <dd>Read the error message in Ponty and go through <em>Server requirements</em> above. Run the test under <em>Test it yourself</em> to see whether the server accepts large requests.</dd>
+                <dt>How do I see which plugin version is installed?</dt>
+                <dd>Open <code>https://your-site.com/?pnty_version=1</code>. The response shows the version, e.g. <code>{"version":"1.0.16"}</code>. The plugin does not update automatically, so download the latest version above and install it manually.</dd>
+                <dt>Can I enter several addresses in Ponty, e.g. one per page?</dt>
+                <dd>Enter only the site's base address. Every address receives its own copy of the ad. Which ads appear on a given page is controlled with the shortcode's <code>tag</code> attribute.</dd>
                 <dt>Where do I find the shortcode attribute documentation?</dt>
                 <dd>Under <em>Settings &rarr; Ponty Connector &rarr; Documentation</em> in WordPress admin.</dd>
             </dl>

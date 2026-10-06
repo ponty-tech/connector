@@ -52,6 +52,88 @@
                 <li>Publicera en annons i Ponty – den dyker upp i WordPress automatiskt</li>
             </ol>
 
+            <h2>Krav på servern</h2>
+            <p>Ponty skickar annonserna till din WordPress-sajt med vanliga HTTP-anrop. Webbservern, eventuell brandvägg och bot-skydd måste släppa igenom dem. Om publiceringen misslyckas ligger orsaken nästan alltid i någon av punkterna nedan. Gå igenom dem tillsammans med den som driftar sajten.</p>
+
+            <h3>Anrop som måste nå WordPress</h3>
+            <table>
+                <thead><tr><th>Anrop</th><th>Används till</th></tr></thead>
+                <tbody>
+                    <tr><td><code>POST /pnty_jobs_api</code></td><td>Publicera och uppdatera en annons (JSON)</td></tr>
+                    <tr><td><code>DELETE /pnty_jobs_api/{assignment_id}</code></td><td>Avpublicera en annons</td></tr>
+                    <tr><td><code>GET /?pnty_version=1</code></td><td>Visa installerad version av pluginet</td></tr>
+                    <tr><td><code>GET /pnty_ads</code></td><td>Lista annonserna som finns på sajten</td></tr>
+                </tbody>
+            </table>
+            <ul>
+                <li>Metoderna <code>POST</code> och <code>DELETE</code> får inte blockeras av brandvägg, säkerhetsplugin eller webbhotell.</li>
+                <li>Adresserna är inga riktiga sidor. Webbservern måste skicka dem vidare till WordPress, vilket kräver att permalänkar är aktiverade.</li>
+                <li>Headrarna <code>x-pnty-auth-2</code> (inloggning) och <code>x-pnty-slug</code> måste komma fram. Vissa proxyservrar och brandväggar tar bort okända headers.</li>
+            </ul>
+
+            <h3>Storleksgräns</h3>
+            <p>Annonsens hero-bild skickas med i anropet, så en annons kan bli flera MB. Servern måste ta emot anrop på <strong>minst 10 MB</strong> till <code>/pnty_jobs_api</code>, även när innehållet är JSON. Kontrollera alla lager som anropet passerar:</p>
+            <ul>
+                <li>Apache: <code>LimitRequestBody</code> (även i <code>.htaccess</code>)</li>
+                <li>ModSecurity: <code>SecRequestBodyLimit</code> och <code>SecRequestBodyNoFilesLimit</code> (den senare gäller JSON och är ofta lågt satt)</li>
+                <li>nginx: <code>client_max_body_size</code></li>
+                <li>PHP: <code>post_max_size</code></li>
+            </ul>
+
+            <h3>Svarstid och omdirigeringar</h3>
+            <ul>
+                <li>Ponty väntar högst 20 sekunder på en publicering och 10 sekunder på en avpublicering. Under publiceringen sparas bilder och WordPress skapar sina bildstorlekar, så servern måste hinna med det.</li>
+                <li>Omdirigeringar följs inte. Adressen som anges i Ponty måste vara sajtens slutliga adress, med rätt <code>https</code> och med eller utan <code>www</code>.</li>
+                <li>Ange bara sajtens grundadress i Ponty, t.ex. <code>https://din-sajt.se</code>. Varje adress som anges får en egen kopia av annonsen.</li>
+                <li>HTTPS-certifikatet måste vara giltigt.</li>
+            </ul>
+
+            <h3>Serverns klocka</h3>
+            <p>Inloggningen godkänns bara om anropet skapades inom de senaste 60 sekunderna. Serverns klocka måste därför gå rätt och synkas automatiskt (NTP). Om klockan går fel avvisas alla anrop med <em>"Not authenticated to WordPress instance"</em>, trots att API-nyckeln stämmer.</p>
+
+            <h3>PHP och lagring</h3>
+            <ul>
+                <li>Uppladdningsmappen i WordPress måste vara skrivbar. Hero-bild och kundlogotyp sparas i mediebiblioteket.</li>
+                <li>PHP behöver tillräckligt med minne för att skala om stora bilder. 256 MB i <code>memory_limit</code> är ett bra riktvärde.</li>
+                <li>Logotypen hämtas av servern från Pontys lagring på <code>s3-eu-west-1.amazonaws.com</code>. Det kräver att <code>allow_url_fopen</code> är påslaget och att servern får göra utgående HTTPS-anrop. Annars saknas logotypen.</li>
+                <li>Svaret från <code>/pnty_jobs_api</code> måste vara ren JSON. PHP-varningar eller utskrifter från andra plugins i svaret gör att Ponty inte kan tolka det.</li>
+            </ul>
+
+            <h3>Cache</h3>
+            <p>Sidcache (t.ex. Breeze, WP Rocket, Varnish eller Cloudflare) får inte cacha <code>/pnty_jobs_api</code>, <code>/pnty_ads</code> eller <code>?pnty_version=1</code>. Se också till att listsidor och annonssidor uppdateras när annonser publiceras och avpubliceras.</p>
+
+            <h3>Bot-skydd</h3>
+            <p>Anropen kommer från PontyBot, Pontys automatiska agent. Om sajten skyddas av Cloudflare eller ett annat bot-skydd måste PontyBot släppas igenom. Varje anrop har en User-Agent som börjar med <code>PontyBot/1.0</code>, t.ex. <code>PontyBot/1.0 (+https://ponty-system.se/bot; &lt;tjänst&gt;; pcore/&lt;version&gt;)</code>. Bara prefixet <code>PontyBot/1.0</code> är stabilt, så matcha på det. På <a href="https://ponty-system.se/bot">ponty-system.se/bot</a> beskrivs också hur anropen kan verifieras med signatur (Web Bot Auth) och vilken IP-adress som kan vitlistas. Signatur eller IP-adress är säkrare än User-Agent, eftersom User-Agent kan förfalskas.</p>
+
+            <h3>Testa själv</h3>
+            <p>Med testet nedan kan den som driftar sajten kontrollera att servern tar emot ett stort anrop. Det skickar 2 MB testdata till pluginet, utan inloggningsuppgifter, och inget sparas på sajten. Byt ut adressen mot sajtens adress och kör i en terminal på Mac eller Linux:</p>
+<pre><code class="language-bash">{ printf '{"test":"'; head -c 2000000 /dev/zero | tr '\0' a; printf '"}'; } &gt; ponty-test.json
+curl -s -o /dev/null -w "%{http_code}\n" -X POST -H "Content-Type: application/json" \
+     --data-binary @ponty-test.json https://din-sajt.se/pnty_jobs_api</code></pre>
+            <table>
+                <thead><tr><th>Svar</th><th>Betydelse</th></tr></thead>
+                <tbody>
+                    <tr><td><code>200</code></td><td>Anropet når pluginet. Pluginet svarar att inloggning saknas, vilket är väntat i testet.</td></tr>
+                    <tr><td><code>413</code></td><td>Servern har för låg storleksgräns. Se <em>Storleksgräns</em> ovan.</td></tr>
+                    <tr><td><code>403</code></td><td>En brandvägg eller ett bot-skydd blockerar anropet. Se <em>Bot-skydd</em> ovan.</td></tr>
+                    <tr><td><code>301</code>, <code>302</code></td><td>Sajten omdirigerar. Använd den slutliga adressen i Ponty.</td></tr>
+                    <tr><td><code>404</code></td><td>Pluginet är inte aktiverat, eller permalänkarna behöver sparas om.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Felmeddelanden i Ponty</h3>
+            <table>
+                <thead><tr><th>Meddelande</th><th>Trolig orsak</th></tr></thead>
+                <tbody>
+                    <tr><td>Not authenticated to WordPress instance. Please check API keys.</td><td>API-nyckeln i Ponty och i pluginet skiljer sig åt, headern <code>x-pnty-auth-2</code> tas bort på vägen, eller serverns klocka går fel.</td></tr>
+                    <tr><td>Något är fel med anslutningen till WordPress … följt av <em>413 Request Entity Too Large</em></td><td>Servern har för låg storleksgräns.</td></tr>
+                    <tr><td>Något är fel med anslutningen till WordPress … följt av en HTML-sida</td><td>Något annat än pluginet svarar, t.ex. en felsida, inloggningssida eller brandvägg.</td></tr>
+                    <tr><td>Bot-skyddet i Cloudflare blockerar oss …</td><td>Cloudflare stoppar anropet. Se <em>Bot-skydd</em> ovan.</td></tr>
+                    <tr><td>WordPress-sajten var för långsam …</td><td>Servern hann inte svara inom tidsgränsen.</td></tr>
+                    <tr><td>WordPress-anslutningen avbröts …</td><td>Anslutningen bröts under anropet. Kontrollera på sajten om annonsen ändå publicerades.</td></tr>
+                </tbody>
+            </table>
+
             <h2>Inställningar</h2>
             <p>Under <em>Inställningar → Ponty Connector</em> finns följande:</p>
             <h3>Grundinställningar</h3>
@@ -103,9 +185,8 @@
                     <tr><td><code>numberposts</code></td><td>Max antal annonser</td><td><code>-1</code> (alla)</td></tr>
                     <tr><td><code>organization_name</code></td><td>Visa organisationsnamn</td><td><code>0</code></td></tr>
                     <tr><td><code>location</code></td><td>Visa plats</td><td><code>0</code></td></tr>
-                    <tr><td><code>region</code></td><td>Visa region</td><td><code>0</code></td></tr>
                     <tr><td><code>empty_msg</code></td><td>Meddelande när inga annonser finns</td><td></td></tr>
-                    <tr><td><code>class</code></td><td>CSS-klass för wrapper-elementet</td><td></td></tr>
+                    <tr><td><code>class</code></td><td>CSS-klass för tabellen eller listan (<code>&lt;ul&gt;</code>)</td><td></td></tr>
                 </tbody>
             </table>
 
@@ -114,6 +195,7 @@
                 <thead><tr><th>Attribut</th><th>Beskrivning</th><th>Standard</th></tr></thead>
                 <tbody>
                     <tr><td><code>title_column_name</code></td><td>Rubrik för titelkolumnen</td><td><code>Title</code></td></tr>
+                    <tr><td><code>region</code></td><td>Visa region</td><td><code>0</code></td></tr>
                     <tr><td><code>publish_date</code></td><td>Visa publiceringsdatum</td><td><code>1</code></td></tr>
                     <tr><td><code>link_all</code></td><td>Gör alla celler klickbara</td><td><code>0</code></td></tr>
                     <tr><td><code>excerpt_title</code></td><td>Visa utdrag som tooltip vid hover</td><td><code>0</code></td></tr>
@@ -125,7 +207,7 @@
                 <thead><tr><th>Attribut</th><th>Beskrivning</th><th>Standard</th></tr></thead>
                 <tbody>
                     <tr><td><code>logo</code></td><td>Visa organisationslogotyp</td><td><code>0</code></td></tr>
-                    <tr><td><code>logo_width</code></td><td>Logotypbredd i pixlar</td><td></td></tr>
+                    <tr><td><code>logo_width</code></td><td>Logotypbredd i pixlar</td><td><code>150</code></td></tr>
                     <tr><td><code>excerpt</code></td><td>Visa utdrag</td><td><code>0</code></td></tr>
                     <tr><td><code>readmore</code></td><td>Visa en läs-mer-länk med angiven text</td><td></td></tr>
                     <tr><td><code>hero</code></td><td>Visa annonsens hero-bild (inläggets utvalda bild) i ett element med klassen <code>pnty-list-hero</code></td><td><code>0</code></td></tr>
@@ -353,6 +435,12 @@ GET /wp-json/wp/v2/showcase-jobs/{id}</code></pre>
                 <dd>Ja. Shortcodes fungerar i alla teman. Med WordPress 6.5+ och ett block-tema kan du använda Gutenberg Block Bindings. Du kan också skriva en egen PHP-template.</dd>
                 <dt>Hur filtrerar jag annonser på tagg?</dt>
                 <dd>I shortcodes: <code>tag="min-tagg"</code>. I PHP: använd <code>tax_query</code> med taxonomin <code>pnty_job_tag</code>.</dd>
+                <dt>Publiceringen från Ponty misslyckas. Var börjar jag?</dt>
+                <dd>Läs felmeddelandet i Ponty och gå igenom <em>Krav på servern</em> ovan. Kör testet under <em>Testa själv</em> för att se om servern tar emot stora anrop.</dd>
+                <dt>Hur ser jag vilken version av pluginet som är installerad?</dt>
+                <dd>Öppna <code>https://din-sajt.se/?pnty_version=1</code>. Svaret visar versionen, t.ex. <code>{"version":"1.0.16"}</code>. Pluginet uppdateras inte automatiskt, så ladda ner den senaste versionen ovan och installera den manuellt.</dd>
+                <dt>Kan jag ange flera adresser i Ponty, t.ex. en per sida?</dt>
+                <dd>Ange bara sajtens grundadress. Varje adress får en egen kopia av annonsen. Vilka annonser som visas på en viss sida styrs med <code>tag</code>-attributet i shortcoden.</dd>
                 <dt>Var hittar jag attribut-dokumentationen för shortcodes?</dt>
                 <dd>Under <em>Inställningar → Ponty Connector → Dokumentation</em> i WordPress-admin.</dd>
             </dl>
